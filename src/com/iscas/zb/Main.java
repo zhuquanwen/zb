@@ -1,17 +1,21 @@
 package com.iscas.zb;
 
+import org.controlsfx.dialog.Dialogs;
+
 import com.iscas.zb.DisplayShelfSample.DisplayShelf;
 import com.iscas.zb.controller.MainController;
 import com.iscas.zb.init.MenuInit;
 import com.iscas.zb.resource.ClassLoad;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {
@@ -35,6 +39,11 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("数据整编工具");
             primaryStage.show();
+            primaryStage.setOnCloseRequest((WindowEvent event) -> {
+            	//关闭的时候系统退出
+            	System.exit(0);
+            });
+
 
 
 
@@ -55,6 +64,7 @@ public class Main extends Application {
 //			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
+
 		}
 	}
 

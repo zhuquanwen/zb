@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="613.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iscas.zb.controller.TableController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#processAdd" text=" 新增" />
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#processEdit" text="编辑" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="删除" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="tableView" editable="true" layoutY="29.0" prefHeight="486.0" prefWidth="769.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />
+      <HBox alignment="CENTER" layoutY="515.0" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label text="每页" />
+            <ComboBox fx:id="pageSizeCombobox" prefHeight="23.0" prefWidth="60.0" />
+            <Label text="条" />
+            <Hyperlink fx:id="firstPageLink" text="首页" />
+            <Hyperlink fx:id="frontPageLink" text="上一页" />
+            <Label fx:id="currentPageLabel" text="第1页" />
+            <Hyperlink fx:id="nextPageLink" text="下一页" />
+            <Hyperlink fx:id="lastPageLink" text="尾页" />
+            <Label fx:id="totalPageLabel" text="共111页" />
+            <Label text="到第" />
+            <TextField fx:id="turnPageTextField" prefHeight="23.0" prefWidth="37.0" />
+            <Label text="页" />
+            <Hyperlink fx:id="turnPageLink" text="确定" />
+         </children></HBox>
+      <HBox fx:id="hBox1" alignment="CENTER" layoutY="544.0" prefHeight="29.0" prefWidth="783.0" spacing="10.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Hyperlink text="测试关联表" />
+            <Hyperlink text="测试关联表" />
+         </children>
+      </HBox>
+      <HBox fx:id="hBox2" alignment="CENTER" layoutX="-3.0" layoutY="573.0" prefHeight="29.0" prefWidth="783.0" spacing="10.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <HBox fx:id="hBox3" alignment="CENTER" layoutY="526.0" prefHeight="29.0" prefWidth="777.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

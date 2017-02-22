@@ -1,9 +1,7 @@
 package com.iscas.zb.controller;
 
 
-import java.io.File;
-
-import org.controlsfx.dialog.Dialogs;
+import java.io.IOException;
 
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
@@ -11,17 +9,14 @@ import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.service.MainService;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.MapValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class MainController {
@@ -47,6 +42,7 @@ public class MainController {
 		 mainService = MainService.getSingleton();
 		 initTreeView(0);
 
+
 	 }
 	 @SuppressWarnings("unchecked")
 	public void initTreeView(int index){
@@ -68,17 +64,38 @@ public class MainController {
 	                            setText(f.getName());
 	                            setGraphic(null);
 	                            setOnMouseClicked((MouseEvent t) -> {
-	                            	if (t.getClickCount() == 1) {
-	            		            	Dialogs.create()
-	            		                .owner(Main.stage)
-	            		                .title("提示")
-	            		                .masthead("提示")
-	            		                .message("弹出表格信息窗口")
+	                            	//当前节点是子节点的时候，生成表格stage
 
-	            		                .showInformation();
+	                            	if(getChildren().size() == 1){
+	                            		if (t.getClickCount() == 1) {
+//		            		            	Dialogs.create()
+//		            		                .owner(Main.stage)
+//		            		                .title("提示")
+//		            		                .masthead("提示")
+//		            		                .message("弹出表格信息窗口")
+	//
+//		            		                .showInformation();
+		                            		//跳转至表格页面
+		                            		Stage stage = new Stage();
+		                            		stage.setTitle(f.getName());
+		                        			AnchorPane root = new AnchorPane();
 
+		                        			FXMLLoader loader = new FXMLLoader();
+		                                    loader.setLocation(Main.class.getResource("view/TableView.fxml"));
+		                                    try {
+												root = (AnchorPane) loader.load();
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+		                                    TableController controller = loader.getController();
+		                                    controller.setTableName(f.getNameEn());
+		                                    Scene scene = new Scene(root);
+		                                    stage.setScene(scene);
+		                                    stage.show();
 
-	            		            }
+		            		            }
+	                            	}
+
 	                            } );
 
 	                        }
