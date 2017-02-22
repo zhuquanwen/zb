@@ -7,6 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.jaxb.JTable;
@@ -46,6 +49,7 @@ import javafx.util.Callback;
  * @author Administrator
  *
  */
+@Controller
 @SuppressWarnings("unchecked")
 public class TableController {
 	//表格新增
@@ -93,6 +97,7 @@ public class TableController {
 	//关联表hbox3
 	private HBox hBox3;
 
+	@Autowired(required=true)
 	private TableService tableService;
 	/**表格名称*/
 	private String tableName;
@@ -105,6 +110,7 @@ public class TableController {
 	/**行右键菜单*/
 	private ContextMenu rowContextMenu;
 
+
 	 public String getTableName() {
 		return tableName;
 	}
@@ -115,7 +121,6 @@ public class TableController {
 
 	@FXML
 	 private void initialize() {
-		 tableService = TableService.getSingleton();
 		 initPageSizeCombobox();
 		 initContextMenu();
 		 initTable();

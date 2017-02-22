@@ -1,16 +1,21 @@
 package com.iscas.zb;
 
+import java.sql.SQLException;
+
 import org.controlsfx.dialog.Dialogs;
 
 import com.iscas.zb.DisplayShelfSample.DisplayShelf;
 import com.iscas.zb.controller.MainController;
+import com.iscas.zb.data.StaticData;
+import com.iscas.zb.init.JdbcInit;
 import com.iscas.zb.init.MenuInit;
+import com.iscas.zb.init.SpringInit;
+import com.iscas.zb.init.XmlToObjectInit;
 import com.iscas.zb.resource.ClassLoad;
+import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -23,14 +28,21 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//spring 初始化
+			SpringInit.initSpring();
+
 			//菜单初始化
 			MenuInit.menuInit();
+			//XML jaxb初始化
+			XmlToObjectInit.xmlToObjectInit();
+			//数据库连接初始化
+			JdbcInit.connectionInit();
 
 			AnchorPane root = new AnchorPane();
 
-			FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/MainView.fxml"));
-            root = (AnchorPane) loader.load();
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+            //loader.setLocation(Main.class.getResource("view/MainView.fxml"));
+            root = (AnchorPane) loader.springLoad("view/MainView.fxml", Main.class);
             MainController controller = loader.getController();
             controller.setMainApp(this);
             // Show the scene containing the root layout.
@@ -41,6 +53,13 @@ public class Main extends Application {
             primaryStage.show();
             primaryStage.setOnCloseRequest((WindowEvent event) -> {
             	//关闭的时候系统退出
+            	if(StaticData.conn != null){
+            		try {
+						StaticData.conn.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+            	}
             	System.exit(0);
             });
 

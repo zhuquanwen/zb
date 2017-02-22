@@ -3,13 +3,17 @@ package com.iscas.zb.controller;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.service.MainService;
+import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
@@ -18,9 +22,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
+@Controller
 public class MainController {
-
+	Logger log = Logger.getLogger(MainController.class);
 	private Main main;
 	@FXML
 	private AnchorPane anchorPane;
@@ -28,6 +32,7 @@ public class MainController {
 	private TreeView treeView;
 	@FXML
 	private Label label;
+	@Autowired(required=true)
 	private MainService mainService;
 	public TreeView getTreeView() {
 		return treeView;
@@ -39,7 +44,8 @@ public class MainController {
 
 	 @FXML
 	 private void initialize() {
-		 mainService = MainService.getSingleton();
+		 //mainService = MainService.getSingleton();
+		 System.out.println("1111"+mainService);
 		 initTreeView(0);
 
 
@@ -78,19 +84,15 @@ public class MainController {
 		                            		//跳转至表格页面
 		                            		Stage stage = new Stage();
 		                            		stage.setTitle(f.getName());
-		                        			AnchorPane root = new AnchorPane();
+		                        			AnchorPane root = null;
+		                        			SpringFxmlLoader loader = new SpringFxmlLoader();
+											root = (AnchorPane) loader.springLoad("view/TableView.fxml", Main.class);
 
-		                        			FXMLLoader loader = new FXMLLoader();
-		                                    loader.setLocation(Main.class.getResource("view/TableView.fxml"));
-		                                    try {
-												root = (AnchorPane) loader.load();
-											} catch (IOException e) {
-												e.printStackTrace();
-											}
 		                                    TableController controller = loader.getController();
 		                                    controller.setTableName(f.getNameEn());
 		                                    Scene scene = new Scene(root);
 		                                    stage.setScene(scene);
+		                                    log.info("--弹出表" + f.getName() + "--");
 		                                    stage.show();
 
 		            		            }

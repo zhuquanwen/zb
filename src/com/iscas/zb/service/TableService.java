@@ -4,25 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.test.TestData;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+@Service
 public class TableService {
-	private volatile static TableService singleton;
-	 private TableService (){}
-	 public static TableService getSingleton() {
-		 if (singleton == null) {
-		     synchronized (TableService.class) {
-		     if (singleton == null) {
-		         singleton = new TableService();
-		     }
-		     }
-		 }
-		 return singleton;
-	 }
+
 	 /**
 		 * 获得每页数目的pageSize列表
 		 */

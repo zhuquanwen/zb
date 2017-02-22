@@ -1,31 +1,25 @@
 package com.iscas.zb.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import com.iscas.zb.model.TableMenu;
+import org.springframework.stereotype.Service;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-
+@Service
 public class MainService {
-	 private volatile static MainService singleton;
-	 private MainService (){}
-	 public static MainService getSingleton() {
-		 if (singleton == null) {
-		     synchronized (MenuService.class) {
-		     if (singleton == null) {
-		         singleton = new MainService();
-		     }
-		     }
-		 }
-		 return singleton;
-	 }
-
+//	 private volatile static MainService singleton;
+//	 private MainService (){}
+//	 public static MainService getSingleton() {
+//		 if (singleton == null) {
+//		     synchronized (MenuService.class) {
+//		     if (singleton == null) {
+//		         singleton = new MainService();
+//		     }
+//		     }
+//		 }
+//		 return singleton;
+//	 }
+	public void test(){
+		System.out.println(11111);
+	}
 
 //	public ObservableList getTable(Label label, int index){
 //		 TreeItem<String> rootItem = new TreeItem<String> ("Inbox");

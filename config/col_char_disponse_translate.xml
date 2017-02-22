@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<disponse_col>
+	<dcol table_name = "GROUND_UNIT" col_name="AAA">
+	</dcol>
+	<dcol table_name = "GROUND_UNIT" col_name="EEEE">
+	</dcol>
+
+	<dcol table_name = "SUB_TARGET" col_name="BBB">
+	</dcol>
+
+</disponse_col>
