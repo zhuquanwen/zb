@@ -3,8 +3,11 @@ package com.iscas.zb.tools;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.apache.xbean.spring.context.ResourceXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+
+import com.iscas.zb.data.StaticData;
 
 
 /**
@@ -14,11 +17,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 */
 public class SpringTools {
 	private static Logger log = Logger.getLogger(SpringTools.class);
-	public static ClassPathXmlApplicationContext context = null;
+
 	/**º”‘ÿspring*/
 	public static void initSpring(){
-		context = new ClassPathXmlApplicationContext(
-                new String[] { "classpath:applicationContext.xml" });
+//		context = new ClassPathXmlApplicationContext(
+//                new String[] { "classpath:applicationContext.xml" });
+		StaticData.context = new ResourceXmlApplicationContext(new FileSystemResource("config/applicationContext.xml"));
 		log.info("--spring∆Ù∂Ø--");
 	}
 }

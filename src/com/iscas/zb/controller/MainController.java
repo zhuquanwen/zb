@@ -4,13 +4,17 @@ package com.iscas.zb.controller;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.controlsfx.dialog.DialogAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.service.MainService;
+import com.iscas.zb.service.TableService;
+import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.fxml.FXML;
@@ -34,6 +38,8 @@ public class MainController {
 	private Label label;
 	@Autowired(required=true)
 	private MainService mainService;
+	@Autowired(required=true)
+	private TableService tableService;
 	public TreeView getTreeView() {
 		return treeView;
 	}
@@ -45,10 +51,7 @@ public class MainController {
 	 @FXML
 	 private void initialize() {
 		 //mainService = MainService.getSingleton();
-		 System.out.println("1111"+mainService);
 		 initTreeView(0);
-
-
 	 }
 	 @SuppressWarnings("unchecked")
 	public void initTreeView(int index){
@@ -83,17 +86,29 @@ public class MainController {
 //		            		                .showInformation();
 		                            		//跳转至表格页面
 		                            		Stage stage = new Stage();
-		                            		stage.setTitle(f.getName());
+		                            		//stage.setTitle(f.getName());
 		                        			AnchorPane root = null;
 		                        			SpringFxmlLoader loader = new SpringFxmlLoader();
-											root = (AnchorPane) loader.springLoad("view/TableView.fxml", Main.class);
+											try {
+												root = (AnchorPane) loader.springLoad("view/TableView.fxml", Main.class);
 
-		                                    TableController controller = loader.getController();
-		                                    controller.setTableName(f.getNameEn());
-		                                    Scene scene = new Scene(root);
-		                                    stage.setScene(scene);
-		                                    log.info("--弹出表" + f.getName() + "--");
-		                                    stage.show();
+
+			                                    TableController controller = loader.getController();
+			                                    controller.setStage(stage);
+			                                    controller.setTableName(f.getNameEn());
+			                                    controller.selectTable();
+
+			                                    Scene scene = new Scene(root);
+			                                    stage.setScene(scene);
+			                                    log.info("--弹出表" + f.getName() + "--");
+			                                    stage.show();
+			                                    Integer total = tableService.getTotal(f.getNameEn(),  " where 1 =1 ");
+			                                    String title = f.getName() + "[" + total + "]";
+			                                    stage.setTitle(title);
+											} catch (Exception e) {
+												e.printStackTrace();
+												DialogTools.error("错误", "出错了!", "查询表单数据出错!");
+											}
 
 		            		            }
 	                            	}

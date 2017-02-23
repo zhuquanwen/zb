@@ -13,6 +13,7 @@
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#processAdd" text=" 新增" />
             <Button fx:id="editButton" mnemonicParsing="false" onAction="#processEdit" text="编辑" />
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="删除" />
+            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#processRefresh" text="刷新" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -25,18 +26,18 @@
       <HBox alignment="CENTER" layoutY="515.0" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label text="每页" />
-            <ComboBox fx:id="pageSizeCombobox" prefHeight="23.0" prefWidth="60.0" />
+            <ComboBox fx:id="pageSizeCombobox" prefHeight="23.0" prefWidth="70.0" />
             <Label text="条" />
-            <Hyperlink fx:id="firstPageLink" text="首页" />
-            <Hyperlink fx:id="frontPageLink" text="上一页" />
+            <Hyperlink fx:id="firstPageLink" onAction="#processFirstPage" text="首页" />
+            <Hyperlink fx:id="frontPageLink" onAction="#processFrontPage" text="上一页" />
             <Label fx:id="currentPageLabel" text="第1页" />
-            <Hyperlink fx:id="nextPageLink" text="下一页" />
-            <Hyperlink fx:id="lastPageLink" text="尾页" />
+            <Hyperlink fx:id="nextPageLink" onAction="#processNextPage" text="下一页" />
+            <Hyperlink fx:id="lastPageLink" onAction="#processLastPage" text="尾页" />
             <Label fx:id="totalPageLabel" text="共111页" />
             <Label text="到第" />
-            <TextField fx:id="turnPageTextField" prefHeight="23.0" prefWidth="37.0" />
+            <TextField fx:id="turnPageTextField" prefHeight="23.0" prefWidth="52.0" />
             <Label text="页" />
-            <Hyperlink fx:id="turnPageLink" text="确定" />
+            <Hyperlink fx:id="turnPageLink" onAction="#processTurnPage" text="确定" />
          </children></HBox>
       <HBox fx:id="hBox1" alignment="CENTER" layoutY="544.0" prefHeight="29.0" prefWidth="783.0" spacing="10.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>

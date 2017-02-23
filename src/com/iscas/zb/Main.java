@@ -10,6 +10,7 @@ import com.iscas.zb.data.StaticData;
 import com.iscas.zb.init.JdbcInit;
 import com.iscas.zb.init.MenuInit;
 import com.iscas.zb.init.SpringInit;
+import com.iscas.zb.init.TranslateInit;
 import com.iscas.zb.init.XmlToObjectInit;
 import com.iscas.zb.resource.ClassLoad;
 import com.iscas.zb.tools.SpringFxmlLoader;
@@ -36,7 +37,9 @@ public class Main extends Application {
 			//XML jaxb初始化
 			XmlToObjectInit.xmlToObjectInit();
 			//数据库连接初始化
-			JdbcInit.connectionInit();
+			//JdbcInit.connectionInit();
+			//翻译Map初始化
+			TranslateInit.translateInit();
 
 			AnchorPane root = new AnchorPane();
 

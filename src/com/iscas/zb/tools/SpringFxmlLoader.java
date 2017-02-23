@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.springframework.context.ApplicationContext;
 
 import com.iscas.zb.Main;
+import com.iscas.zb.data.StaticData;
 
 import javafx.fxml.FXMLLoader;
 import javafx.util.Callback;
@@ -20,8 +21,8 @@ public class SpringFxmlLoader extends FXMLLoader{
 	 private static  ApplicationContext applicationContext = null;
 
 	 @SuppressWarnings("rawtypes")
-	public  Object springLoad(String url,Class cl) {
-		 applicationContext = SpringTools.context;
+	public  Object springLoad(String url,Class cl) throws Exception{
+		 applicationContext = StaticData.context;
 		  try  {
 			  InputStream fxmlStream = cl.
 					    getResourceAsStream(url);

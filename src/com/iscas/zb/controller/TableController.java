@@ -61,6 +61,10 @@ public class TableController {
 	//表格删除
 	@FXML
 	private Button deleteButton;
+	//表格刷新
+	@FXML
+	private Button refreshButton;
+
 	//表格显示窗口
 	@FXML
 	private TableView tableView;
@@ -96,7 +100,7 @@ public class TableController {
 	private HBox hBox2;
 	//关联表hbox3
 	private HBox hBox3;
-
+	private Stage stage;
 	@Autowired(required=true)
 	private TableService tableService;
 	/**表格名称*/
@@ -106,12 +110,30 @@ public class TableController {
 	/**每页条目*/
 	private Integer pageSize = Integer.valueOf(StaticData.default_table_page_size);
 	/**总页数*/
-	private Integer totalPage;
+	private Integer totalPage = 1;
 	/**行右键菜单*/
 	private ContextMenu rowContextMenu;
 
+	/**表的列信息*/
+	private LinkedHashMap<String,Map<String,String>> colInfoMap = null;
+	/**表列的中英对照信息*/
+	private LinkedHashMap<String,String> colEnChMap = null;
 
-	 public String getTableName() {
+	/**不翻译的字符串列Map形式*/
+	private Map<String,String> disColMap = null;
+
+	private String sqlCondition = " where 1=1 ";
+	private String selectCondition = " ";
+
+	 public String getSqlCondition() {
+		return sqlCondition;
+	}
+
+	public void setSqlCondition(String sqlCondition) {
+		this.sqlCondition = sqlCondition;
+	}
+
+	public String getTableName() {
 		return tableName;
 	}
 
@@ -119,11 +141,44 @@ public class TableController {
 		this.tableName = tableName;
 	}
 
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public LinkedHashMap<String, String> getColEnChMap() {
+		return colEnChMap;
+	}
+
+	public void setColEnChMap(LinkedHashMap<String, String> colEnChMap) {
+		this.colEnChMap = colEnChMap;
+	}
+
+	public Map<String, String> getDisColMap() {
+		return disColMap;
+	}
+
+	public void setDisColMap(Map<String, String> disColMap) {
+		this.disColMap = disColMap;
+	}
+
+	public LinkedHashMap<String, Map<String, String>> getColInfoMap() {
+		return colInfoMap;
+	}
+
+	public void setColInfoMap(LinkedHashMap<String, Map<String, String>> colInfoMap) {
+		this.colInfoMap = colInfoMap;
+	}
+
 	@FXML
 	 private void initialize() {
 		 initPageSizeCombobox();
 		 initContextMenu();
-		 initTable();
+		 //initTable();
+
 	 }
 
 	 /**
@@ -167,16 +222,36 @@ public class TableController {
 		pageSizeCombobox.setItems(tableService.getPageSizeList());
 		pageSizeCombobox.setValue(StaticData.default_table_page_size);
 		pageSizeCombobox.setOnAction((Event event) -> {
-			DialogTools.info("提示", "模拟更改页数事件--待开发......");
+			//DialogTools.info("提示", "模拟更改页数事件--待开发......");
+			String value = (String) pageSizeCombobox.getValue();
+			if("全部".equals(value)){
+				pageSize = tableService.getTotal(tableName, sqlCondition);
+			}else{
+				pageSize = Integer.valueOf(value);
+			}
+			selectTable();
+
 		});
+	}
+
+	public void selectTable(String sqlCondition){
+		this.sqlCondition = sqlCondition;
+		if(sqlCondition == null){
+			sqlCondition = " where 1 = 1 ";
+		}
+		selectTable();
 	}
 	/**初始化表格*/
 	@SuppressWarnings("rawtypes")
-	private void initTable(){
+	public void selectTable(){
+		String condition = sqlCondition + selectCondition;
 		tableView.getColumns().clear();
+		//获得列信息
+		colInfoMap = tableService.getColInfosByTableName(tableName,TableController.this);
+
 		//先创建列
-		LinkedHashMap<String, String> colMap = tableService.getColNamesByTableName("test");
-		Iterator<Entry<String, String>> iterator= colMap.entrySet().iterator();
+
+		Iterator<Entry<String, String>> iterator= colEnChMap.entrySet().iterator();
 		while(iterator.hasNext())
 		{
 		    Entry<String, String> entry = iterator.next();
@@ -188,8 +263,11 @@ public class TableController {
 		    col.setCellValueFactory(new MapValueFactory(colEn));
 		    tableView.getColumns().add(col);
 		}
+		//获得totalPage
+		//totalPage = tableService.getTotalPage(tableName,pageSize," where 1 = 1 ");
+
 		//添加内容
-		tableView.setItems(tableService.getTableData(tableName,page,pageSize));
+		tableView.setItems(tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  ));
 
 		//添加右键菜单
 		tableView.setRowFactory(new Callback<TableView, TableRow>() {
@@ -198,6 +276,40 @@ public class TableController {
 	               return new TableRowControl();
 	           }
 	       });
+		setDownMenu(condition);
+	}
+
+	private void setDownMenu(String condition) {
+		//恢复初始化设置
+		firstPageLink.setDisable(false);
+		lastPageLink.setDisable(false);
+		frontPageLink.setDisable(false);
+		nextPageLink.setDisable(false);
+
+		//共有的页数设置
+		Integer total = tableService.getTotal(tableName, condition);
+		totalPage = total%pageSize == 0 ? total/pageSize : total/pageSize + 1;
+		totalPageLabel.setText("共" + totalPage + "页");
+		//第几页设置
+		currentPageLabel.setText("第" + page + "页");
+
+		//首页按钮设置
+		if(page == 1){
+			firstPageLink.setDisable(true);
+		}
+		//末页按钮设置
+		if(page == totalPage){
+			lastPageLink.setDisable(true);
+		}
+		//上一页设置
+		if(page <= 1){
+			frontPageLink.setDisable(true);
+		}
+		//下一页设置
+		if(page >= totalPage){
+			nextPageLink.setDisable(true);
+		}
+
 	}
 
 	/**行右键菜单等*/
@@ -206,8 +318,6 @@ public class TableController {
         public TableRowControl() {
             super();
             this.setContextMenu(rowContextMenu);
-
-
         }
     }
 
@@ -273,5 +383,52 @@ public class TableController {
  		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
  				.getSelectedItem();
  		DialogTools.info("信息", "进入单击删除--待开发......");
+	 }
+
+	 /**刷新*/
+	 public void processRefresh(ActionEvent e){
+		 selectTable();
+	 }
+	 /**首页*/
+	 public void processFirstPage(ActionEvent e){
+		 page = 1;
+		 selectTable();
+	 }
+	 //上一页
+	 public void processFrontPage(ActionEvent e){
+		 page = page - 1;
+		 selectTable();
+	 }
+	 //下一页
+	 public void processNextPage(ActionEvent e){
+		 page = page + 1;
+		 selectTable();
+	 }
+	 //尾页
+	 public void processLastPage(ActionEvent e){
+		 page = totalPage;
+		 selectTable();
+	 }
+
+	 //页面跳转
+	 public void processTurnPage(ActionEvent ex){
+		 String message = "";
+		 String  turnPageStr = turnPageTextField.getText();
+		 Integer turnPage = 0;
+		 try{
+			 turnPage = Integer.parseInt(turnPageStr);
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 message = "输入页数不合法";
+			 DialogTools.warn(stage, "警告", "警告!", message);
+			 return;
+		 }
+		 if(turnPage <= 0 || turnPage > totalPage){
+			 message = "跳转页数必须大于0且不大于最大页数";
+			 DialogTools.warn(stage, "警告", "警告!", message);
+			 return;
+		 }
+		 page = turnPage;
+		 selectTable();
 	 }
 }

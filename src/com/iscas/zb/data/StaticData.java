@@ -3,6 +3,8 @@ package com.iscas.zb.data;
 import java.sql.Connection;
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
+
 import com.iscas.zb.model.ColInfo;
 import com.iscas.zb.model.jaxb.ChildAdds;
 import com.iscas.zb.model.jaxb.ChildExcepts;
@@ -47,7 +49,7 @@ public class StaticData {
 
 	/**每页显示数目pageSize*/
 	public static final String[] table_page_size =
-			new String[]{"10","20","50","200","500","全部显示"};
+			new String[]{"10","20","50","200","500","全部"};
 
 	/**默认每页显示数目pageSize*/
 	public static  String default_table_page_size = "10";
@@ -68,14 +70,17 @@ public class StaticData {
 	public final static String translate_col_name = "zb_col_translate";
 
 	/**表名汉化表map*/
-	public final static Map<String,String> tableTransMap = null;
+	public  static Map<String,String> tableTransMap = null;
 
 	/**表列名汉化表map*/
-	public final static Map<ColInfo,String> colTransMap = null;
+	public  static Map<ColInfo,String> colTransMap = null;
 
 	/**内容汉化信息定时器刷新间隔(分钟)*/
 	public static Long translate_content_timer = 10L;
 
-	//
+	/**spring context*/
+	public static ApplicationContext context = null;
+
+
 
 }

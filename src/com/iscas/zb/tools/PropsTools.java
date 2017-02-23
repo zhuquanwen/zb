@@ -21,9 +21,9 @@ public class PropsTools {
 		Properties pro = new Properties();
 		FileInputStream fis = new FileInputStream(file);
 		pro.load(fis);
-		String url = pro.getProperty("url");
-		String username = pro.getProperty("username");
-		String password = pro.getProperty("password");
+		String url = pro.getProperty("jdbc.url");
+		String username = pro.getProperty("jdbc.username");
+		String password = pro.getProperty("jdbc.password");
 		JdbcInfo ji = new JdbcInfo(url,username,password);
 		return ji;
 	}
