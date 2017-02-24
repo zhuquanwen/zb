@@ -4,6 +4,7 @@ package com.iscas.zb.controller;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,9 +13,12 @@ import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
+import com.iscas.zb.model.ChildRelation;
 import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.service.TableService;
 import com.iscas.zb.tools.DialogTools;
+import com.iscas.zb.tools.EnToChTools;
+import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -42,6 +47,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -93,12 +99,16 @@ public class TableController {
 	@FXML
 	private TextField turnPageTextField;
 	//跳转确定
+	@FXML
 	private Hyperlink turnPageLink;
 	//关联表hbox1
+	@FXML
 	private HBox hBox1;
 	//关联表hbox2
+	@FXML
 	private HBox hBox2;
 	//关联表hbox3
+	@FXML
 	private HBox hBox3;
 	private Stage stage;
 	@Autowired(required=true)
@@ -124,6 +134,7 @@ public class TableController {
 
 	private String sqlCondition = " where 1=1 ";
 	private String selectCondition = " ";
+	private Boolean childFlag = false;
 
 	 public String getSqlCondition() {
 		return sqlCondition;
@@ -173,15 +184,89 @@ public class TableController {
 		this.colInfoMap = colInfoMap;
 	}
 
+	public Boolean getChildFlag() {
+		return childFlag;
+	}
+
+	public void setChildFlag(Boolean childFlag) {
+		this.childFlag = childFlag;
+	}
+
 	@FXML
 	 private void initialize() {
 		 initPageSizeCombobox();
 		 initContextMenu();
+		 //initRelationTable();
 		 //initTable();
 
 	 }
+	/**初始化关联表按钮*/
+	 private void initRelationTable() {
+		 hBox1.getChildren().clear();
+		 hBox2.getChildren().clear();
+		 hBox3.getChildren().clear();
+		if(!childFlag){
+			List<ChildRelation> crs = StaticData.tableRelationViewMap.get(tableName.toUpperCase());
+			if(crs != null && crs.size() > 0){
+				for (int i = 0; i < crs.size(); i++) {
+					ChildRelation cr = crs.get(i);
+					String childTableName = cr.getChildTableName();
+					String childTableNameCh = EnToChTools.enToCh_table(childTableName);
+					Button button = new Button();
+					button.setText(childTableNameCh);
+					button.setTextAlignment(TextAlignment.CENTER);
+					button.setPrefWidth(150);
+					Tooltip ti = new Tooltip(childTableNameCh + "[" + childTableName + "]");
+					button.setTooltip(ti);
+					button.setOnAction(e -> {
+						Integer index = tableView.getSelectionModel().getSelectedIndex();
+						if(index < 0){
+							DialogTools.warn(stage, "警告", "警告!", "请选择一条记录!");
+							return;
+						}
 
-	 /**
+						//DialogTools.info("提示", "弹出子表--待开发--");
+                		//跳转至子表格页面
+                		Stage stage = new Stage();
+                		//stage.setTitle(f.getName());
+            			AnchorPane root = null;
+            			SpringFxmlLoader loader = new SpringFxmlLoader();
+						try {
+							root = (AnchorPane) loader.springLoad("view/TableView.fxml", Main.class);
+                            TableController controller = loader.getController();
+                            controller.setStage(stage);
+                            controller.setTableName(childTableName);
+                            controller.setChildFlag(true);
+                            controller.selectTable();
+
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+
+                            stage.show();
+                            Integer total = tableService.getTotal(childTableName,  " where 1 =1 ");
+                            String title = childTableNameCh + "[" + total + "]";
+                            stage.setTitle(title);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							DialogTools.error("错误", "出错了!", "查询表单数据出错!");
+						}
+
+
+					});
+					if(i <= 3){
+						hBox1.getChildren().add(button);
+					}else if(i > 3 && i <= 6){
+						hBox2.getChildren().add(button);
+					}else{
+						hBox3.getChildren().add(button);
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * 初始化右键菜单
 	 */
 	private void initContextMenu() {
@@ -277,6 +362,7 @@ public class TableController {
 	           }
 	       });
 		setDownMenu(condition);
+		initRelationTable();
 	}
 
 	private void setDownMenu(String condition) {

@@ -1,10 +1,12 @@
 package com.iscas.zb.data;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 
+import com.iscas.zb.model.ChildRelation;
 import com.iscas.zb.model.ColInfo;
 import com.iscas.zb.model.jaxb.ChildAdds;
 import com.iscas.zb.model.jaxb.ChildExcepts;
@@ -52,7 +54,7 @@ public class StaticData {
 			new String[]{"10","20","50","200","500","全部"};
 
 	/**默认每页显示数目pageSize*/
-	public static  String default_table_page_size = "10";
+	public static  String default_table_page_size = "20";
 
 	/**数据库链接*/
 	public static Connection conn = null;
@@ -81,6 +83,10 @@ public class StaticData {
 	/**spring context*/
 	public static ApplicationContext context = null;
 
+	/**数据库表对应关系*/
+	public static Map<String,List<ChildRelation>> tableRelationMap = null;
 
+	/**数据库子表信息*/
+	public static Map<String,List<ChildRelation>> tableRelationViewMap = null;
 
 }

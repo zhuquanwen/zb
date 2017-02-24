@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <child_table_except>
-	<childExcept parent_table_name="TARGET" child_table_name="MY_TARGET">
+	<childExcept parent_table_name="TARGET" child_table_name="SUB1_TARGET">
 	</childExcept>
 </child_table_except>

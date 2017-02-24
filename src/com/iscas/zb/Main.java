@@ -10,6 +10,7 @@ import com.iscas.zb.data.StaticData;
 import com.iscas.zb.init.JdbcInit;
 import com.iscas.zb.init.MenuInit;
 import com.iscas.zb.init.SpringInit;
+import com.iscas.zb.init.TableRelationInit;
 import com.iscas.zb.init.TranslateInit;
 import com.iscas.zb.init.XmlToObjectInit;
 import com.iscas.zb.resource.ClassLoad;
@@ -40,6 +41,7 @@ public class Main extends Application {
 			//JdbcInit.connectionInit();
 			//∑≠“ÎMap≥ı ºªØ
 			TranslateInit.translateInit();
+			TableRelationInit.tableRelationInit();
 
 			AnchorPane root = new AnchorPane();
 
