@@ -11,6 +11,6 @@ import com.iscas.zb.tools.TableRelationTools;
 public class TableRelationInit {
 	public static void tableRelationInit(){
 		TableRelationTools trt = StaticData.context.getBean(TableRelationTools.class);
-		trt.getRelation();
+		trt.getRelation(false);
 	}
 }

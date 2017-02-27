@@ -6,6 +6,7 @@ import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.jaxb.ChildAdds;
 import com.iscas.zb.model.jaxb.ChildExcepts;
 import com.iscas.zb.model.jaxb.DisColTrans;
+import com.iscas.zb.model.jaxb.UnEditCols;
 import com.iscas.zb.tools.JaxbTools;
 
 /**
@@ -21,6 +22,7 @@ public class XmlToObjectInit {
 		initChildExcepts();
 		initChildAdds();
 		initComboboxAdds();
+		initUnEditCols();
 		log.info("--≥ı ºªØXML≈‰÷√Ω· ¯--");
 	}
 	private static void initDisColTrans() throws Exception{
@@ -38,6 +40,11 @@ public class XmlToObjectInit {
 	private static void initComboboxAdds() throws Exception{
 		ChildAdds ce = JaxbTools.xmlToObj(StaticData.combobox_add, new ChildAdds());
 		StaticData.combobox_adds = ce;
+	}
+
+	private static void initUnEditCols() throws Exception{
+		UnEditCols uecs = JaxbTools.xmlToObj(StaticData.col_unedit, new UnEditCols());
+		StaticData.unEditCols = uecs;
 	}
 
 }

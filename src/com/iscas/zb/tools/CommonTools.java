@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.iscas.zb.dao.UnEntityDao;
+import com.iscas.zb.data.SqlData;
 
 /**
 *@date: 2017Äê2ÔÂ23ÈÕ
@@ -17,5 +18,13 @@ public class CommonTools {
 		paramMap.put("sql", sql);
 		List<Map> mapList = dao.selectDataToList(paramMap);
 		return mapList;
+	}
+
+	public static List<Map> getTableCols(String tableName,UnEntityDao unEntityDao){
+		String sql =SqlData.selectColSql;
+		sql = sql.replace("@tableName", tableName);
+		List<Map> maps = CommonTools.getDBList(unEntityDao, sql);
+		return maps;
+
 	}
 }

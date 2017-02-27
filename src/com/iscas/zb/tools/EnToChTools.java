@@ -21,8 +21,8 @@ import com.iscas.zb.model.ColInfo;
 public class EnToChTools {
 	@Autowired
 	private UnEntityDao unEntityDao;
-	public  void getContentMap(){
-		if(StaticData.contentTransMap == null){
+	public  void getContentMap(boolean quartzFlag){
+		if(StaticData.contentTransMap == null || quartzFlag){
 			Map<String,String> map = new HashMap<String,String>();
 			String sql = SqlData.commonSql;
 			sql = sql.replace("@tableName", StaticData.translate_content_name);
@@ -35,8 +35,8 @@ public class EnToChTools {
 
 	}
 
-	public  void getTableMap(){
-		if(StaticData.tableTransMap == null){
+	public  void getTableMap(boolean quartzFlag){
+		if(StaticData.tableTransMap == null || quartzFlag ){
 			Map<String,String> map = new HashMap<String,String>();
 			String sql = SqlData.commonSql;
 			sql = sql.replace("@tableName", StaticData.translate_table_name);
@@ -49,8 +49,8 @@ public class EnToChTools {
 
 	}
 
-	public  void getColMap(){
-		if(StaticData.colTransMap == null){
+	public  void getColMap(boolean quartzFlag){
+		if(StaticData.colTransMap == null || quartzFlag){
 			Map<ColInfo,String> map = new HashMap<ColInfo,String>();
 			String sql = SqlData.commonSql;
 			sql = sql.replace("@tableName", StaticData.translate_col_name);

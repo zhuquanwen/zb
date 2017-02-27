@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.controlsfx.dialog.DialogAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.Main;
@@ -27,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 @Controller
+@Scope("prototype")
 public class MainController {
 	Logger log = Logger.getLogger(MainController.class);
 	private Main main;
@@ -96,14 +98,15 @@ public class MainController {
 			                                    TableController controller = loader.getController();
 			                                    controller.setStage(stage);
 			                                    controller.setTableName(f.getNameEn());
-			                                    controller.selectTable();
+			                                    controller.setChildFlag(false);
+			                                    controller.selectTable(" where 1=1 ");
 
 			                                    Scene scene = new Scene(root);
 			                                    stage.setScene(scene);
 			                                    log.info("--µ¯³ö±í" + f.getName() + "--");
 			                                    stage.show();
 			                                    Integer total = tableService.getTotal(f.getNameEn(),  " where 1 =1 ");
-			                                    String title = f.getName() + "[" + total + "]";
+			                                    String title = f.getName() + "[" + f.getNameEn() + "]" + "[" + total + "]";
 			                                    stage.setTitle(title);
 											} catch (Exception e) {
 												e.printStackTrace();

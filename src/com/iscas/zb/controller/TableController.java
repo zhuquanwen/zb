@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.Main;
@@ -34,6 +35,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -56,6 +58,7 @@ import javafx.util.Callback;
  *
  */
 @Controller
+@Scope("prototype")
 @SuppressWarnings("unchecked")
 public class TableController {
 	//表格新增
@@ -135,6 +138,7 @@ public class TableController {
 	private String sqlCondition = " where 1=1 ";
 	private String selectCondition = " ";
 	private Boolean childFlag = false;
+
 
 	 public String getSqlCondition() {
 		return sqlCondition;
@@ -220,11 +224,14 @@ public class TableController {
 					button.setTooltip(ti);
 					button.setOnAction(e -> {
 						Integer index = tableView.getSelectionModel().getSelectedIndex();
+
+
 						if(index < 0){
 							DialogTools.warn(stage, "警告", "警告!", "请选择一条记录!");
 							return;
 						}
 
+						Map  mapx = (Map) tableView.getItems().get(index);
 						//DialogTools.info("提示", "弹出子表--待开发--");
                 		//跳转至子表格页面
                 		Stage stage = new Stage();
@@ -237,14 +244,30 @@ public class TableController {
                             controller.setStage(stage);
                             controller.setTableName(childTableName);
                             controller.setChildFlag(true);
-                            controller.selectTable();
+                            List<String> ccns =  cr.getChildColNames();
+                            List<String> cns = cr.getColNames();
+                            String condition = " where 1=1  " ;
+                            if(ccns != null && ccns.size() == 1 &&
+                            		cns != null && cns.size() == 1){
+
+                            	condition += " and " +ccns.get(0) + " = '"+ mapx.get(cns.get(0)) +"'";
+                            }
+
+                            if(ccns != null && ccns.size() == 2 &&
+                            		cns != null && cns.size() == 2){
+                            	condition += " and " + ccns.get(0) + " = '"+ mapx.get(cns.get(0)) +"' "
+                            			+ " and " + ccns.get(1) + " = '"+ mapx.get(cns.get(1)) +"' ";
+                            }
+
+
+                            controller.selectTable(condition);
 
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
 
-                            stage.show();
-                            Integer total = tableService.getTotal(childTableName,  " where 1 =1 ");
-                            String title = childTableNameCh + "[" + total + "]";
+                            stage.showAndWait();
+                            Integer total = tableService.getTotal(childTableName,  condition);
+                            String title = childTableNameCh + "[" + childTableName + "]" + "[" + total + "]";
                             stage.setTitle(title);
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -279,7 +302,25 @@ public class TableController {
 			//当前选中的行
     		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
     				.getSelectedItem();
-    		DialogTools.info("信息", "右键进入行编辑--待开发......");
+    		AnchorPane root = null;
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+			Stage stage = new Stage();
+			try {
+				root = (AnchorPane) loader.springLoad("view/TableEditView.fxml", Main.class);
+				TableEditController controller = loader.getController();
+				controller.setTableName(tableName);
+				controller.setStage(stage);
+				controller.setRowMap(map);
+				controller.select();
+				Scene scene = new Scene(root);
+                stage.setScene(scene);
+
+                stage.show();
+                stage.setTitle("列表编辑");
+			} catch (Exception e) {
+				e.printStackTrace();
+				DialogTools.error("错误", "出错了!", "表单编辑出错!");
+			}
 		});
 		mi2.setOnAction(event -> {
 			//进入编辑
@@ -329,6 +370,7 @@ public class TableController {
 	/**初始化表格*/
 	@SuppressWarnings("rawtypes")
 	public void selectTable(){
+		tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		String condition = sqlCondition + selectCondition;
 		tableView.getColumns().clear();
 		//获得列信息
@@ -352,7 +394,11 @@ public class TableController {
 		//totalPage = tableService.getTotalPage(tableName,pageSize," where 1 = 1 ");
 
 		//添加内容
-		tableView.setItems(tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  ));
+		ObservableList obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
+		tableView.setItems(obList);
+		if(obList != null && obList.size() > 0){
+			tableView.getSelectionModel().select(0);
+		}
 
 		//添加右键菜单
 		tableView.setRowFactory(new Callback<TableView, TableRow>() {
@@ -441,10 +487,11 @@ public class TableController {
 		        cell.setOnMouseClicked(event -> {
 		        	if(event.getClickCount() == 2){
 		        		//当前选中的行
-		        		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-		        				.getSelectedItem();
+//		        		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
+//		        				.getSelectedItem();
 		        		DialogTools.info("信息", "双击进入行编辑--待开发......");
 		        	}
+
 		        });
 		        return cell;
 		    }

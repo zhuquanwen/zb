@@ -12,6 +12,7 @@ import com.iscas.zb.model.jaxb.ChildAdds;
 import com.iscas.zb.model.jaxb.ChildExcepts;
 import com.iscas.zb.model.jaxb.DisColTrans;
 import com.iscas.zb.model.jaxb.JTable;
+import com.iscas.zb.model.jaxb.UnEditCols;
 
 import javafx.scene.control.TreeItem;
 
@@ -37,6 +38,10 @@ public class StaticData {
 	public final static String combobox_add =
 			"config/combobox_add.xml";
 
+	/**数据库不可编辑列配置的XML名称*/
+	public final static String col_unedit =
+			"config/col_unedit.xml";
+
 	/**字符串不需要显示的翻译列配置*/
 	public static DisColTrans dis_col_trans = null;
 	/**数据库有关联关系但需要排除的子表配置*/
@@ -45,6 +50,8 @@ public class StaticData {
 	public static ChildAdds child_adds = null;
 	/**数据库没有关联关系但需要加入的下拉列表配置*/
 	public static ChildAdds combobox_adds = null;
+	/**数据库不可编辑列配置*/
+	public static UnEditCols unEditCols = null;
 
 	/**菜单对象*/
 	public  static Map<Integer,TreeItem<JTable>> treeItemMap;

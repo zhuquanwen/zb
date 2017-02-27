@@ -11,8 +11,8 @@ import com.iscas.zb.tools.EnToChTools;
 public class TranslateInit {
 	public static void translateInit(){
 		EnToChTools etct = StaticData.context.getBean(EnToChTools.class);
-		etct.getColMap();
-		etct.getContentMap();
-		etct.getTableMap();
+		etct.getColMap(false);
+		etct.getContentMap(false);
+		etct.getTableMap(false);
 	}
 }

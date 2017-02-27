@@ -25,8 +25,8 @@ public class TableRelationTools {
 	@Autowired(required=true)
 	private UnEntityDao unEntityDao;
 
-	public void getRelation(){
-		if(StaticData.tableRelationMap == null){
+	public void getRelation(boolean quartzFlag){
+		if(StaticData.tableRelationMap == null || quartzFlag){
 			Map<String,List<ChildRelation>> map1 = new HashMap<String,List<ChildRelation>>();
 			Map<String,List<ChildRelation>> map2 = new HashMap<String,List<ChildRelation>>();
 
@@ -127,10 +127,12 @@ public class TableRelationTools {
 				tempChildColName = childColName;
 				tempColName = colName;
 			}
+			if(childRelations != null){
+				childRelations.add(cr);
+				map1.put(tempTableName, childRelations);
+				map2.put(tempTableName, childRelations);
+			}
 
-			childRelations.add(cr);
-			map1.put(tempTableName, childRelations);
-			map2.put(tempTableName, childRelations);
 
 			StaticData.tableRelationMap = map1;
 			//减去刨除的子表
