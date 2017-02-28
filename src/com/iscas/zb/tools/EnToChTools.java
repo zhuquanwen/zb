@@ -75,6 +75,29 @@ public class EnToChTools {
 		return ch;
 
 	}
+
+	public static String enToCh_contentCanNull(String name){
+		String ch = null;
+		ch = StaticData.contentTransMap.get(name);
+		return ch;
+
+	}
+	public static String enToCh_contentCanNull(Object name){
+		String ch = null;
+		ch = StaticData.contentTransMap.get(name);
+		return ch;
+
+	}
+	public static String enToCh_content(Object name){
+		String ch = name + "";
+		ch = StaticData.contentTransMap.get(name);
+		if(ch == null){
+			ch = name + "";
+		}
+		return ch;
+
+	}
+
 	public static String enToCh_table(String name){
 		String ch = name;
 		ch = StaticData.tableTransMap.get(name);

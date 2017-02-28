@@ -114,7 +114,7 @@ public class TableService {
 						//如果此列未加入了不翻译的列表
 						if(disColMap.get(colName) == null){
 							//新增翻译列
-							data.put(colName + "_EN", EnToChTools.enToCh_content((String)map.get(obj)));
+							data.put(colName + "_EN", EnToChTools.enToCh_contentCanNull((String)map.get(obj)));
 						}
 					}
 				}

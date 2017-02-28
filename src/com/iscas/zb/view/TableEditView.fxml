@@ -12,6 +12,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#processCommit" text="确定" />
             <Button lineSpacing="20.0" mnemonicParsing="false" onAction="#processCancel" text="取消" />
+            <Button fx:id="disponseButton" lineSpacing="20.0" mnemonicParsing="false" onAction="#processDisponseCh" text="隐藏中文列" />
          </children>
       </HBox>
    </children>

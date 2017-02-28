@@ -9,12 +9,12 @@ public class SqlData {
 	public static String commonSql = "select * from @tableName";
 
 	/**普通分页查询一个表的SQL*/
-	public static String commonPageSql="SELECT * FROM " +
+	public static String commonPageSql="SELECT B.* FROM " +
 				"( " +
 				   "SELECT A.*, ROWNUM RN " +
-				   "FROM (SELECT * FROM @tableName @condition) A " +
+				   "FROM (SELECT t.*,t.rowid as rid FROM @tableName t  @condition) A " +
 				   "WHERE ROWNUM <= @up " +
-				") " +
+				") B " +
 				"WHERE RN >= @down";
 
 	/**查询一个表的所有列信息*/
@@ -39,6 +39,9 @@ public class SqlData {
 			" and " +
 			" a.r_constraint_name=b.constraint_name) " +
 			" b " +
-			" where a.r_constraint_name=b.r_constraint_name "
-			+ " order by 主键表名,外键表名,外键列名,主键列名 ";
+			" where a.r_constraint_name=b.r_constraint_name ";
+	/**查询主表对应的子表信息SQL orderby1*/
+	public static String tableRelationSqlOrderBy1 = " order by 主键表名,外键表名,外键列名,主键列名 ";
+	/**查询主表对应的子表信息SQL orderby2*/
+	public static String tableRelationSqlOrderBy2 = " order by 外键表名,主键表名,外键列名,主键列名 ";
 }

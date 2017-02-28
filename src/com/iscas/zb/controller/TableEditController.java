@@ -1,25 +1,32 @@
 package com.iscas.zb.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.controlsfx.dialog.Dialogs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.iscas.zb.data.SqlData;
+import com.iscas.zb.data.StaticData;
+import com.iscas.zb.model.EditTableCell;
+import com.iscas.zb.model.jaxb.UnEditCol;
 import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.tools.DialogTools;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import oracle.sql.ROWID;
 
 /**
 *@date: 2017年2月27日
@@ -32,10 +39,17 @@ public class TableEditController {
 	@Autowired
 	private TableEditService tableEditService;
 	@FXML
+	private Button disponseButton;
+	@FXML
 	private TableView tableView;
 	private Stage stage;
 	private String tableName;
 	private Map rowMap;
+	private boolean disponseCh = false;
+	private Map<Map<String,String>,String> unEditMap = new HashMap<Map<String,String>,String>();
+	private ObservableList obList;
+	private Map<String,Object> updateMap = new HashMap<String,Object>();
+	private Map<String,String> updateChMap = new HashMap<String,String>();
 	public Stage getStage() {
 		return stage;
 	}
@@ -60,21 +74,57 @@ public class TableEditController {
 	}
 	@FXML
 	private void initialize() {
-
-
+		disponseButton.setText("隐藏中文列");
+		disponseCh = false;
+		//初始化不可编辑列
+		this.initUnEdits();
+	}
+	private void initUnEdits(){
+		if(StaticData.unEditCols != null){
+			List<UnEditCol> uecs = StaticData.unEditCols.getUecs();
+			if(uecs != null && uecs.size() >0 ){
+				uecs.forEach(uec -> {
+					Map<String,String> map = new HashMap<String,String>();
+					map.put(uec.getTableName(), uec.getColName());
+					unEditMap.put(map, "this is flag");
+				});
+			}
+		}
 	}
 	/**确定*/
 	public void processCommit(ActionEvent e){
+		try{
+			tableEditService.commit(updateMap,updateChMap,tableName,((ROWID)rowMap.get("RID")).stringValue());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			DialogTools.exception(stage, "错误", "出现异常", "编辑提交失败！", ex);
+		}
 
+		System.out.println(updateMap);
+		System.out.println(updateChMap);
 	}
 	/**取消*/
 	public void processCancel(ActionEvent e){
 		stage.close();
 	}
+	/**隐藏中文列*/
+	public void processDisponseCh(ActionEvent e){
+		String text = disponseButton.getText();
+		if("隐藏中文列".equals(text)){
+			disponseCh = true;
+			disponseButton.setText("显示中文列");
+		}else{
+			disponseCh = false;
+			disponseButton.setText("隐藏中文列");
+		}
+		select();
+	}
+
 	/**显示查询信息*/
 	public void select() {
 		//生成列
 		tableView.getColumns().clear();
+		tableView.getSelectionModel().setCellSelectionEnabled(true);
 		TableColumn<Map<String,Object>, Object> col1 = new
 		    		TableColumn<Map<String,Object>, Object>("属性");
 		col1.setCellFactory(new TaskCellFactory());
@@ -89,48 +139,16 @@ public class TableEditController {
 		tableView.getColumns().add(col1);
 		tableView.getColumns().add(col2);
 		//填充数据
-		ObservableList obList = tableEditService.rowMapToColMap(rowMap, tableName);
+
+		obList = tableEditService.rowMapToColMap(rowMap, tableName ,disponseCh);
 		tableView.setItems(obList);
 	}
-	 private class TaskCellFactory implements Callback<TableColumn<Map<String,Object>, Object>, TableCell<Map<String,Object>, Object>> {
-
-		    @Override
-		    public TableCell<Map<String,Object>, Object> call(TableColumn<Map<String,Object>, Object> param) {
-		        TableCell<Map<String,Object>, Object> cell = new TableCell<Map<String,Object>, Object>(){
-
-					@Override
-					protected void updateItem(Object item, boolean empty) {
-						if (item == getItem()) return;
-
-	                    super.updateItem(item, empty);
-
-	                    if (item == null) {
-	                        super.setText(null);
-	                        super.setGraphic(null);
-	                    }
-	                    else if (item instanceof Node) {
-	                        super.setText(null);
-	                        super.setGraphic((Node)item);
-	                    }
-	                    else {
-	                        super.setText(item.toString());
-	                        super.setGraphic(null);
-	                    }
-
-					}
-
-		        };
-		        //双击进入编辑
-		        cell.setOnMouseClicked(event -> {
-		        	if(event.getClickCount() == 2){
-		        		//当前选中的行
-//		        		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-//		        				.getSelectedItem();
-		        		DialogTools.info("信息", "双击进入行编辑--待开发......");
-		        	}
-
-		        });
-		        return cell;
-		    }
-		}
+	private class TaskCellFactory implements Callback<TableColumn<Map<String,Object>, Object>, TableCell<Map<String,Object>, Object>> {
+		   @Override
+		   public TableCell<Map<String,Object>, Object> call(TableColumn<Map<String,Object>, Object> param) {
+		       EditTableCell<Map<String,Object>, Object> cell = new EditTableCell<Map<String,Object>, Object>(stage,obList, tableName,unEditMap,
+		    		   tableEditService,updateMap,updateChMap);
+		       return cell;
+		   }
+	}
 }

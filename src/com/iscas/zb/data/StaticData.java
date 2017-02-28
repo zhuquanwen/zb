@@ -96,4 +96,9 @@ public class StaticData {
 	/**数据库子表信息*/
 	public static Map<String,List<ChildRelation>> tableRelationViewMap = null;
 
+	/**数据库对应关系，子表为key,带额外配置*/
+	public static Map<String,List<ChildRelation>> childTableRelationViewMap = null;
+
+	/**数据库表对应关系，子表为key*/
+	public static Map<String,List<ChildRelation>> childTableRelationMap = null;
 }

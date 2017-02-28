@@ -30,7 +30,7 @@
 				<table name="地面部队" name_en="GROUND_UNIT"  ></table>
 				<table name="空军飞行部队" name_en="SUB_TARGET"  ></table>
 				<table name="保障部队" name_en="TEST"  ></table>
-				<table name="海军舰艇部队" name_en=""  ></table>
+				<table name="海军舰艇部队" name_en="TEST1"  ></table>
 				<table name="前方弹药油量补给" name_en=""  ></table>
 				<table name="特战部队" name_en=""  ></table>
 				<table name="物资补给分队" name_en=""  ></table>
