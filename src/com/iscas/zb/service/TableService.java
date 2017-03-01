@@ -138,4 +138,26 @@ public class TableService {
 		}
 		return total;
 	}
+
+	/**获得一个空的一行数据*/
+	public Map<String, Object> getEmptyMap(String tableName,TableController tc) {
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		Map<String,String> disColMap = tc.getDisColMap();
+		List<Map> colInfos = CommonTools.getTableCols(tableName, unEntityDao);
+		colInfos.forEach(map -> {
+			String colName = (String)map.get("COLUMN_NAME");
+			String dataType = (String)map.get("DATA_TYPE");
+			returnMap.put(colName, null);
+			if(dataType != null && ("VARCHAR2".equals(dataType) ||
+					"CHAR".equals(dataType)) ){
+				//如果此列未加入了不翻译的列表
+				if(disColMap.get(colName) == null){
+					//新增翻译列
+					returnMap.put(colName + "_EN", null);
+				}
+			}
+
+		});
+		return returnMap;
+	}
 }

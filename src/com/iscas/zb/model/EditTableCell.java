@@ -1,18 +1,15 @@
 package com.iscas.zb.model;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.iscas.zb.dao.UnEntityDao;
-import com.iscas.zb.data.StaticData;
 import com.iscas.zb.service.TableEditService;
-import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -27,12 +24,14 @@ public class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
 	private Map<Map<String,String>,String> unEditMap;
 	private TableEditService tableEditService;
 	private Map<String,Object> updateMap;
-	private Map<String,String> updateChMap;
-
+	private Map<String,TextField> updateChMap;
+	private boolean insertFlag;
 	public EditTableCell(Stage stage, ObservableList obList, String tableName,
 			Map<Map<String, String>, String> unEditMap,TableEditService tableEditService
-			,Map<String,Object> updateMap,Map<String,String> updateChMap) {
+			,Map<String,Object> updateMap,Map<String,TextField> updateChMap
+			,boolean insertFlag) {
 		super();
+
 		this.stage = stage;
 		this.obList = obList;
 		this.tableName = tableName;
@@ -40,32 +39,36 @@ public class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
 		this.tableEditService = tableEditService;
 		this.updateMap = updateMap;
 		this.updateChMap = updateChMap;
-		 //双击进入编辑
-        this.setOnMouseClicked(event -> {
-        	if(event.getClickCount() == 1){
-        		//不可编辑列
-        		//如果是属性列，不可编辑
-        		if("属性".equals(this.getTableColumn().getText())){
-        			return;
-        		}
-        		//如果为配置的不可编辑列，也不可编辑
-        		Integer index = this.getIndex();
-        		if(index < 0 ){
-        			DialogTools.error(stage, "错误", "出错了!", "进入编辑状态失败!");
-        			return;
-        		}
-        		Map map = (Map)obList.get(index);
-        		Map<String,String> mapx = new HashMap<String,String>();
-        		mapx.put(tableName, (String)map.get("colName"));
-        		if(unEditMap.get(mapx) != null){
-        			return ;
-        		}
-        		Node node = null;
-        		node = tableEditService.getNode(tableName,map,updateMap,updateChMap);
+		this.insertFlag = insertFlag;
 
-        		this.startEdit1( node);
-        	}
-        });
+//        this.setOnMouseClicked(event -> {
+//        	if(event.getClickCount() == 1){
+//        		//不可编辑列
+//        		//如果是属性列，不可编辑
+//        		if("属性".equals(this.getTableColumn().getText())){
+//        			return;
+//        		}
+//        		//如果为配置的不可编辑列，也不可编辑
+//        		Integer index = this.getIndex();
+//        		if(this.getIndex() < 0 ){
+//        			DialogTools.error(stage, "错误", "出错了!", "进入编辑状态失败!");
+//        			return;
+//        		}
+//        		Map map = (Map)obList.get(index);
+//        		Map<String,String> mapx = new HashMap<String,String>();
+//        		mapx.put(tableName, (String)map.get("colName"));
+//        		if(unEditMap.get(mapx) != null){
+//        			return ;
+//        		}
+//        		Node node = null;
+//        		node = tableEditService.getNode(tableName,map,updateMap,updateChMap,etMap);
+//
+//        		((Map)obList.get(0)).put("key", "hahahah");
+//        		this.getTableView().setItems(obList);
+//        		this.startEdit1( node);
+//
+//        	}
+//        });
 	}
 	@Override
 	protected void updateItem(Object item, boolean empty) {
@@ -74,18 +77,21 @@ public class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
         super.updateItem(item, empty);
         if("属性".equals(this.getTableColumn().getText())){
 			//this.setStyle("-fx-background-color: #aaaaaa; -fx-table-cell-border-color: black;");
-        	this.setStyle(" -fx-text-fill: black;");
+        	//this.setStyle(" -fx-text-fill: black;");
 		}else{
 			 //如果为配置的不可编辑列，也不可编辑
-			Integer index = this.getIndex();
-			if(index >= 0 ){
-				Map map = (Map)obList.get(index);
-				Map<String,String> mapx = new HashMap<String,String>();
-				mapx.put(tableName, (String)map.get("colName"));
-				if(unEditMap.get(mapx) != null){
-					this.setStyle(" -fx-text-fill: #ADADAD;");
+			if(!insertFlag){
+				Integer index = this.getIndex();
+				if(index >= 0 ){
+					Map map = (Map)obList.get(index);
+					Map<String,String> mapx = new HashMap<String,String>();
+					mapx.put(tableName, (String)map.get("colName"));
+					if(unEditMap.get(mapx) != null){
+						this.setStyle(" -fx-text-fill: #ADADAD;");
+					}
 				}
 			}
+
 		}
 
 

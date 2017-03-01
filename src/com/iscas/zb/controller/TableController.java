@@ -15,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.ChildRelation;
+import com.iscas.zb.model.HandlerModel;
 import com.iscas.zb.model.jaxb.JTable;
+import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.service.TableService;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.EnToChTools;
@@ -289,6 +291,38 @@ public class TableController {
 
 	}
 
+	 /**编辑操作*/
+	 private void editRow(){
+		//进入编辑
+		//当前选中的行
+		Integer index = tableView.getSelectionModel().getSelectedIndex();
+		if(index < 0 ){
+			DialogTools.error("错误", "出错了!", "请选中一行进行编辑!");
+		}
+ 		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel().getSelectedItem();
+ 		AnchorPane root = null;
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+			Stage stage = new Stage();
+			try {
+				root = (AnchorPane) loader.springLoad("view/TableEditView.fxml", Main.class);
+				TableEditController controller = loader.getController();
+				controller.setTableName(tableName);
+				controller.setInsertFlag(false);
+				controller.setStage(stage);
+				controller.setRowMap(map);
+				controller.select();
+				controller.setTc(TableController.this);
+				Scene scene = new Scene(root);
+             stage.setScene(scene);
+
+             stage.show();
+             stage.setTitle("列表编辑");
+			} catch (Exception e) {
+				e.printStackTrace();
+				DialogTools.error("错误", "出错了!", "表单编辑出错!");
+			}
+	 }
+
 	/**
 	 * 初始化右键菜单
 	 */
@@ -298,29 +332,7 @@ public class TableController {
 		MenuItem mi2 = new MenuItem("删除");
 		MenuItem mi3 = new MenuItem("行复制");
 		mi1.setOnAction(event -> {
-			//进入编辑
-			//当前选中的行
-    		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-    				.getSelectedItem();
-    		AnchorPane root = null;
-			SpringFxmlLoader loader = new SpringFxmlLoader();
-			Stage stage = new Stage();
-			try {
-				root = (AnchorPane) loader.springLoad("view/TableEditView.fxml", Main.class);
-				TableEditController controller = loader.getController();
-				controller.setTableName(tableName);
-				controller.setStage(stage);
-				controller.setRowMap(map);
-				controller.select();
-				Scene scene = new Scene(root);
-                stage.setScene(scene);
-
-                stage.show();
-                stage.setTitle("列表编辑");
-			} catch (Exception e) {
-				e.printStackTrace();
-				DialogTools.error("错误", "出错了!", "表单编辑出错!");
-			}
+			editRow();
 		});
 		mi2.setOnAction(event -> {
 			//进入编辑
@@ -355,7 +367,7 @@ public class TableController {
 			}else{
 				pageSize = Integer.valueOf(value);
 			}
-			selectTable();
+			selectTable(HandlerModel.UNKOWN);
 
 		});
 	}
@@ -365,11 +377,27 @@ public class TableController {
 		if(sqlCondition == null){
 			sqlCondition = " where 1 = 1 ";
 		}
-		selectTable();
+		selectTable(HandlerModel.UNKOWN);
 	}
 	/**初始化表格*/
 	@SuppressWarnings("rawtypes")
-	public void selectTable(){
+	public void selectTable(HandlerModel hm){
+		switch (hm) {
+		case INSERT:
+		{
+			sqlCondition = " where 1 = 1 ";
+			Integer total = tableService.getTotal(tableName,  " where 1 =1 ");
+			totalPage = total % pageSize == 0 ?
+					total/pageSize  : total/pageSize +1;
+			page = totalPage;
+			break;
+		}
+
+
+		default:
+			break;
+		}
+
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		String condition = sqlCondition + selectCondition;
 		tableView.getColumns().clear();
@@ -498,10 +526,29 @@ public class TableController {
 		}
 	 /**新增*/
 	 public void processAdd(ActionEvent e){
-		//当前选中的行
- 		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
- 				.getSelectedItem();
- 		DialogTools.info("信息", "进入单击新增--待开发......");
+		 Map<String,Object> emptyMap = tableService.getEmptyMap(tableName,TableController.this);
+		 AnchorPane root = null;
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+			Stage stage = new Stage();
+			try {
+				root = (AnchorPane) loader.springLoad("view/TableEditView.fxml", Main.class);
+				TableEditController controller = loader.getController();
+				controller.setTableName(tableName);
+				controller.setInsertFlag(true);
+				controller.setStage(stage);
+				controller.setRowMap(emptyMap);
+				controller.select();
+				controller.setTc(TableController.this);
+
+				Scene scene = new Scene(root);
+          stage.setScene(scene);
+
+          stage.show();
+          stage.setTitle("新增数据");
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				DialogTools.error("错误", "出错了!", "新增数据出错!");
+			}
 	 }
 	 /**编辑*/
 	 public void processEdit(ActionEvent e){
@@ -520,27 +567,27 @@ public class TableController {
 
 	 /**刷新*/
 	 public void processRefresh(ActionEvent e){
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 	 /**首页*/
 	 public void processFirstPage(ActionEvent e){
 		 page = 1;
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 	 //上一页
 	 public void processFrontPage(ActionEvent e){
 		 page = page - 1;
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 	 //下一页
 	 public void processNextPage(ActionEvent e){
 		 page = page + 1;
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 	 //尾页
 	 public void processLastPage(ActionEvent e){
 		 page = totalPage;
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 
 	 //页面跳转
@@ -562,6 +609,6 @@ public class TableController {
 			 return;
 		 }
 		 page = turnPage;
-		 selectTable();
+		 selectTable(HandlerModel.UNKOWN);
 	 }
 }

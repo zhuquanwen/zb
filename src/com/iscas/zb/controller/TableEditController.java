@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.EditTableCell;
+import com.iscas.zb.model.HandlerModel;
 import com.iscas.zb.model.jaxb.UnEditCol;
 import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.tools.DialogTools;
@@ -49,7 +50,16 @@ public class TableEditController {
 	private Map<Map<String,String>,String> unEditMap = new HashMap<Map<String,String>,String>();
 	private ObservableList obList;
 	private Map<String,Object> updateMap = new HashMap<String,Object>();
-	private Map<String,String> updateChMap = new HashMap<String,String>();
+	private Map<String,TextField> updateChMap = new HashMap<String,TextField>();
+	private TableController tc;
+	private boolean insertFlag = false;
+
+	public boolean isInsertFlag() {
+		return insertFlag;
+	}
+	public void setInsertFlag(boolean insertFlag) {
+		this.insertFlag = insertFlag;
+	}
 	public Stage getStage() {
 		return stage;
 	}
@@ -66,6 +76,12 @@ public class TableEditController {
 
 
 
+	public TableController getTc() {
+		return tc;
+	}
+	public void setTc(TableController tc) {
+		this.tc = tc;
+	}
 	public Map getRowMap() {
 		return rowMap;
 	}
@@ -94,14 +110,27 @@ public class TableEditController {
 	/**确定*/
 	public void processCommit(ActionEvent e){
 		try{
-			tableEditService.commit(updateMap,updateChMap,tableName,((ROWID)rowMap.get("RID")).stringValue());
+			String rowid = null;
+			Object obj = rowMap.get("RID");
+			if(obj != null){
+				ROWID rd = (ROWID)obj;
+				rowid = rd.stringValue();
+			}
+
+			tableEditService.commit(updateMap,updateChMap,tableName,rowid,insertFlag);
+
+			HandlerModel hm =HandlerModel.UNKOWN;
+			if(insertFlag){
+				hm = HandlerModel.INSERT;
+			}
+			tc.selectTable(hm);
+			stage.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			DialogTools.exception(stage, "错误", "出现异常", "编辑提交失败！", ex);
 		}
 
-		System.out.println(updateMap);
-		System.out.println(updateChMap);
+
 	}
 	/**取消*/
 	public void processCancel(ActionEvent e){
@@ -130,7 +159,7 @@ public class TableEditController {
 		col1.setCellFactory(new TaskCellFactory());
 		col1.setCellValueFactory(new MapValueFactory("key"));
 		col1.setEditable(false);
-		col1.setPrefWidth(278);
+		col1.setPrefWidth(275);
 		TableColumn<Map<String,Object>, Object> col2 = new
 	    		TableColumn<Map<String,Object>, Object>("属性值");
 		col2.setCellFactory(new TaskCellFactory());
@@ -139,15 +168,15 @@ public class TableEditController {
 		tableView.getColumns().add(col1);
 		tableView.getColumns().add(col2);
 		//填充数据
-
-		obList = tableEditService.rowMapToColMap(rowMap, tableName ,disponseCh);
+		obList = tableEditService.rowMapToColMap(rowMap, tableName ,
+				disponseCh,updateMap,updateChMap,unEditMap,insertFlag);
 		tableView.setItems(obList);
 	}
 	private class TaskCellFactory implements Callback<TableColumn<Map<String,Object>, Object>, TableCell<Map<String,Object>, Object>> {
 		   @Override
 		   public TableCell<Map<String,Object>, Object> call(TableColumn<Map<String,Object>, Object> param) {
-		       EditTableCell<Map<String,Object>, Object> cell = new EditTableCell<Map<String,Object>, Object>(stage,obList, tableName,unEditMap,
-		    		   tableEditService,updateMap,updateChMap);
+			   EditTableCell<Map<String,Object>, Object> cell = new EditTableCell<Map<String,Object>, Object>(stage,obList, tableName,unEditMap,
+		    		   tableEditService,updateMap,updateChMap,insertFlag);
 		       return cell;
 		   }
 	}
