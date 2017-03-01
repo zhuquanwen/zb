@@ -8,23 +8,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.iscas.zb.controller.TableController;
 import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.SqlData;
 import com.iscas.zb.data.StaticData;
+import com.iscas.zb.model.ChildRelation;
 import com.iscas.zb.model.jaxb.Dcol;
-import com.iscas.zb.test.TestData;
 import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.EnToChTools;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-@Transactional
+import oracle.sql.ROWID;
+@Transactional(propagation=Propagation.REQUIRED,timeout=60)
 @Service
 public class TableService {
 	@Autowired(required=true)
@@ -159,5 +161,72 @@ public class TableService {
 
 		});
 		return returnMap;
+	}
+
+	/**普通删除*/
+	public void normalDelete(Map<String, Object> map,String tableName) {
+		Object obj = map.get("RID");
+		ROWID rd = (ROWID)obj;
+		String rowid = rd.stringValue();
+		makeChildColNull(map,tableName);
+		String sql = " delete from " + tableName +" where rowid = '"+ rowid +"'";
+		Map mapx = new HashMap();
+		mapx.put("sql", sql);
+		unEntityDao.editTableSql(mapx);
+	}
+	private void makeChildColNull(Map<String, Object> map,String tableName){
+
+		if(StaticData.tableRelationMap != null){
+			List<ChildRelation> crs = StaticData.tableRelationMap.get(tableName);
+			if(crs != null && crs.size() > 0){
+				crs.forEach(cr -> {
+					String childTableName = cr.getChildTableName();
+					List<String> childCols = cr.getChildColNames();
+					List<String> cols = cr.getColNames();
+					String colName1 = "";
+					String colName2 = "";
+					String childColName1 = "";
+					String childColName2 = "";
+					//查询的SQL
+					String sql = "select t.*,t.rowid as rid from " + childTableName + " t ";
+					//将子表外键列置为null的SQL
+					String nullSql = " update " + childTableName;
+					if(cols != null && cols.size() == 1){
+						colName1 = cols.get(0);
+						childColName1 = childCols.get(0);
+						String condition =
+						 " where " + childColName1 + " = '" + map.get(colName1) + "'";
+						sql += condition;
+						nullSql += " set " + childColName1 + " = null " + condition;
+					}else{
+						colName1 = cols.get(0);
+						childColName1 = childCols.get(0);
+						colName2 = cols.get(1);
+						childColName2 = childCols.get(1);
+						String condition =
+						 " where " + childColName1 + " = '" + map.get(colName1) + "'"
+								+ " and " + childColName2 + " = '" + map.get(colName2) + "'";
+
+						sql += condition;
+						nullSql += " set " + childColName1 + " = null , " + childColName2 + " = null " + condition;
+					}
+					if(StaticData.tableRelationMap.get(childTableName) != null){
+						List<Map> listMap = CommonTools.getDBList(unEntityDao, sql);
+						if(listMap != null && listMap.size() > 0){
+							listMap.forEach(sMap -> {
+								//调用递归
+								this.makeChildColNull(sMap, childTableName);
+
+							});
+						}
+					}
+
+					//让子表的对应记录的外键列置为null
+					CommonTools.getDBList(unEntityDao, nullSql);
+
+
+				});
+			}
+		}
 	}
 }

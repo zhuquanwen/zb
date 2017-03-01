@@ -140,7 +140,7 @@ public class TableController {
 	private String sqlCondition = " where 1=1 ";
 	private String selectCondition = " ";
 	private Boolean childFlag = false;
-
+	private ObservableList obList = null;
 
 	 public String getSqlCondition() {
 		return sqlCondition;
@@ -266,11 +266,12 @@ public class TableController {
 
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
-
-                            stage.showAndWait();
                             Integer total = tableService.getTotal(childTableName,  condition);
-                            String title = childTableNameCh + "[" + childTableName + "]" + "[" + total + "]";
+                            String title = childTableNameCh + "[" + childTableName + "]" + "[" + total + "]" +
+                            			"-关联主表" + tableName ;
                             stage.setTitle(title);
+                            stage.showAndWait();
+
 						} catch (Exception ex) {
 							ex.printStackTrace();
 							DialogTools.error("错误", "出错了!", "查询表单数据出错!");
@@ -322,6 +323,18 @@ public class TableController {
 				DialogTools.error("错误", "出错了!", "表单编辑出错!");
 			}
 	 }
+	 /**普通删除*/
+	 private void normalDelete(){
+		 //普通删除，不删除子表信息，将子表对应信息置为null
+		 Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
+ 				.getSelectedItem();
+		 if(map == null || map.size()  <= 0){
+			 DialogTools.warn(stage,"警告", "警告","请选择一条要删除的记录!" );
+		 }
+		 tableService.normalDelete(map,tableName);
+		 this.selectTable(HandlerModel.DELETE);
+
+	 }
 
 	/**
 	 * 初始化右键菜单
@@ -330,16 +343,13 @@ public class TableController {
 
 		MenuItem mi1 = new MenuItem("编辑");
 		MenuItem mi2 = new MenuItem("删除");
+		MenuItem mi4 = new MenuItem("级联删除");
 		MenuItem mi3 = new MenuItem("行复制");
 		mi1.setOnAction(event -> {
 			editRow();
 		});
 		mi2.setOnAction(event -> {
-			//进入编辑
-			//当前选中的行
-    		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-    				.getSelectedItem();
-    		DialogTools.info("信息", "右键进入删除--待开发......");
+			normalDelete();
 		});
 		mi3.setOnAction(event -> {
 			//进入编辑
@@ -348,7 +358,14 @@ public class TableController {
     				.getSelectedItem();
     		DialogTools.info("信息", "右键进入行复制--待开发......");
 		});
-		rowContextMenu = new ContextMenu(mi1,mi2,mi3);
+		mi4.setOnAction(event -> {
+
+			//当前选中的行
+    		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
+    				.getSelectedItem();
+    		DialogTools.info("信息", "右键进入级联删除--待开发......");
+		});
+		rowContextMenu = new ContextMenu(mi1,mi2,mi4,mi3);
 
 	}
 
@@ -422,7 +439,7 @@ public class TableController {
 		//totalPage = tableService.getTotalPage(tableName,pageSize," where 1 = 1 ");
 
 		//添加内容
-		ObservableList obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
+		obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
 		tableView.setItems(obList);
 		if(obList != null && obList.size() > 0){
 			tableView.getSelectionModel().select(0);
