@@ -1,5 +1,6 @@
 package com.iscas.zb.service;
 
+import java.awt.Checkbox;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,6 +26,7 @@ import com.iscas.zb.tools.EnToChTools;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.CheckBox;
 import oracle.sql.ROWID;
 @Transactional(propagation=Propagation.REQUIRED,timeout=60)
 @Service
@@ -106,6 +108,13 @@ public class TableService {
 		mapList = mapList.stream()
 			.map(map -> {
 				Map data = (Map) ((HashMap)map).clone();
+				Object rowIdObj = data.get("RID");
+				ROWID rId = (ROWID)rowIdObj;
+				String rowId = rId.stringValue();
+				CheckBox cb = new CheckBox();
+				cb.setUserData(rowId);
+				data.put("cb", cb);
+
 				Set set = map.keySet();
 				for (Object obj : set) {
 					String colName = (String)obj;
@@ -309,4 +318,6 @@ public class TableService {
 		}
 
 	}
+
+
 }

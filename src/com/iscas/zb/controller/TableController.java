@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.GroupLayout.Alignment;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,9 +31,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
@@ -69,7 +73,7 @@ public class TableController {
 	//表格编辑
 	@FXML
 	private Button editButton;
-	//表格删除
+	//表格//批量删除
 	@FXML
 	private Button deleteButton;
 	//表格刷新
@@ -115,6 +119,14 @@ public class TableController {
 	//关联表hbox3
 	@FXML
 	private HBox hBox3;
+	//全选
+	@FXML
+	private Button checkBoxSelectButton;
+	//批量级联删除
+	@FXML
+	private Button cascadeDeleteButton;
+
+
 	private Stage stage;
 	@Autowired(required=true)
 	private TableService tableService;
@@ -405,6 +417,22 @@ public class TableController {
 		}
 		selectTable(HandlerModel.UNKOWN);
 	}
+	public void selectTable(HandlerModel hm, Integer count){
+		switch (hm) {
+		case BATHDELETE:
+		{
+			//批量删除
+			if(count >= pageSize){
+				page = page > 1 ? page -1 : 1;
+			}
+			selectTable(HandlerModel.UNKOWN);
+		}
+		default:
+			break;
+		}
+	}
+
+
 	/**初始化表格*/
 	@SuppressWarnings("rawtypes")
 	public void selectTable(HandlerModel hm){
@@ -419,7 +447,19 @@ public class TableController {
 			break;
 		}
 
-
+		case DELETE:
+		{
+			ObservableList obList = tableView.getItems();
+			if(obList != null && obList.size() >0 ){
+				Integer size = obList.size();
+				if(size <= 1){
+					page = page > 1 ? page -1 : 1;
+				}
+			}else{
+				page = page > 1 ? page -1 : 1;
+			}
+			break;
+		}
 		default:
 			break;
 		}
@@ -430,7 +470,13 @@ public class TableController {
 		//获得列信息
 		colInfoMap = tableService.getColInfosByTableName(tableName,TableController.this);
 
-		//先创建列
+		//先创建checkbox列
+		TableColumn<Map<String,Object>, Object> col1 = new
+	    		TableColumn<Map<String,Object>, Object>();
+	    col1.setCellFactory(new TaskCellFactory());
+	    col1.setCellValueFactory(new MapValueFactory("cb"));
+
+	    tableView.getColumns().add(col1);
 
 		Iterator<Entry<String, String>> iterator= colEnChMap.entrySet().iterator();
 		while(iterator.hasNext())
@@ -540,13 +586,11 @@ public class TableController {
 		        //双击进入编辑
 		        cell.setOnMouseClicked(event -> {
 		        	if(event.getClickCount() == 2){
-		        		//当前选中的行
-//		        		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-//		        				.getSelectedItem();
-		        		DialogTools.info("信息", "双击进入行编辑--待开发......");
+		        		editRow();
 		        	}
 
 		        });
+		        cell.setAlignment(Pos.CENTER);
 		        return cell;
 		    }
 		}
@@ -576,19 +620,74 @@ public class TableController {
 				DialogTools.error("错误", "出错了!", "新增数据出错!");
 			}
 	 }
-	 /**编辑*/
-	 public void processEdit(ActionEvent e){
-		//当前选中的行
- 		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
- 				.getSelectedItem();
- 		DialogTools.info("信息", "进入单击编辑--待开发......");
+	 /**全选*/
+	 public void processCheckBoxSelect(ActionEvent e){
+		 String text = checkBoxSelectButton.getText();
+		 if("全选".equals(text)){
+			 ObservableList obList = tableView.getItems();
+			 if(obList != null && obList.size() > 0){
+				 obList.forEach(map -> {
+					 Map dataMap = (Map)map;
+					 CheckBox cb = (CheckBox)dataMap.get("cb");
+					 cb.setSelected(true);
+				 });
+				 checkBoxSelectButton.setText("反选");
+			 }
+
+		 }else{
+			 ObservableList obList = tableView.getItems();
+			 if(obList != null && obList.size() > 0){
+				 obList.forEach(map -> {
+					 Map dataMap = (Map)map;
+					 CheckBox cb = (CheckBox)dataMap.get("cb");
+					 cb.setSelected(false);
+				 });
+				 checkBoxSelectButton.setText("全选");
+			 }
+		 }
+
 	 }
-	 /**删除*/
+	 /**批量删除*/
 	 public void processDelete(ActionEvent e){
-		//当前选中的行
- 		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
- 				.getSelectedItem();
- 		DialogTools.info("信息", "进入单击删除--待开发......");
+		 Integer count = 0;
+ 		ObservableList items = tableView.getItems();
+ 		if(items != null && items.size() > 0){
+			for(Object map : items){
+				Map dataMap = (Map)map;
+				CheckBox cb = (CheckBox)dataMap.get("cb");
+				if(cb.isSelected()){
+					//如果复选框被选中，那么就让此行删除
+					tableService.normalDelete(dataMap, tableName);
+					count++ ;
+				}
+			}
+			if(count > 0){
+				this.selectTable(HandlerModel.BATHDELETE ,count);
+			}
+
+		}
+
+
+	 }
+	 /**批量级联删除*/
+	 public void processCascadeDelete(ActionEvent e){
+		 Integer count = 0;
+	 		ObservableList items = tableView.getItems();
+	 		if(items != null && items.size() > 0){
+				for(Object map : items){
+					Map dataMap = (Map)map;
+					CheckBox cb = (CheckBox)dataMap.get("cb");
+					if(cb.isSelected()){
+						//如果复选框被选中，那么就让此行删除
+						tableService.cascadeDelete(dataMap, tableName);
+						count++ ;
+					}
+				}
+				if(count > 0){
+					this.selectTable(HandlerModel.BATHDELETE ,count);
+				}
+
+			}
 	 }
 
 	 /**刷新*/

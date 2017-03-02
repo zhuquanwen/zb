@@ -11,8 +11,9 @@
       <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#processAdd" text=" 新增" />
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#processEdit" text="编辑" />
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="删除" />
+            <Button fx:id="checkBoxSelectButton" mnemonicParsing="false" onAction="#processCheckBoxSelect" text="全选" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="批量删除" />
+            <Button fx:id="cascadeDeleteButton" mnemonicParsing="false" onAction="#processCascadeDelete" text="批量级联删除" />
             <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#processRefresh" text="刷新" />
          </children>
          <opaqueInsets>
