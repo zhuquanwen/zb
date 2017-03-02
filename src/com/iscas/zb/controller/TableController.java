@@ -335,6 +335,17 @@ public class TableController {
 		 this.selectTable(HandlerModel.DELETE);
 
 	 }
+	 /**级联删除*/
+	 private void cascadeDelete() {
+		//级联删除，将子表对应行都删掉
+		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
+	 				.getSelectedItem();
+		if(map == null || map.size()  <= 0){
+			DialogTools.warn(stage,"警告", "警告","请选择一条要删除的记录!" );
+		}
+		tableService.cascadeDelete(map,tableName);
+		this.selectTable(HandlerModel.DELETE);
+	 }
 
 	/**
 	 * 初始化右键菜单
@@ -359,15 +370,13 @@ public class TableController {
     		DialogTools.info("信息", "右键进入行复制--待开发......");
 		});
 		mi4.setOnAction(event -> {
-
-			//当前选中的行
-    		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-    				.getSelectedItem();
-    		DialogTools.info("信息", "右键进入级联删除--待开发......");
+			cascadeDelete();
 		});
 		rowContextMenu = new ContextMenu(mi1,mi2,mi4,mi3);
 
 	}
+
+
 
 	/**
 	 * 初始化pageSize

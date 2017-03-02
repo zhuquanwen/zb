@@ -210,16 +210,16 @@ public class TableService {
 						sql += condition;
 						nullSql += " set " + childColName1 + " = null , " + childColName2 + " = null " + condition;
 					}
-					if(StaticData.tableRelationMap.get(childTableName) != null){
-						List<Map> listMap = CommonTools.getDBList(unEntityDao, sql);
-						if(listMap != null && listMap.size() > 0){
-							listMap.forEach(sMap -> {
-								//调用递归
-								this.makeChildColNull(sMap, childTableName);
-
-							});
-						}
-					}
+//					if(StaticData.tableRelationMap.get(childTableName) != null){
+//						List<Map> listMap = CommonTools.getDBList(unEntityDao, sql);
+//						if(listMap != null && listMap.size() > 0){
+//							listMap.forEach(sMap -> {
+//								//调用递归
+//								this.makeChildColNull(sMap, childTableName);
+//
+//							});
+//						}
+//					}
 
 					//让子表的对应记录的外键列置为null
 					CommonTools.getDBList(unEntityDao, nullSql);
@@ -228,5 +228,85 @@ public class TableService {
 				});
 			}
 		}
+	}
+
+	public void cascadeDelete(Map<String, Object> map, String tableName) {
+		Object obj = map.get("RID");
+		ROWID rd = (ROWID)obj;
+		String rowid = rd.stringValue();
+
+		String sql = " delete from " + tableName +" where rowid = '"+ rowid +"'";
+		Map mapx = new HashMap();
+		mapx.put("sql", sql);
+		try{
+			unEntityDao.editTableSql(mapx);
+		}catch(Exception e){
+			e.printStackTrace();
+			makeChildCascade(map,tableName);
+			//如果有异常，证明不能这么删除，处理完子表再删除一次
+			unEntityDao.editTableSql(mapx);
+		}
+
+	}
+
+	private void makeChildCascade(Map<String, Object> map, String tableName) {
+		if(StaticData.tableRelationMap != null){
+			List<ChildRelation> crs = StaticData.tableRelationMap.get(tableName);
+			if(crs != null && crs.size() > 0){
+				crs.forEach(cr -> {
+					String childTableName = cr.getChildTableName();
+					List<String> childCols = cr.getChildColNames();
+					List<String> cols = cr.getColNames();
+					String colName1 = "";
+					String colName2 = "";
+					String childColName1 = "";
+					String childColName2 = "";
+					//查询的SQL
+					String sql = "select t.*,t.rowid as rid from " + childTableName + " t ";
+					//将子表外键列置为null的SQL
+					String deleteSql = " delete from  " + childTableName;
+					if(cols != null && cols.size() == 1){
+						colName1 = cols.get(0);
+						childColName1 = childCols.get(0);
+						String condition =
+						 " where " + childColName1 + " = '" + map.get(colName1) + "'";
+						sql += condition;
+						deleteSql +=   condition;
+					}else{
+						colName1 = cols.get(0);
+						childColName1 = childCols.get(0);
+						colName2 = cols.get(1);
+						childColName2 = childCols.get(1);
+						String condition =
+						 " where " + childColName1 + " = '" + map.get(colName1) + "'"
+								+ " and " + childColName2 + " = '" + map.get(colName2) + "'";
+
+						sql += condition;
+						deleteSql +=  condition;
+					}
+					//将子表对应记录删掉
+					try{
+						CommonTools.getDBList(unEntityDao, deleteSql);
+					}catch(Exception e){
+						e.printStackTrace();
+						if(StaticData.tableRelationMap.get(childTableName) != null){
+							List<Map> listMap = CommonTools.getDBList(unEntityDao, sql);
+							if(listMap != null && listMap.size() > 0){
+								listMap.forEach(sMap -> {
+									//调用递归
+									this.makeChildCascade(sMap, childTableName);
+
+								});
+							}
+						}
+						//处理完上面的子表再删除一次
+						CommonTools.getDBList(unEntityDao, deleteSql);
+					}
+
+
+				});
+			}
+		}
+
 	}
 }
