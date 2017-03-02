@@ -1,14 +1,12 @@
 package com.iscas.zb.controller;
 
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.swing.GroupLayout.Alignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,9 +16,8 @@ import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.ChildRelation;
 import com.iscas.zb.model.HandlerModel;
-import com.iscas.zb.model.jaxb.JTable;
-import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.service.TableService;
+import com.iscas.zb.service.UniqueKeyChangeService;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.EnToChTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
@@ -28,9 +25,7 @@ import com.iscas.zb.tools.SpringFxmlLoader;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -49,10 +44,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.MapValueFactory;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
@@ -130,6 +121,8 @@ public class TableController {
 	private Stage stage;
 	@Autowired(required=true)
 	private TableService tableService;
+	@Autowired(required=true)
+	private UniqueKeyChangeService uniqueKeyChangeService;
 	/**表格名称*/
 	private String tableName;
 	/**当前页*/
@@ -368,6 +361,7 @@ public class TableController {
 		MenuItem mi2 = new MenuItem("删除");
 		MenuItem mi4 = new MenuItem("级联删除");
 		MenuItem mi3 = new MenuItem("行复制");
+		MenuItem mi5 = new MenuItem("级联行复制");
 		mi1.setOnAction(event -> {
 			editRow();
 		});
@@ -375,20 +369,111 @@ public class TableController {
 			normalDelete();
 		});
 		mi3.setOnAction(event -> {
-			//进入编辑
-			//当前选中的行
-    		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel()
-    				.getSelectedItem();
-    		DialogTools.info("信息", "右键进入行复制--待开发......");
+			Map<String,Object> rowMap = (Map<String,Object>)tableView.getSelectionModel().getSelectedItem();
+			Map<String,Object> updateMap = new HashMap<String,Object>();
+			ObservableList<Map>  changeObList = uniqueKeyChangeService.getChangeInfos(rowMap,updateMap,tableName);
+			if(changeObList != null && changeObList.size() > 0){
+				//进入行复制
+				Stage stage = new Stage();
+	    		//stage.setTitle(f.getName());
+				AnchorPane root = null;
+				SpringFxmlLoader loader = new SpringFxmlLoader();
+				try {
+					root = (AnchorPane) loader.springLoad("view/UniqueKeyChangeView.fxml", Main.class);
+
+
+	                UniqueKeyChangeController controller = loader.getController();
+	                controller.setRowMap(rowMap);
+	                controller.setObList(changeObList);
+	                controller.setStage(stage);
+	                controller.setCascadeFlag(false);
+	                controller.setUpdateMap(updateMap);
+	                controller.setTableController(TableController.this);
+	                controller.setTableName(tableName);
+	                controller.select();
+	                Scene scene = new Scene(root);
+	                stage.setScene(scene);
+
+	                stage.setTitle("修改主键和唯一键");
+	                stage.show();
+				} catch (Exception e) {
+					e.printStackTrace();
+					DialogTools.error("错误", "出错了!", "生成修改主键唯一键页面出错!");
+				}
+			}else{
+				try{
+					this.insertCopy(rowMap,updateMap,tableName,false);
+				}catch(Exception ex){
+					ex.printStackTrace();
+					DialogTools.exception(stage, "错误", "出错了!", "复制数据出现错误", ex);
+				}
+			}
+
 		});
 		mi4.setOnAction(event -> {
 			cascadeDelete();
 		});
-		rowContextMenu = new ContextMenu(mi1,mi2,mi4,mi3);
+
+		mi5.setOnAction(event -> {
+			Map<String,Object> rowMap = (Map<String,Object>)tableView.getSelectionModel().getSelectedItem();
+			Map<String,Object> updateMap = new HashMap<String,Object>();
+			ObservableList<Map>  changeObList = uniqueKeyChangeService.getChangeInfos(rowMap,updateMap,tableName);
+			if(changeObList != null && changeObList.size() > 0){
+				//进入行复制
+				Stage stage = new Stage();
+	    		//stage.setTitle(f.getName());
+				AnchorPane root = null;
+				SpringFxmlLoader loader = new SpringFxmlLoader();
+				try {
+					root = (AnchorPane) loader.springLoad("view/UniqueKeyChangeView.fxml", Main.class);
+
+
+	                UniqueKeyChangeController controller = loader.getController();
+	                controller.setRowMap(rowMap);
+	                controller.setObList(changeObList);
+	                controller.setStage(stage);
+	                controller.setCascadeFlag(true);
+	                controller.setUpdateMap(updateMap);
+	                controller.setTableController(TableController.this);
+	                controller.setTableName(tableName);
+	                controller.select();
+	                Scene scene = new Scene(root);
+	                stage.setScene(scene);
+
+	                stage.setTitle("修改主键和唯一键(*子表有与主表无关的主键或唯一键，无法实现级联复制)");
+	                stage.show();
+				} catch (Exception e) {
+					e.printStackTrace();
+					DialogTools.error("错误", "出错了!", "生成修改主键唯一键页面出错!");
+				}
+			}else{
+				try{
+					boolean flag = this.insertCopy(rowMap,updateMap,tableName,true);
+					if(!flag){
+						DialogTools.warn(stage, "警告", "警告","级联复制子表出错,问题可能为:"
+								+ "1.子表可能存在主键或唯一键;2.数据库存在触发器，已经实现了复制");
+					}
+				}catch(Exception ex){
+					ex.printStackTrace();
+					DialogTools.exception(stage, "错误", "出错了!", "复制数据出现错误", ex);
+				}
+			}
+
+		});
+		rowContextMenu = new ContextMenu(mi1,mi2,mi4,mi3,mi5);
 
 	}
 
 
+
+	/**复制新增*/
+	public boolean insertCopy(Map<String, Object> rowMap, Map<String, Object> updateMap,
+			String tableName2, boolean cascadeFlag) {
+		boolean flag = uniqueKeyChangeService.copyRow(rowMap,updateMap,tableName,cascadeFlag);
+		this.selectTable(HandlerModel.INSERT);
+		return flag;
+
+	}
 
 	/**
 	 * 初始化pageSize

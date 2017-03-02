@@ -44,4 +44,12 @@ public class SqlData {
 	public static String tableRelationSqlOrderBy1 = " order by 主键表名,外键表名,外键列名,主键列名 ";
 	/**查询主表对应的子表信息SQL orderby2*/
 	public static String tableRelationSqlOrderBy2 = " order by 外键表名,主键表名,外键列名,主键列名 ";
+
+	/**获取一个表的主键和唯一键*/
+	public static String getUniqueSql = "select t1.table_name,"
+			+ "t2.column_name,t2.position from user_constraints t1,"
+			+ "user_cons_columns t2 where t1.table_name = t2.table_name "
+			+ " and t1.constraint_name = t2.constraint_name and "
+			+ "(t1.constraint_type = 'P' or t1.constraint_type = 'U') "
+			+ " and t1.table_name = '@tableName'";
 }

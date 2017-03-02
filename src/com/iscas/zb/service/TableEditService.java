@@ -133,7 +133,7 @@ public class TableEditService {
     								cb.setOnAction(e -> {
     									TextField tf = updateChMap.get(colName);
     									if(tf != null){
-    										tf.setText(EnToChTools.enToCh_contentCanNull(cb.getEditor().getText()));
+    										tf.setText(EnToChTools.enToCh_contentCanNull(cb.getValue()));
     									}
     								});
     								updateMap.put(colName, cb);
@@ -199,122 +199,7 @@ public class TableEditService {
 
 
 
-	@SuppressWarnings("unchecked")
-	public Node getNode(String tableName,Map map,Map<String,Object> updateMap
-			,Map<String,TextField> updateChMap,Map<String,EditTableCell> etMap) {
-		Node node = null;
-		String colName = (String)map.get("colName");
-		//下拉列表的判断
-		if(StaticData.childTableRelationViewMap != null){
-			List<ChildRelation> crs = StaticData.childTableRelationViewMap
-					.get(tableName);
-			if(crs != null){
 
-				for(ChildRelation cr:crs){
-					List<String> cols =  cr.getChildColNames();
-					String tableNamex = cr.getTableName();
-					List<String> mainCols = cr.getColNames();
-					String mainTableCol = "";
-					if(cols != null){
-						String sql = "select ";
-						String colNamex = "";
-						String colNamey = "";
-						if(cols.size() == 1){
-							colNamex = cols.get(0);
-						}else{
-							colNamex = cols.get(0);
-							colNamey = cols.get(1);
-						}
-						boolean flag = false;
-						if(colNamex.equals(colName)){
-							sql += mainCols.get(0) + " from " +
-									tableNamex ;
-							flag = true;
-							mainTableCol = mainCols.get(0);
-						}
-						if(colNamey.equals(colName)){
-							sql += mainCols.get(1) + " from " +
-									tableNamex ;
-							flag = true;
-							mainTableCol = mainCols.get(1);
-						}
-						if(flag){
-							List<Map> comboMap = CommonTools.getDBList(unEntityDao, sql);
-							ObservableList obList = FXCollections.observableArrayList();
-							final String mtc = mainTableCol;
-							comboMap.forEach(cmap -> {
-								obList.add(cmap.get(mtc));
-							});
-							//ObservableList subObList = FXCollections.observableArrayList();
-							ComboBox cb = new ComboBox();
-
-							cb.setEditable(true);
-							cb.setItems(obList);
-							cb.setValue(map.get("value"));
-
-							cb.setItems(obList);
-
-							cb.getEditor().setOnKeyReleased( e-> {
-								String val = cb.getEditor().getText();
-								ObservableList subObList = null;
-								if(val == null || "".equals(val)){
-									subObList = obList;
-									cb.getEditor().setText("");
-								}else{
-									subObList = FXCollections.observableArrayList();
-									for(Object str : obList) {
-										if(str.toString().contains(val)){
-											subObList.add(str);
-										}
-									}
-								}
-								//先让其show一次所有的，再show过滤的，防止
-								//弹出的面板太小
-								cb.setItems(obList);
-								cb.show();
-								cb.setItems(subObList);
-								cb.show();
-								cb.getEditor().setText(val);
-								cb.getEditor().end();
-								cb.setContextMenu(null);
-
-							});
-							updateMap.put(colName, cb);
-							//如果有中文翻译
-							if(etMap.get(colName + "_en") != null){
-								EditTableCell etc = etMap.get(colName + "_en");
-								Object obj = map.get("value");
-								String ch = EnToChTools.enToCh_contentCanNull(obj);
-								TextField tf = new TextField(ch);
-								updateChMap.put(colName, tf);
-								etc.startEdit1(tf);
-							}
-
-							node = cb;
-							break;
-						}
-
-					}
-				}
-			}
-		}
-		if(node == null){
-			String obj = map.get("value") + "";
-			TextField tf = new TextField(obj);
-			if(colName.endsWith("_en")){
-				String preColName = colName.substring(0,colName.indexOf("_en"));
-				if(updateChMap.get(preColName) == null){
-					updateChMap.put(preColName, tf);
-				}
-
-			}else{
-				updateMap.put(colName, tf);
-
-			}
-			node = tf;
-		}
-		return node;
-	}
 	 public String getStringField(Object o){
 		 return o.toString();
 		}

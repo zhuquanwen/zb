@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="432.0" prefWidth="414.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.iscas.zb.controller.UniqueKeyChangeController">
+   <children>
+      <HBox alignment="CENTER" layoutY="403.0" prefHeight="31.0" prefWidth="414.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#processCommit" text="确定" />
+            <Button mnemonicParsing="false" onAction="#processCancel" text="取消" />
+         </children>
+      </HBox>
+      <TableView fx:id="tableView" prefHeight="403.0" prefWidth="414.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>
