@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.controlsfx.dialog.Dialogs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -16,10 +15,12 @@ import com.iscas.zb.model.jaxb.UnEditCol;
 import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.tools.DialogTools;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,6 +44,12 @@ public class TableEditController {
 	private Button disponseButton;
 	@FXML
 	private TableView tableView;
+	@FXML
+	private ProgressIndicator progressIndicator;
+	@FXML
+	private Button commitButton;
+	@FXML
+	private Button cancelButton;
 	private Stage stage;
 	private String tableName;
 	private Map rowMap;
@@ -53,6 +60,7 @@ public class TableEditController {
 	private Map<String,TextField> updateChMap = new HashMap<String,TextField>();
 	private TableController tc;
 	private boolean insertFlag = false;
+
 
 	public boolean isInsertFlag() {
 		return insertFlag;
@@ -94,7 +102,19 @@ public class TableEditController {
 		disponseCh = false;
 		//初始化不可编辑列
 		this.initUnEdits();
+		progressIndicator.setVisible(false);
 	}
+	private void allButtonsDisabled(boolean flag){
+		disponseButton.setDisable(flag);
+		commitButton.setDisable(flag);
+		cancelButton.setDisable(flag);
+		if(flag){
+			progressIndicator.setVisible(true);
+		}else{
+			progressIndicator.setVisible(false);
+		}
+	}
+
 	private void initUnEdits(){
 		if(StaticData.unEditCols != null){
 			List<UnEditCol> uecs = StaticData.unEditCols.getUecs();
@@ -110,21 +130,46 @@ public class TableEditController {
 	/**确定*/
 	public void processCommit(ActionEvent e){
 		try{
-			String rowid = null;
+			String[] rowid = new String[1];
 			Object obj = rowMap.get("RID");
 			if(obj != null){
 				ROWID rd = (ROWID)obj;
-				rowid = rd.stringValue();
+				rowid[0] = rd.stringValue();
 			}
+			 new Thread(new Runnable() {
+				 @Override public void run() {
+				 Platform.runLater(new Runnable() {
+					@Override public void run() {
+						allButtonsDisabled(true);
+					}
+				 });
+				 try{
+					 tableEditService.commit(updateMap,updateChMap,tableName,rowid[0],insertFlag);
+				 }catch(Exception e){
+					 e.printStackTrace();
+					 DialogTools.error(stage, "错误", "出错了","编辑提交出错");
+					 return;
+				 }finally{
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								allButtonsDisabled(false);
+							}
+					 });
+				 }
 
-			tableEditService.commit(updateMap,updateChMap,tableName,rowid,insertFlag);
 
-			HandlerModel hm =HandlerModel.UNKOWN;
-			if(insertFlag){
-				hm = HandlerModel.INSERT;
-			}
-			tc.selectTable(hm);
-			stage.close();
+				  Platform.runLater(new Runnable() {
+						@Override public void run() {
+							HandlerModel hm =HandlerModel.UNKOWN;
+							if(insertFlag){
+								hm = HandlerModel.INSERT;
+							}
+							tc.selectTable(hm);
+							stage.close();
+						}
+					 });
+				 }
+				}).start();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			DialogTools.exception(stage, "错误", "出现异常", "编辑提交失败！", ex);
@@ -151,26 +196,57 @@ public class TableEditController {
 
 	/**显示查询信息*/
 	public void select() {
-		//生成列
-		tableView.getColumns().clear();
-		tableView.getSelectionModel().setCellSelectionEnabled(true);
-		TableColumn<Map<String,Object>, Object> col1 = new
-		    		TableColumn<Map<String,Object>, Object>("属性");
-		col1.setCellFactory(new TaskCellFactory());
-		col1.setCellValueFactory(new MapValueFactory("key"));
-		col1.setEditable(false);
-		col1.setPrefWidth(275);
-		TableColumn<Map<String,Object>, Object> col2 = new
-	    		TableColumn<Map<String,Object>, Object>("属性值");
-		col2.setCellFactory(new TaskCellFactory());
-		col2.setCellValueFactory(new MapValueFactory("value"));
-		col2.setPrefWidth(200);
-		tableView.getColumns().add(col1);
-		tableView.getColumns().add(col2);
+
 		//填充数据
-		obList = tableEditService.rowMapToColMap(rowMap, tableName ,
-				disponseCh,updateMap,updateChMap,unEditMap,insertFlag);
-		tableView.setItems(obList);
+		new Thread(new Runnable() {
+			 @Override public void run() {
+			 Platform.runLater(new Runnable() {
+				@Override public void run() {
+					allButtonsDisabled(true);
+				}
+			 });
+			 try{
+				 obList = tableEditService.rowMapToColMap(rowMap, tableName ,
+							disponseCh,updateMap,updateChMap,unEditMap,insertFlag);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 DialogTools.error(stage, "错误", "出错了","显示编辑数据出错!");
+				 return;
+			 }finally{
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							allButtonsDisabled(false);
+						}
+				 });
+			 }
+
+
+			  Platform.runLater(new Runnable() {
+					@Override public void run() {
+						//生成列
+						tableView.getColumns().clear();
+						tableView.getSelectionModel().setCellSelectionEnabled(true);
+						TableColumn<Map<String,Object>, Object> col1 = new
+						    		TableColumn<Map<String,Object>, Object>("属性");
+						col1.setCellFactory(new TaskCellFactory());
+						col1.setCellValueFactory(new MapValueFactory("key"));
+						col1.setEditable(false);
+						col1.setPrefWidth(275);
+						TableColumn<Map<String,Object>, Object> col2 = new
+					    		TableColumn<Map<String,Object>, Object>("属性值");
+						col2.setCellFactory(new TaskCellFactory());
+						col2.setCellValueFactory(new MapValueFactory("value"));
+						col2.setPrefWidth(200);
+						tableView.getColumns().add(col1);
+						tableView.getColumns().add(col2);
+						tableView.setItems(obList);
+					}
+				 });
+			 }
+			}).start();
+
+
+
 	}
 	private class TaskCellFactory implements Callback<TableColumn<Map<String,Object>, Object>, TableCell<Map<String,Object>, Object>> {
 		   @Override

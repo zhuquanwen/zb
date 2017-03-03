@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.iscas.zb.model.HandlerModel;
 import com.iscas.zb.service.UniqueKeyChangeService;
 import com.iscas.zb.tools.DialogTools;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,6 +36,12 @@ import javafx.util.Callback;
 public class UniqueKeyChangeController {
 	@FXML
 	private TableView tableView;
+	@FXML
+	private Button commitButton;
+	@FXML
+	private Button cancelButton;
+	@FXML
+	private ProgressIndicator progressIndicator;
 	@Autowired
 	private UniqueKeyChangeService uniqueKeyChangeService;
 	private ObservableList obList;
@@ -88,17 +98,55 @@ public class UniqueKeyChangeController {
 	}
 	@FXML
 	private void initialize() {
+		progressIndicator.setVisible(false);
+	}
 
+	private void allButtonsDisabled(boolean flag){
+		commitButton.setDisable(flag);
+		cancelButton.setDisable(flag);
+		if(flag){
+			progressIndicator.setVisible(true);
+		}else{
+			progressIndicator.setVisible(false);
+		}
 	}
 	/**确认复制*/
 	public void processCommit(ActionEvent e){
 		try{
-			boolean flag = tableController.insertCopy(rowMap, updateMap, tableName ,cascadeFlag);
-			if(!flag){
-				DialogTools.warn(stage, "警告", "警告","级联复制子表出错,问题可能为:"
-						+ "1.子表可能存在主键或唯一键,没有实现复制;2.数据库存在触发器，已经实现了复制");
-			}
-			stage.close();
+			new Thread(new Runnable() {
+				 @Override public void run() {
+				 Platform.runLater(new Runnable() {
+					@Override public void run() {
+						allButtonsDisabled(true);
+					}
+				 });
+				 try{
+					 boolean flag = tableController.insertCopy(rowMap, updateMap, tableName ,cascadeFlag);
+						if(!flag){
+							DialogTools.warn(stage, "警告", "警告","级联复制子表出错,问题可能为:"
+									+ "1.子表可能存在主键或唯一键,没有实现复制;2.数据库存在触发器，已经实现了复制");
+							return;
+						}
+				 }catch(Exception e){
+					 e.printStackTrace();
+					 DialogTools.error(stage, "错误", "出错了","复制提交出错");
+					 return;
+				 }finally{
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								allButtonsDisabled(false);
+							}
+					 });
+				 }
+
+
+				  Platform.runLater(new Runnable() {
+						@Override public void run() {
+							stage.close();
+						}
+					 });
+				 }
+				}).start();
 
 		}catch(Exception ex){
 			ex.printStackTrace();

@@ -41,34 +41,7 @@ public class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
 		this.updateChMap = updateChMap;
 		this.insertFlag = insertFlag;
 
-//        this.setOnMouseClicked(event -> {
-//        	if(event.getClickCount() == 1){
-//        		//不可编辑列
-//        		//如果是属性列，不可编辑
-//        		if("属性".equals(this.getTableColumn().getText())){
-//        			return;
-//        		}
-//        		//如果为配置的不可编辑列，也不可编辑
-//        		Integer index = this.getIndex();
-//        		if(this.getIndex() < 0 ){
-//        			DialogTools.error(stage, "错误", "出错了!", "进入编辑状态失败!");
-//        			return;
-//        		}
-//        		Map map = (Map)obList.get(index);
-//        		Map<String,String> mapx = new HashMap<String,String>();
-//        		mapx.put(tableName, (String)map.get("colName"));
-//        		if(unEditMap.get(mapx) != null){
-//        			return ;
-//        		}
-//        		Node node = null;
-//        		node = tableEditService.getNode(tableName,map,updateMap,updateChMap,etMap);
-//
-//        		((Map)obList.get(0)).put("key", "hahahah");
-//        		this.getTableView().setItems(obList);
-//        		this.startEdit1( node);
-//
-//        	}
-//        });
+
 	}
 	@Override
 	protected void updateItem(Object item, boolean empty) {

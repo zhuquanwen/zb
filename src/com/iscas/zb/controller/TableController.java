@@ -22,6 +22,7 @@ import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.EnToChTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -36,6 +37,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -117,6 +119,9 @@ public class TableController {
 	//批量级联删除
 	@FXML
 	private Button cascadeDeleteButton;
+	//加载按钮
+	@FXML
+	private ProgressIndicator progressIndicator;
 
 
 	private Stage stage;
@@ -215,6 +220,30 @@ public class TableController {
 		 //initTable();
 		 initToolTips();
 	 }
+
+	private void allButtonsDisabled(boolean flag){
+		addButton.setDisable(flag);
+		deleteButton.setDisable(flag);
+		refreshButton.setDisable(flag);
+		refreshChButton.setDisable(flag);
+		pageSizeCombobox.setDisable(flag);
+		firstPageLink.setDisable(flag);
+		frontPageLink.setDisable(flag);
+		currentPageLabel.setDisable(flag);
+		nextPageLink.setDisable(flag);
+		lastPageLink.setDisable(flag);
+		totalPageLabel.setDisable(flag);
+		turnPageTextField.setDisable(flag);
+		turnPageLink.setDisable(flag);
+		checkBoxSelectButton.setDisable(flag);
+		cascadeDeleteButton.setDisable(flag);
+		if(flag){
+			progressIndicator.setVisible(true);
+		}else{
+			progressIndicator.setVisible(false);
+		}
+	}
+
 	private void initToolTips() {
 		addButton.setTooltip(new Tooltip("新增一条记录"));
 		deleteButton.setTooltip(new Tooltip("批量删除被选中的复选框对应的记录"));
@@ -358,9 +387,35 @@ public class TableController {
 		 if(map == null || map.size()  <= 0){
 			 DialogTools.warn(stage,"警告", "警告","请选择一条要删除的记录!" );
 		 }
-		 tableService.normalDelete(map,tableName);
-		 this.selectTable(HandlerModel.DELETE);
+		 new Thread(new Runnable() {
+				 @Override public void run() {
+				 Platform.runLater(new Runnable() {
+					@Override public void run() {
+						allButtonsDisabled(true);
+					}
+				 });
+				 try{
+					 tableService.normalDelete(map,tableName);
+				 }catch(Exception e){
+					 e.printStackTrace();
+					 DialogTools.error(stage, "错误", "出错了","删除出错");
+					 return;
+				 }finally{
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								allButtonsDisabled(false);
+							}
+					 });
+				 }
 
+
+				  Platform.runLater(new Runnable() {
+						@Override public void run() {
+							TableController.this.selectTable(HandlerModel.DELETE);
+						}
+					 });
+				 }
+				}).start();
 	 }
 	 /**级联删除*/
 	 private void cascadeDelete() {
@@ -370,8 +425,33 @@ public class TableController {
 		if(map == null || map.size()  <= 0){
 			DialogTools.warn(stage,"警告", "警告","请选择一条要删除的记录!" );
 		}
-		tableService.cascadeDelete(map,tableName);
-		this.selectTable(HandlerModel.DELETE);
+		 new Thread(new Runnable() {
+			 @Override public void run() {
+			 Platform.runLater(new Runnable() {
+				@Override public void run() {
+					allButtonsDisabled(true);
+				}
+			 });
+			 try{
+				 tableService.cascadeDelete(map,tableName);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 DialogTools.error(stage, "错误", "出错了","级联删除出错");
+				 return;
+			 }finally{
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							allButtonsDisabled(false);
+						}
+				 });
+			 }
+			  Platform.runLater(new Runnable() {
+					@Override public void run() {
+						TableController.this.selectTable(HandlerModel.DELETE);
+					}
+				 });
+			 }
+			}).start();
 	 }
 
 	/**
@@ -600,22 +680,50 @@ public class TableController {
 		//获得totalPage
 		//totalPage = tableService.getTotalPage(tableName,pageSize," where 1 = 1 ");
 
-		//添加内容
-		obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
-		tableView.setItems(obList);
-		if(obList != null && obList.size() > 0){
-			tableView.getSelectionModel().select(0);
-		}
+		new Thread(new Runnable() {
+			 @Override public void run() {
+			 Platform.runLater(new Runnable() {
+				@Override public void run() {
+					allButtonsDisabled(true);
+				}
+			 });
+			 try{
+				 obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 DialogTools.error(stage, "错误", "出错了","读取数据出错");
+				 return;
+			 }finally{
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							allButtonsDisabled(false);
+						}
+				 });
+			 }
 
-		//添加右键菜单
-		tableView.setRowFactory(new Callback<TableView, TableRow>() {
-	           @Override
-	           public TableRow call(TableView param) {
-	               return new TableRowControl();
-	           }
-	       });
-		setDownMenu(condition);
-		initRelationTable();
+
+			  Platform.runLater(new Runnable() {
+					@Override public void run() {
+						tableView.setItems(obList);
+						if(obList != null && obList.size() > 0){
+							tableView.getSelectionModel().select(0);
+						}
+
+						//添加右键菜单
+						tableView.setRowFactory(new Callback<TableView, TableRow>() {
+					           @Override
+					           public TableRow call(TableView param) {
+					               return new TableRowControl();
+					           }
+					       });
+						setDownMenu(condition);
+						initRelationTable();
+						 progressIndicator.setVisible(false);
+					}
+				 });
+			 }
+			}).start();
+
 	}
 
 	private void setDownMenu(String condition) {
@@ -757,53 +865,135 @@ public class TableController {
 
 	 /**刷新汉化*/
 	 public void processRefreshCh(ActionEvent e){
-		 enToChTools.getColMap(true);
-		 enToChTools.getContentMap(true);
-		 enToChTools.getTableMap(true);
-		 selectTable(HandlerModel.UNKOWN);
+		 new Thread(new Runnable() {
+			 @Override public void run() {
+			 Platform.runLater(new Runnable() {
+				@Override public void run() {
+					allButtonsDisabled(true);
+				}
+			 });
+			 try{
+				 enToChTools.getColMap(true);
+				 enToChTools.getContentMap(true);
+				 enToChTools.getTableMap(true);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 DialogTools.error(stage, "错误", "出错了","刷新汉化出错");
+				 return;
+			 }finally{
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							allButtonsDisabled(false);
+						}
+				 });
+			 }
+
+
+			  Platform.runLater(new Runnable() {
+					@Override public void run() {
+						selectTable(HandlerModel.UNKOWN);
+					}
+				 });
+			 }
+			}).start();
 	 }
 
 	 /**批量删除*/
 	 public void processDelete(ActionEvent e){
-		 Integer count = 0;
+
+
+		 Integer[] count = new Integer[1];
+		 count[0] = 0;
  		ObservableList items = tableView.getItems();
  		if(items != null && items.size() > 0){
-			for(Object map : items){
-				Map dataMap = (Map)map;
-				CheckBox cb = (CheckBox)dataMap.get("cb");
-				if(cb.isSelected()){
-					//如果复选框被选中，那么就让此行删除
-					tableService.normalDelete(dataMap, tableName);
-					count++ ;
-				}
-			}
-			if(count > 0){
-				this.selectTable(HandlerModel.BATHDELETE ,count);
-			}
+ 			 new Thread(new Runnable() {
+ 				 @Override public void run() {
+ 				 Platform.runLater(new Runnable() {
+ 					@Override public void run() {
+ 						allButtonsDisabled(true);
+ 					}
+ 				 });
+ 				 try{
+ 					for(Object map : items){
+ 						Map dataMap = (Map)map;
+ 						CheckBox cb = (CheckBox)dataMap.get("cb");
+ 						if(cb.isSelected()){
+ 							//如果复选框被选中，那么就让此行删除
+ 							tableService.normalDelete(dataMap, tableName);
+ 							count[0]++ ;
+ 						}
+ 					}
+ 				 }catch(Exception e){
+ 					 e.printStackTrace();
+ 					 DialogTools.error(stage, "错误", "出错了","批量删除出错");
+ 					 return;
+ 				 }finally{
+ 					 Platform.runLater(new Runnable() {
+ 							@Override public void run() {
+ 								allButtonsDisabled(false);
+ 							}
+ 					 });
+ 				 }
 
+
+ 				  Platform.runLater(new Runnable() {
+ 						@Override public void run() {
+ 							if(count[0] > 0){
+ 								TableController.this.selectTable(HandlerModel.BATHDELETE ,count[0]);
+ 							}
+ 						}
+ 					 });
+ 				 }
+ 				}).start();
 		}
-
-
 	 }
 	 /**批量级联删除*/
 	 public void processCascadeDelete(ActionEvent e){
-		 Integer count = 0;
-	 		ObservableList items = tableView.getItems();
-	 		if(items != null && items.size() > 0){
-				for(Object map : items){
-					Map dataMap = (Map)map;
-					CheckBox cb = (CheckBox)dataMap.get("cb");
-					if(cb.isSelected()){
-						//如果复选框被选中，那么就让此行删除
-						tableService.cascadeDelete(dataMap, tableName);
-						count++ ;
-					}
-				}
-				if(count > 0){
-					this.selectTable(HandlerModel.BATHDELETE ,count);
-				}
+		 Integer[] count = new Integer[1];
+		 count[0] = 0;
+ 		ObservableList items = tableView.getItems();
+ 		if(items != null && items.size() > 0){
+ 			 new Thread(new Runnable() {
+ 				 @Override public void run() {
+ 				 Platform.runLater(new Runnable() {
+ 					@Override public void run() {
+ 						allButtonsDisabled(true);
+ 					}
+ 				 });
+ 				 try{
+ 					for(Object map : items){
+ 						Map dataMap = (Map)map;
+ 						CheckBox cb = (CheckBox)dataMap.get("cb");
+ 						if(cb.isSelected()){
+ 							//如果复选框被选中，那么就让此行删除
+ 							tableService.cascadeDelete(dataMap, tableName);
+ 							count[0]++ ;
+ 						}
+ 					}
+ 				 }catch(Exception e){
+ 					 e.printStackTrace();
+ 					 DialogTools.error(stage, "错误", "出错了","批量级联删除出错");
+ 					 return;
+ 				 }finally{
+ 					 Platform.runLater(new Runnable() {
+ 							@Override public void run() {
+ 								allButtonsDisabled(false);
+ 							}
+ 					 });
+ 				 }
 
-			}
+
+ 				  Platform.runLater(new Runnable() {
+ 						@Override public void run() {
+ 							if(count[0] > 0){
+ 								TableController.this.selectTable(HandlerModel.BATHDELETE ,count[0]);
+ 							}
+ 						}
+ 					 });
+ 				 }
+ 				}).start();
+		}
+
 	 }
 
 	 /**刷新*/
