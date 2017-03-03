@@ -70,6 +70,10 @@ public class TableController {
 	//表格刷新
 	@FXML
 	private Button refreshButton;
+	//显示/隐藏中文
+	@FXML
+	private Button viewChButton;
+
 	//表格汉化刷新
 	@FXML
 	private Button refreshChButton;
@@ -155,6 +159,7 @@ public class TableController {
 	private String selectCondition = " ";
 	private Boolean childFlag = false;
 	private ObservableList obList = null;
+	private boolean viewColFlag = false;
 
 	 public String getSqlCondition() {
 		return sqlCondition;
@@ -237,6 +242,7 @@ public class TableController {
 		turnPageLink.setDisable(flag);
 		checkBoxSelectButton.setDisable(flag);
 		cascadeDeleteButton.setDisable(flag);
+		viewChButton.setDisable(flag);
 		if(flag){
 			progressIndicator.setVisible(true);
 		}else{
@@ -260,6 +266,7 @@ public class TableController {
 		turnPageLink.setTooltip(new Tooltip("确认页面跳转"));
 		checkBoxSelectButton.setTooltip(new Tooltip("全选或反选复选框"));
 		cascadeDeleteButton.setTooltip(new Tooltip("批量级联删除选中复选框对应的记录"));
+		viewChButton.setTooltip(new Tooltip("显示或者隐藏中文对照列"));
 	}
 
 	/**初始化关联表按钮*/
@@ -666,6 +673,7 @@ public class TableController {
 	    tableView.getColumns().add(col1);
 
 		Iterator<Entry<String, String>> iterator= colEnChMap.entrySet().iterator();
+		String lastCol = "";
 		while(iterator.hasNext())
 		{
 		    Entry<String, String> entry = iterator.next();
@@ -675,7 +683,14 @@ public class TableController {
 		    		TableColumn<Map<String,Object>, Object>(colCh);
 		    col.setCellFactory(new TaskCellFactory());
 		    col.setCellValueFactory(new MapValueFactory(colEn));
-		    tableView.getColumns().add(col);
+		    //如果点击隐藏中文列
+		    if(!viewColFlag && colEn != null && colEn.endsWith("_EN")
+		    		&& colEn.contains(lastCol)){
+		    	//啥都不干
+		    }else{
+		    	tableView.getColumns().add(col);
+		    }
+		    lastCol = colEn;
 		}
 		//获得totalPage
 		//totalPage = tableService.getTotalPage(tableName,pageSize," where 1 = 1 ");
@@ -1040,6 +1055,17 @@ public class TableController {
 			 return;
 		 }
 		 page = turnPage;
+		 selectTable(HandlerModel.UNKOWN);
+	 }
+	 /**显示/隐藏中文列*/
+	 public void processViewCh(ActionEvent e){
+		 if("隐藏中文列".equals(viewChButton.getText())){
+			 viewChButton.setText("显示中文列");
+			 viewColFlag = false;
+		 }else{
+			 viewChButton.setText("隐藏中文列");
+			 viewColFlag = true;
+		 }
 		 selectTable(HandlerModel.UNKOWN);
 	 }
 }

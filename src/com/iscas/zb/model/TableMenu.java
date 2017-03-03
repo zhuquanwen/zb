@@ -8,6 +8,7 @@ public enum TableMenu {
 	SSST("装备设施实体",3),
 	YXSJ("原型数据",4),
 	HSXS("毁伤系数",5),
+	ZYDZ("中英对照",6)
 	;
 	private String name;
 	private int index;

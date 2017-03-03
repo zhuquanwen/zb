@@ -94,7 +94,8 @@ public class TableService {
 
 	/**»ñµÃdata*/
 	public ObservableList getTableData(String tableName , Integer page, Integer pageSize ,
-			LinkedHashMap<String,Map<String,String>> colInfoMap , TableController tc , String condition){
+			LinkedHashMap<String,Map<String,String>> colInfoMap ,
+			TableController tc , String condition){
 
 		ObservableList obList = null;
 		tableName = tableName.toUpperCase();
