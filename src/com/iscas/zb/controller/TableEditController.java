@@ -147,7 +147,13 @@ public class TableEditController {
 					 tableEditService.commit(updateMap,updateChMap,tableName,rowid[0],insertFlag);
 				 }catch(Exception e){
 					 e.printStackTrace();
-					 DialogTools.error(stage, "错误", "出错了","编辑提交出错");
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								 DialogTools.error(stage, "错误", "出错了","编辑提交出错");
+								 return;
+							}
+						 });
+
 					 return;
 				 }finally{
 					 Platform.runLater(new Runnable() {
@@ -210,7 +216,12 @@ public class TableEditController {
 							disponseCh,updateMap,updateChMap,unEditMap,insertFlag);
 			 }catch(Exception e){
 				 e.printStackTrace();
-				 DialogTools.error(stage, "错误", "出错了","显示编辑数据出错!");
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							 DialogTools.error(stage, "错误", "出错了","显示编辑数据出错");
+							 return;
+						}
+				 });
 				 return;
 			 }finally{
 				 Platform.runLater(new Runnable() {

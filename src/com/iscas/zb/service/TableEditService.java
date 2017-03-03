@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.StaticData;
@@ -30,6 +32,7 @@ import oracle.sql.ROWID;
 *@author: zhuquanwen
 *@desc: 这是一个类说明
 */
+@Transactional(propagation=Propagation.REQUIRED,timeout=60)
 @Service
 public class TableEditService {
 	@Autowired

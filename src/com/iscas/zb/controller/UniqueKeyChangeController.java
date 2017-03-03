@@ -129,7 +129,12 @@ public class UniqueKeyChangeController {
 						}
 				 }catch(Exception e){
 					 e.printStackTrace();
-					 DialogTools.error(stage, "错误", "出错了","复制提交出错");
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								 DialogTools.error(stage, "错误", "出错了","复制提交出错");
+								 return;
+							}
+					 });
 					 return;
 				 }finally{
 					 Platform.runLater(new Runnable() {

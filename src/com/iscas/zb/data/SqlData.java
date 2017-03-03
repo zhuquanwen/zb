@@ -52,4 +52,12 @@ public class SqlData {
 			+ " and t1.constraint_name = t2.constraint_name and "
 			+ "(t1.constraint_type = 'P' or t1.constraint_type = 'U') "
 			+ " and t1.table_name = '@tableName'";
+
+	/**获取一个表的主键*/
+	public static String getPrimarySql = "select t1.table_name,"
+			+ "t2.column_name,t2.position from user_constraints t1,"
+			+ "user_cons_columns t2 where t1.table_name = t2.table_name "
+			+ " and t1.constraint_name = t2.constraint_name and "
+			+ "(t1.constraint_type = 'P' ) "
+			+ " and t1.table_name = '@tableName'";
 }

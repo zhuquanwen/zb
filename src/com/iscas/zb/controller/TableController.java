@@ -49,6 +49,7 @@ import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -77,6 +78,9 @@ public class TableController {
 	//表格汉化刷新
 	@FXML
 	private Button refreshChButton;
+	//查询
+	@FXML
+	private Button selectButton;
 
 	//表格显示窗口
 	@FXML
@@ -159,9 +163,25 @@ public class TableController {
 	private String selectCondition = " ";
 	private Boolean childFlag = false;
 	private ObservableList obList = null;
-	private boolean viewColFlag = false;
+	private boolean viewColFlag = true;
 
-	 public String getSqlCondition() {
+	 public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public String getSelectCondition() {
+		return selectCondition;
+	}
+
+	public void setSelectCondition(String selectCondition) {
+		this.selectCondition = selectCondition;
+	}
+
+	public String getSqlCondition() {
 		return sqlCondition;
 	}
 
@@ -243,6 +263,7 @@ public class TableController {
 		checkBoxSelectButton.setDisable(flag);
 		cascadeDeleteButton.setDisable(flag);
 		viewChButton.setDisable(flag);
+		selectButton.setDisable(flag);
 		if(flag){
 			progressIndicator.setVisible(true);
 		}else{
@@ -267,6 +288,7 @@ public class TableController {
 		checkBoxSelectButton.setTooltip(new Tooltip("全选或反选复选框"));
 		cascadeDeleteButton.setTooltip(new Tooltip("批量级联删除选中复选框对应的记录"));
 		viewChButton.setTooltip(new Tooltip("显示或者隐藏中文对照列"));
+		selectButton.setTooltip(new Tooltip("查询过滤内容"));
 	}
 
 	/**初始化关联表按钮*/
@@ -378,7 +400,7 @@ public class TableController {
 				controller.setTc(TableController.this);
 				Scene scene = new Scene(root);
              stage.setScene(scene);
-
+             stage.initModality(Modality.APPLICATION_MODAL);
              stage.show();
              stage.setTitle("列表编辑");
 			} catch (Exception e) {
@@ -405,7 +427,12 @@ public class TableController {
 					 tableService.normalDelete(map,tableName);
 				 }catch(Exception e){
 					 e.printStackTrace();
-					 DialogTools.error(stage, "错误", "出错了","删除出错");
+					 Platform.runLater(new Runnable() {
+							@Override public void run() {
+								 DialogTools.error(stage, "错误", "出错了","删除出错");
+								 return;
+							}
+					 });
 					 return;
 				 }finally{
 					 Platform.runLater(new Runnable() {
@@ -443,7 +470,12 @@ public class TableController {
 				 tableService.cascadeDelete(map,tableName);
 			 }catch(Exception e){
 				 e.printStackTrace();
-				 DialogTools.error(stage, "错误", "出错了","级联删除出错");
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							 DialogTools.error(stage, "错误", "出错了","级联删除出错");
+							 return;
+						}
+				 });
 				 return;
 			 }finally{
 				 Platform.runLater(new Runnable() {
@@ -502,7 +534,7 @@ public class TableController {
 	                controller.select();
 	                Scene scene = new Scene(root);
 	                stage.setScene(scene);
-
+	                stage.initModality(Modality.APPLICATION_MODAL);
 	                stage.setTitle("修改主键和唯一键");
 	                stage.show();
 				} catch (Exception e) {
@@ -548,7 +580,7 @@ public class TableController {
 	                controller.select();
 	                Scene scene = new Scene(root);
 	                stage.setScene(scene);
-
+	                stage.initModality(Modality.APPLICATION_MODAL);
 	                stage.setTitle("修改主键和唯一键(*子表有与主表无关的主键或唯一键，无法实现级联复制)");
 	                stage.show();
 				} catch (Exception e) {
@@ -606,8 +638,8 @@ public class TableController {
 
 	public void selectTable(String sqlCondition){
 		this.sqlCondition = sqlCondition;
-		if(sqlCondition == null){
-			sqlCondition = " where 1 = 1 ";
+		if(this.sqlCondition == null){
+			this.sqlCondition = " where 1 = 1 ";
 		}
 		selectTable(HandlerModel.UNKOWN);
 	}
@@ -630,6 +662,10 @@ public class TableController {
 	/**初始化表格*/
 	@SuppressWarnings("rawtypes")
 	public void selectTable(HandlerModel hm){
+		tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		String condition = sqlCondition + selectCondition;
+		tableView.getColumns().clear();
+		//totalPage = tableService.getTotal(tableName,  condition);
 		switch (hm) {
 		case INSERT:
 		{
@@ -658,9 +694,7 @@ public class TableController {
 			break;
 		}
 
-		tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		String condition = sqlCondition + selectCondition;
-		tableView.getColumns().clear();
+
 		//获得列信息
 		colInfoMap = tableService.getColInfosByTableName(tableName,TableController.this);
 
@@ -706,7 +740,12 @@ public class TableController {
 				 obList = tableService.getTableData(tableName,page,pageSize,colInfoMap,TableController.this, condition  );
 			 }catch(Exception e){
 				 e.printStackTrace();
-				 DialogTools.error(stage, "错误", "出错了","读取数据出错");
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							 DialogTools.error(stage, "错误", "出错了","查询表内容出错");
+							 return;
+						}
+					 });
 				 return;
 			 }finally{
 				 Platform.runLater(new Runnable() {
@@ -893,7 +932,12 @@ public class TableController {
 				 enToChTools.getTableMap(true);
 			 }catch(Exception e){
 				 e.printStackTrace();
-				 DialogTools.error(stage, "错误", "出错了","刷新汉化出错");
+				 Platform.runLater(new Runnable() {
+						@Override public void run() {
+							 DialogTools.error(stage, "错误", "出错了","刷新汉化出错");
+							 return;
+						}
+				 });
 				 return;
 			 }finally{
 				 Platform.runLater(new Runnable() {
@@ -940,7 +984,12 @@ public class TableController {
  					}
  				 }catch(Exception e){
  					 e.printStackTrace();
- 					 DialogTools.error(stage, "错误", "出错了","批量删除出错");
+ 					 Platform.runLater(new Runnable() {
+ 						@Override public void run() {
+ 							 DialogTools.error(stage, "错误", "出错了","批量删除出错");
+ 							 return;
+ 						}
+ 					 });
  					 return;
  				 }finally{
  					 Platform.runLater(new Runnable() {
@@ -987,7 +1036,12 @@ public class TableController {
  					}
  				 }catch(Exception e){
  					 e.printStackTrace();
- 					 DialogTools.error(stage, "错误", "出错了","批量级联删除出错");
+ 					 Platform.runLater(new Runnable() {
+ 						@Override public void run() {
+ 							 DialogTools.error(stage, "错误", "出错了","批量级联删除出错");
+ 							 return;
+ 						}
+ 					 });
  					 return;
  				 }finally{
  					 Platform.runLater(new Runnable() {
@@ -1013,6 +1067,8 @@ public class TableController {
 
 	 /**刷新*/
 	 public void processRefresh(ActionEvent e){
+		 page = 1;
+		 selectCondition = " ";
 		 selectTable(HandlerModel.UNKOWN);
 	 }
 	 /**首页*/
@@ -1067,5 +1123,28 @@ public class TableController {
 			 viewColFlag = true;
 		 }
 		 selectTable(HandlerModel.UNKOWN);
+	 }
+	 /**查询*/
+	 public void processSelect(ActionEvent e){
+		 Stage stage = new Stage();
+		 stage.setTitle("查询");
+		 SpringFxmlLoader sfl = new SpringFxmlLoader();
+		 try {
+			 AnchorPane root = (AnchorPane) sfl.springLoad("view/SelectView.fxml", Main.class);
+			 SelectController  controller = sfl.getController();
+			 controller.setStage(stage);
+			 controller.setTableName(tableName);
+			 controller.setCondition(sqlCondition);
+			 controller.setTc(TableController.this);
+			 controller.checkNormalSelectEnabled();
+			 stage.initModality(Modality.APPLICATION_MODAL);
+			 Scene scene = new Scene(root);
+			 stage.setScene(scene);
+			 stage.setResizable(false);
+			 stage.show();
+		 } catch (Exception e1) {
+			e1.printStackTrace();
+			DialogTools.error(stage,"错误", "出错了", "生成查询页面出错!");
+		}
 	 }
 }

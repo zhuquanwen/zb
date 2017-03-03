@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.SqlData;
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 *@author: zhuquanwen
 *@desc: 这是一个类说明
 */
+@Transactional
 @Service
 public class UniqueKeyChangeService {
 	@Autowired

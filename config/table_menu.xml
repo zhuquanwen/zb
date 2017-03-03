@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table_menu>
 	<tables index = "0">
-		<table name="想定事件时间" name_en=""  ></table>
+		<table name="想定事件时间" name_en="NOP"  ></table>
 		<table name="基本参数" name_en=""  ></table>
 		<table name="海拔高度" name_en=""  ></table>
 		<table name="深度分区" name_en=""  ></table>
