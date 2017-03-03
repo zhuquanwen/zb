@@ -15,6 +15,7 @@
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="批量删除" />
             <Button fx:id="cascadeDeleteButton" mnemonicParsing="false" onAction="#processCascadeDelete" text="批量级联删除" />
             <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#processRefresh" text="刷新" />
+            <Button fx:id="refreshChButton" mnemonicParsing="false" onAction="#processRefreshCh" text="刷新汉化" />
          </children>
          <opaqueInsets>
             <Insets />

@@ -68,12 +68,9 @@ public class Main extends Application {
             	System.exit(0);
             });
 
-
-
-
              // load images
-            Image[] images = new Image[6];
-            for (int i = 0; i < 6; i++) {
+            Image[] images = new Image[7];
+            for (int i = 0; i < 7; i++) {
                 images[i] = new Image( ClassLoad.class.getResource("menu"+(i+1)+".jpg").toExternalForm(),false);
             }
             // create display shelf

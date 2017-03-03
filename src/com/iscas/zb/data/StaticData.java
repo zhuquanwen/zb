@@ -70,13 +70,13 @@ public class StaticData {
 	public static Map<String,String> contentTransMap = null;
 
 	/**内容汉化表名称*/
-	public final static String translate_content_name = "zb_content_translate";
+	public final static String translate_content_name = "zb_content_translate".toUpperCase();
 
 	/**表名汉化表名称*/
-	public final static String translate_table_name = "zb_table_translate";
+	public final static String translate_table_name = "zb_table_translate".toUpperCase();
 
 	/**表列信息汉化表名称*/
-	public final static String translate_col_name = "zb_col_translate";
+	public final static String translate_col_name = "zb_col_translate".toUpperCase();
 
 	/**表名汉化表map*/
 	public  static Map<String,String> tableTransMap = null;

@@ -107,6 +107,15 @@ public class MainController {
 			                                    stage.show();
 			                                    Integer total = tableService.getTotal(f.getNameEn(),  " where 1 =1 ");
 			                                    String title = f.getName() + "[" + f.getNameEn() + "]" + "[" + total + "]";
+
+			                                    //如果是几个汉化表的编辑，添加说明
+			                                    if(StaticData.translate_col_name.equalsIgnoreCase(f.getNameEn()) ||
+			                                    		StaticData.translate_content_name.equalsIgnoreCase(f.getNameEn()) ||
+			                                    		StaticData.translate_table_name.equalsIgnoreCase(f.getNameEn())){
+			                                    	String tips = "(*系统默认10分钟刷新一次汉化信息,若使汉化编辑立即生效,可点击刷新汉化按钮)";
+			                                    	title += tips;
+			                                    }
+
 			                                    stage.setTitle(title);
 											} catch (Exception e) {
 												e.printStackTrace();

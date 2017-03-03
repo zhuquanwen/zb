@@ -61,15 +61,16 @@ public class TableController {
 	//表格新增
 	@FXML
 	private Button addButton;
-	//表格编辑
-	@FXML
-	private Button editButton;
+
 	//表格//批量删除
 	@FXML
 	private Button deleteButton;
 	//表格刷新
 	@FXML
 	private Button refreshButton;
+	//表格汉化刷新
+	@FXML
+	private Button refreshChButton;
 
 	//表格显示窗口
 	@FXML
@@ -123,6 +124,9 @@ public class TableController {
 	private TableService tableService;
 	@Autowired(required=true)
 	private UniqueKeyChangeService uniqueKeyChangeService;
+	@Autowired(required=true)
+	private EnToChTools enToChTools;
+
 	/**表格名称*/
 	private String tableName;
 	/**当前页*/
@@ -209,8 +213,26 @@ public class TableController {
 		 initContextMenu();
 		 //initRelationTable();
 		 //initTable();
-
+		 initToolTips();
 	 }
+	private void initToolTips() {
+		addButton.setTooltip(new Tooltip("新增一条记录"));
+		deleteButton.setTooltip(new Tooltip("批量删除被选中的复选框对应的记录"));
+		refreshButton.setTooltip(new Tooltip("刷新当前页信息"));
+		refreshChButton.setTooltip(new Tooltip("刷新汉化表信息(系统默认10分钟刷新一次，点此按钮可立即刷新)"));
+		pageSizeCombobox.setTooltip(new Tooltip("控制每页显示的条目"));
+		firstPageLink.setTooltip(new Tooltip("跳转至第一页"));
+		frontPageLink.setTooltip(new Tooltip("上一页"));
+		currentPageLabel.setTooltip(new Tooltip("当前页码"));
+		nextPageLink.setTooltip(new Tooltip("下一页"));
+		lastPageLink.setTooltip(new Tooltip("跳转至最后一页"));
+		totalPageLabel.setTooltip(new Tooltip("能够显示的总页数"));
+		turnPageTextField.setTooltip(new Tooltip("跳转页面的输入"));
+		turnPageLink.setTooltip(new Tooltip("确认页面跳转"));
+		checkBoxSelectButton.setTooltip(new Tooltip("全选或反选复选框"));
+		cascadeDeleteButton.setTooltip(new Tooltip("批量级联删除选中复选框对应的记录"));
+	}
+
 	/**初始化关联表按钮*/
 	 private void initRelationTable() {
 		 hBox1.getChildren().clear();
@@ -732,6 +754,15 @@ public class TableController {
 		 }
 
 	 }
+
+	 /**刷新汉化*/
+	 public void processRefreshCh(ActionEvent e){
+		 enToChTools.getColMap(true);
+		 enToChTools.getContentMap(true);
+		 enToChTools.getTableMap(true);
+		 selectTable(HandlerModel.UNKOWN);
+	 }
+
 	 /**批量删除*/
 	 public void processDelete(ActionEvent e){
 		 Integer count = 0;

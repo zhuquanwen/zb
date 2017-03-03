@@ -127,4 +127,10 @@
 		<table name="昼夜及气象影响系数" name_en=""  ></table>
 
 	</tables>
+
+	<tables index = "6">
+		<table name="数据内容中英文对照表" name_en="ZB_CONTENT_TRANSLATE"  ></table>
+		<table name="表名称中英文对照表" name_en="ZB_COL_TRANSLATE"  ></table>
+		<table name="列名称中英文对照表" name_en="ZB_TABLE_TRANSLATE"  ></table>
+	</tables>
 </table_menu>
