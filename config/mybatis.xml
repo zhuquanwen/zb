@@ -30,8 +30,8 @@
     </bean>
 
 
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<!-- 使用自定义的连接池，加密url,用户名,密码 -->
+    <bean id="dataSource" class="com.iscas.zb.model.MyBasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}" />
         <property name="url" value="${jdbc.url}" />

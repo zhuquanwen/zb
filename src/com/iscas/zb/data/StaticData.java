@@ -101,4 +101,7 @@ public class StaticData {
 
 	/**数据库表对应关系，子表为key*/
 	public static Map<String,List<ChildRelation>> childTableRelationMap = null;
+
+	/**DES加密Key*/
+	public static String des_key = "A1B2C3D4E5F60708";
 }

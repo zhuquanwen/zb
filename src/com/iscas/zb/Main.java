@@ -14,6 +14,7 @@ import com.iscas.zb.init.TableRelationInit;
 import com.iscas.zb.init.TranslateInit;
 import com.iscas.zb.init.XmlToObjectInit;
 import com.iscas.zb.resource.ClassLoad;
+import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Application;
@@ -25,23 +26,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 
-public class Main extends Application {
-	public static Stage stage;
-	@Override
-	public void start(Stage primaryStage) {
-		try {
-			//spring 初始化
-			SpringInit.initSpring();
+public class Main  {
 
-			//菜单初始化
-			MenuInit.menuInit();
-			//XML jaxb初始化
-			XmlToObjectInit.xmlToObjectInit();
-			//数据库连接初始化
-			//JdbcInit.connectionInit();
-			//翻译Map初始化
-			TranslateInit.translateInit();
-			TableRelationInit.tableRelationInit();
+	public  void start(Stage primaryStage) {
+		try {
+
 
 			AnchorPane root = new AnchorPane();
 
@@ -78,18 +67,15 @@ public class Main extends Application {
             displayShelf.setPrefSize(700, 290);
             root.getChildren().add(displayShelf);
 
-            stage = primaryStage;
 //			Scene scene = new Scene(root,400,400);
 //			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 //			primaryStage.setScene(scene);
 //			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
-
+			DialogTools.error("错误", "出错了", "进入主页面出错");
 		}
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+
 }

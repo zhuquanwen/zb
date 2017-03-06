@@ -40,6 +40,15 @@ public class JdbcTools {
 		return StaticData.conn;
 
 	}
+	public static Connection  getConnection(String username, String password) throws Exception{
+		Connection conn = null;
+		JdbcInfo ji = PropsTools.getJdbcProp();
+		Class.forName("oracle.jdbc.driver.OracleDriver");// 加载Oracle驱动程序
+	    String url = ji.getUrl();
+	    conn = DriverManager.getConnection(EncryptTools.decrtpt(url), username, password);// 获取连接
+	    log.info("--获得JDBC连接--");
+	    return conn;
+	}
 
 	/**
 	* @Title: getStatement
