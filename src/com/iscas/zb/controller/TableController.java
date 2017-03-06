@@ -1137,6 +1137,7 @@ public class TableController {
 			 controller.setCondition(sqlCondition);
 			 controller.setTc(TableController.this);
 			 controller.checkNormalSelectEnabled();
+			 controller.initComoboBox();
 			 stage.initModality(Modality.APPLICATION_MODAL);
 			 Scene scene = new Scene(root);
 			 stage.setScene(scene);

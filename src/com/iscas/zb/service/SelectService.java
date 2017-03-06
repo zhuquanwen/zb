@@ -12,6 +12,9 @@ import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.SqlData;
 import com.iscas.zb.tools.CommonTools;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
 *@date: 2017年3月3日
 *@author: zhuquanwen
@@ -34,6 +37,16 @@ public class SelectService {
 			});
 		}
 		return ps;
+	}
+
+	/**获取一个表的所有列，放入List*/
+	public ObservableList<String> getCols(String tableName) {
+		ObservableList<String> cols = FXCollections.observableArrayList();
+		List<Map> colMaps =  CommonTools.getTableCols(tableName, unEntityDao);
+		colMaps.forEach(colMap -> {
+			cols.add((String)colMap.get("COLUMN_NAME"));
+		});
+		return cols;
 	}
 
 }

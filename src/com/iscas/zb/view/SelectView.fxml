@@ -15,7 +15,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="61.0" layoutY="73.0" text="请输入查询内容:" />
-                        <TextField layoutX="163.0" layoutY="69.0" prefHeight="23.0" prefWidth="171.0" fx:id="normalTextField"/>
+                        <TextField fx:id="normalTextField" layoutX="163.0" layoutY="69.0" prefHeight="23.0" prefWidth="171.0" />
                         <Button fx:id="normalSButton" layoutX="143.0" layoutY="143.0" mnemonicParsing="false" onAction="#processNormalSelect" text="查询" />
                         <Button fx:id="normalCButton" layoutX="257.0" layoutY="143.0" mnemonicParsing="false" onAction="#processNormalCancel" text="取消" />
                         <ProgressIndicator fx:id="normalPI" layoutX="206.0" layoutY="199.0" prefHeight="33.0" prefWidth="32.0" />
@@ -26,7 +26,18 @@
           </Tab>
           <Tab text="高级查询">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="textArea1" layoutX="46.0" layoutY="82.0" prefHeight="92.0" prefWidth="339.0" />
+                        <TextField fx:id="textField1" editable="false" layoutX="46.0" layoutY="59.0" prefHeight="23.0" prefWidth="339.0" />
+                        <Label layoutX="46.0" layoutY="26.0" prefHeight="15.0" prefWidth="53.0" text="SQL条件:" />
+                        <ComboBox fx:id="conditionCombobox" layoutX="106.0" layoutY="22.0" prefHeight="23.0" prefWidth="115.0" />
+                        <Button fx:id="highSelectButton" layoutX="143.0" layoutY="187.0" mnemonicParsing="false" onAction="#processHighSelect" text="查询" />
+                        <Button fx:id="highCancelButton" layoutX="250.0" layoutY="187.0" mnemonicParsing="false" onAction="#processHighCancel" text="取消" />
+                        <Label layoutX="237.0" layoutY="26.0" prefHeight="15.0" prefWidth="25.0" text="列:" />
+                        <ComboBox fx:id="colCombobox" layoutX="270.0" layoutY="22.0" prefHeight="23.0" prefWidth="115.0" />
+                        <ProgressIndicator fx:id="pi2" layoutX="201.0" layoutY="210.0" prefHeight="27.0" prefWidth="26.0" />
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
