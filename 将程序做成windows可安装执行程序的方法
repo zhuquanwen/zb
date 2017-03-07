@@ -1,0 +1,7 @@
+1.使用ant打包，打包方式见链接(此方法也可打一个默认的不太友好的安装程序) ：
+http://code.makery.ch/library/javafx-8-tutorial/zh-cn/part7/
+2.使用exe4j将jar打包成exe，打包方式见链接(注意位数):
+http://jingyan.baidu.com/article/359911f558456f57fe0306b1.html
+3.使用inno setup将exe打包成可安装的程序，见链接:
+http://www.360doc.com/content/13/0327/13/4221543_274235049.shtml
+iss脚本可参考本工程目录下的test.iss

@@ -26,7 +26,7 @@ public class SqlData {
 	public static String selectTotal = "select count(*) as total from @tableName @condition";
 
 	/**查询主表对应的子表信息SQL*/
-	public static String tableRelationSql = "select a.table_name 外键表名,a.column_name 外键列名,b.table_name 主键表名,b.column_name 主键列名 " +
+	public static String tableRelationSql = "select a.table_name CHILDTABLENAME,a.column_name CHILDCOLNAME,b.table_name MAINTABLENAME,b.column_name MAINCOLNAME " +
 			" from " +
 			" (select a.constraint_name,b.table_name,b.column_name,a.r_constraint_name " +
 			" from user_constraints a, user_cons_columns b " +
@@ -41,9 +41,9 @@ public class SqlData {
 			" b " +
 			" where a.r_constraint_name=b.r_constraint_name ";
 	/**查询主表对应的子表信息SQL orderby1*/
-	public static String tableRelationSqlOrderBy1 = " order by 主键表名,外键表名,外键列名,主键列名 ";
+	public static String tableRelationSqlOrderBy1 = " order by MAINTABLENAME,CHILDTABLENAME,CHILDCOLNAME,MAINCOLNAME ";
 	/**查询主表对应的子表信息SQL orderby2*/
-	public static String tableRelationSqlOrderBy2 = " order by 外键表名,主键表名,外键列名,主键列名 ";
+	public static String tableRelationSqlOrderBy2 = " order by CHILDTABLENAME,MAINTABLENAME,CHILDCOLNAME,MAINCOLNAME ";
 
 	/**获取一个表的主键和唯一键*/
 	public static String getUniqueSql = "select t1.table_name,"

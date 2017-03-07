@@ -92,7 +92,7 @@ public class MainController {
 		                        			AnchorPane root = null;
 		                        			SpringFxmlLoader loader = new SpringFxmlLoader();
 											try {
-												root = (AnchorPane) loader.springLoad("view/TableView.fxml", Main.class);
+												root = (AnchorPane) loader.springLoad("view/tableView.fxml", Main.class);
 
 
 			                                    TableController controller = loader.getController();
@@ -119,6 +119,8 @@ public class MainController {
 			                                    stage.setTitle(title);
 											} catch (Exception e) {
 												e.printStackTrace();
+												log.error(e.getStackTrace());
+												log.error(e.getMessage());
 												DialogTools.error("错误", "出错了!", "查询表单数据出错!");
 											}
 

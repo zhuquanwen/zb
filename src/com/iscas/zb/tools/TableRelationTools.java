@@ -44,10 +44,10 @@ public class TableRelationTools {
 			for (int i = 0; i < mapList.size(); i++) {
 				Map map = mapList.get(i);
 
-				String childTableName = (String)map.get("外键表名");
-				String childColName = (String)map.get("外键列名");
-				String tableName = (String)map.get("主键表名");
-				String colName = (String)map.get("主键列名");
+				String childTableName = (String)map.get("CHILDTABLENAME");
+				String childColName = (String)map.get("CHILDCOLNAME");
+				String tableName = (String)map.get("MAINTABLENAME");
+				String colName = (String)map.get("MAINCOLNAME");
 
 				if(tempTableName.equals(tableName)){
 					//如果还有一样的tableName,判断子表
@@ -162,10 +162,10 @@ public class TableRelationTools {
 			for (int i = 0; i < mapList.size(); i++) {
 				Map map = mapList.get(i);
 
-				String childTableName = (String)map.get("外键表名");
-				String childColName = (String)map.get("外键列名");
-				String tableName = (String)map.get("主键表名");
-				String colName = (String)map.get("主键列名");
+				String childTableName = (String)map.get("CHILDTABLENAME");
+				String childColName = (String)map.get("CHILDCOLNAME");
+				String tableName = (String)map.get("MAINTABLENAME");
+				String colName = (String)map.get("MAINCOLNAME");
 
 				if(tempChildTableName.equals(childTableName)){
 					//如果还有一样的tableName,判断子表

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ import javafx.util.Callback;
 @Scope("prototype")
 @SuppressWarnings("unchecked")
 public class TableController {
+	Logger log = Logger.getLogger(TableController.class);
 	//表格新增
 	@FXML
 	private Button addButton;
@@ -359,6 +361,8 @@ public class TableController {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
+							log.error("eeeeee"+ex.getStackTrace());
+							log.error("eeee"+ex.getMessage());
 							DialogTools.error("错误", "出错了!", "查询表单数据出错!");
 						}
 

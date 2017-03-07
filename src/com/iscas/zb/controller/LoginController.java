@@ -63,9 +63,6 @@ public class LoginController implements Initializable {
     @FXML
     private ProgressIndicator pi;
 
-
-
-
     private Stage stage;
 
     public Stage getStage() {
@@ -76,7 +73,7 @@ public class LoginController implements Initializable {
         this.stage = stage;
     }
 
-    /**ä½¿å¾—æŒ‰é’®å¤±æ•ˆ*/
+    /**Ê¹°´Å¥Ê§Ğ§*/
     public void disabledButtons(boolean disableFlag){
     	resetButton.setDisable(disableFlag);
     	loginButton.setDisable(disableFlag);
@@ -89,12 +86,12 @@ public class LoginController implements Initializable {
     	}
     }
 
-    /**é‡ç½®*/
+    /**ÖØÖÃ*/
     public void processReset(ActionEvent e){
     	 usernameTextField.setText("");
          passwordTextField.setText("");
     }
-    /**ç™»å½•*/
+    /**µÇÂ¼*/
     public void processLogin(ActionEvent e){
     	 new Thread(new Runnable() {
 			 @Override public void run() {
@@ -104,23 +101,23 @@ public class LoginController implements Initializable {
 				}
 			 });
 			 try{
-				//spring åˆå§‹åŒ–
+				//spring
 					//SpringInit.initSpring();
 
-					//èœå•åˆå§‹åŒ–
+					//
 					MenuInit.menuInit();
-					//XML jaxbåˆå§‹åŒ–
+					//XML jaxb×ª»»
 					XmlToObjectInit.xmlToObjectInit();
-					//æ•°æ®åº“è¿æ¥åˆå§‹åŒ–
+					//éç‰ˆåµæ´æ’¹ç¹›éºãƒ¥åµæ¿®å¬ªå¯²
 					//JdbcInit.connectionInit();
-					//ç¿»è¯‘Mapåˆå§‹åŒ–
+					//·­Òë³õÊ¼»¯
 					TranslateInit.translateInit();
 					TableRelationInit.tableRelationInit();
 			 }catch(Exception e){
 				 e.printStackTrace();
 				 Platform.runLater(new Runnable() {
 						@Override public void run() {
-							 DialogTools.error(stage, "é”™è¯¯", "å‡ºé”™äº†","åˆå§‹åŒ–ä¿¡æ¯å‡ºé”™!");
+							 DialogTools.error(stage, "´íÎó", "³ö´íÁË","³õÊ¼»¯ĞÅÏ¢³ö´í!");
 							 return;
 						}
 				 });
@@ -141,7 +138,7 @@ public class LoginController implements Initializable {
 				 e.printStackTrace();
 				 Platform.runLater(new Runnable() {
 						@Override public void run() {
-							 DialogTools.error(stage, "é”™è¯¯", "å‡ºé”™äº†","æ— æ³•è¿æ¥åˆ°æ•°æ®åº“!");
+							 DialogTools.error(stage, "´íÎó", "³ö´íÁË","»ñÈ¡Êı¾İ¿âÁ¬½Ó³ö´í!");
 							 return;
 						}
 				 });
@@ -173,6 +170,10 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         readRecordLogin();
         pi.setVisible(false);
+        stage.setOnCloseRequest(e -> {
+        	System.exit(0);
+        });
+
     }
     private void readRecordLogin() {
     	File file = new File("recordLogin");
@@ -188,7 +189,7 @@ public class LoginController implements Initializable {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
-				logger.error("è¯»å–è®°å¿†ç™»å½•ä¿¡æ¯å¤±è´¥");
+				logger.error("¶ÁÈ¡ÕËºÅ¼ÇÒäĞÅÏ¢³ö´í!");
 			}
 
     	}
@@ -206,7 +207,7 @@ public class LoginController implements Initializable {
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			logger.error("è®°å½•ç”¨æˆ·åå¯†ç å¤±è´¥");
+			logger.error("¼ÇÂ¼ÕËºÅĞÅÏ¢³ö´í");
 		}
 
 	}
