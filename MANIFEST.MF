@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: test.DeltaMakeIndexTest  (此处需要根据main函数所在类做相应修改，包名.类名 格式)
+Class-Path: ./ ./lib/sqljdbc.jar ./lib/IKAnalyzer3.2.3Stable.jar ./lib/lucene-analyzers-3.5.0.jar ./lib/lucene-core-3.6.0.jar  （列出全部用到的第三方包）
+（这里还有一个空行）

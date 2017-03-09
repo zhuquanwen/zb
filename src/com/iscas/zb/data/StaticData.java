@@ -17,29 +17,31 @@ import com.iscas.zb.model.jaxb.UnEditCols;
 import javafx.scene.control.TreeItem;
 
 public class StaticData {
+	/**静态数据配置文件*/
+	public final static String static_info_properties = "config/static-data-config.properties";
 	/**jdbc配置*/
-	public final static String jdbc_properties = "config/jdbc.properties";
+	public  static String jdbc_properties = "config/jdbc.properties";
 
 	/**菜单配置xml名称*/
-	public final static String config_table_menu = "config/table_menu.xml";
+	public  static String config_table_menu = "config/table_menu.xml";
 	/**字符串不需要显示的翻译列配置xml名称*/
-	public final static String config_col_char_disponse_translate =
+	public  static String config_col_char_disponse_translate =
 			"config/col_char_disponse_translate.xml";
 
 
 	/**数据库有关联关系但需要排除的子表XML名称*/
-	public final static String child_table_except =
+	public  static String child_table_except =
 			"config/child_table_except.xml";
 	/**数据库没有关联关系但需要加入的子表XML名称*/
-	public final static String child_table_add =
+	public  static String child_table_add =
 			"config/child_table_add.xml";
 
 	/**数据库没有关联关系但需要加入的下拉列表XML名称*/
-	public final static String combobox_add =
+	public  static String combobox_add =
 			"config/combobox_add.xml";
 
 	/**数据库不可编辑列配置的XML名称*/
-	public final static String col_unedit =
+	public  static String col_unedit =
 			"config/col_unedit.xml";
 
 	/**字符串不需要显示的翻译列配置*/
@@ -70,13 +72,13 @@ public class StaticData {
 	public static Map<String,String> contentTransMap = null;
 
 	/**内容汉化表名称*/
-	public final static String translate_content_name = "zb_content_translate".toUpperCase();
+	public  static String translate_content_name = "zb_content_translate".toUpperCase();
 
 	/**表名汉化表名称*/
-	public final static String translate_table_name = "zb_table_translate".toUpperCase();
+	public  static String translate_table_name = "zb_table_translate".toUpperCase();
 
 	/**表列信息汉化表名称*/
-	public final static String translate_col_name = "zb_col_translate".toUpperCase();
+	public  static String translate_col_name = "zb_col_translate".toUpperCase();
 
 	/**表名汉化表map*/
 	public  static Map<String,String> tableTransMap = null;
@@ -84,8 +86,6 @@ public class StaticData {
 	/**表列名汉化表map*/
 	public  static Map<ColInfo,String> colTransMap = null;
 
-	/**内容汉化信息定时器刷新间隔(分钟)*/
-	public static Long translate_content_timer = 10L;
 
 	/**spring context*/
 	public static ApplicationContext context = null;

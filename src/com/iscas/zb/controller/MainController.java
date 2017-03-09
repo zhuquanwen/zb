@@ -4,7 +4,6 @@ package com.iscas.zb.controller;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.DialogAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Scope;
@@ -121,7 +120,7 @@ public class MainController {
 												e.printStackTrace();
 												log.error(e.getStackTrace());
 												log.error(e.getMessage());
-												DialogTools.error("错误", "出错了!", "查询表单数据出错!");
+												DialogTools.error(stage,"错误", "出错了!", "查询表单数据出错!");
 											}
 
 		            		            }

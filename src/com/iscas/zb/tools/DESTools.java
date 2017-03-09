@@ -5,8 +5,9 @@ package com.iscas.zb.tools;
 *@desc: 这是一个类说明
 */
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -20,9 +21,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import org.apache.commons.codec.binary.Base64;
-
 import com.iscas.zb.data.StaticData;
+
 
 public class DESTools {
     //算法名称
@@ -91,7 +91,6 @@ public class DESTools {
 		}
 
 		try {
-
 			byte[] buf = cipher.doFinal(Base64Utils.decode(secretData.toCharArray()));
 
 			return new String(buf);
@@ -106,27 +105,44 @@ public class DESTools {
 	}
 
 
+//	/**
+//	 * 获得秘密密钥
+//	 *
+//	 * @param secretKey
+//	 * @return
+//	 * @throws NoSuchAlgorithmException
+//	 */
+//	private static SecretKey generateKey(String secretKey) throws NoSuchAlgorithmException{
+//		SecureRandom secureRandom = new SecureRandom(secretKey.getBytes());
+//
+//		// 为我们选择的DES算法生成一个KeyGenerator对象
+//		KeyGenerator kg = null;
+//		try {
+//			kg = KeyGenerator.getInstance(DES_ALGORITHM);
+//		} catch (NoSuchAlgorithmException e) {
+//		}
+//		kg.init(secureRandom);
+//		//kg.init(56, secureRandom);
+//
+//		// 生成密钥
+//		return kg.generateKey();
+//	}
+
 	/**
-	 * 获得秘密密钥
+	 * 获得密钥 上面的方法linux下报错，重写一个
 	 *
 	 * @param secretKey
 	 * @return
 	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
+	 * @throws InvalidKeySpecException
 	 */
-	private static SecretKey generateKey(String secretKey) throws NoSuchAlgorithmException{
-		SecureRandom secureRandom = new SecureRandom(secretKey.getBytes());
+	private static SecretKey generateKey(String secretKey) throws NoSuchAlgorithmException,InvalidKeyException,InvalidKeySpecException{
 
-		// 为我们选择的DES算法生成一个KeyGenerator对象
-		KeyGenerator kg = null;
-		try {
-			kg = KeyGenerator.getInstance(DES_ALGORITHM);
-		} catch (NoSuchAlgorithmException e) {
-		}
-		kg.init(secureRandom);
-		//kg.init(56, secureRandom);
-
-		// 生成密钥
-		return kg.generateKey();
+	    SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES_ALGORITHM);
+	    DESKeySpec keySpec = new DESKeySpec(secretKey.getBytes());
+	    keyFactory.generateSecret(keySpec);
+	    return keyFactory.generateSecret(keySpec);
 	}
 
 	public static void main(String[] a) throws Exception{

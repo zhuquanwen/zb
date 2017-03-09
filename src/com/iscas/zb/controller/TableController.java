@@ -361,9 +361,7 @@ public class TableController {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
-							log.error("eeeeee"+ex.getStackTrace());
-							log.error("eeee"+ex.getMessage());
-							DialogTools.error("错误", "出错了!", "查询表单数据出错!");
+							DialogTools.error(stage,"错误", "出错了!", "查询表单数据出错!");
 						}
 
 
@@ -387,7 +385,7 @@ public class TableController {
 		//当前选中的行
 		Integer index = tableView.getSelectionModel().getSelectedIndex();
 		if(index < 0 ){
-			DialogTools.error("错误", "出错了!", "请选中一行进行编辑!");
+			DialogTools.error(stage,"错误", "出错了!", "请选中一行进行编辑!");
 		}
  		Map<String,Object> map = (Map<String,Object>)tableView.getSelectionModel().getSelectedItem();
  		AnchorPane root = null;
@@ -409,7 +407,7 @@ public class TableController {
              stage.setTitle("列表编辑");
 			} catch (Exception e) {
 				e.printStackTrace();
-				DialogTools.error("错误", "出错了!", "表单编辑出错!");
+				DialogTools.error(stage,"错误", "出错了!", "表单编辑出错!");
 			}
 	 }
 	 /**普通删除*/
@@ -543,14 +541,14 @@ public class TableController {
 	                stage.show();
 				} catch (Exception e) {
 					e.printStackTrace();
-					DialogTools.error("错误", "出错了!", "生成修改主键唯一键页面出错!");
+					DialogTools.error(stage,"错误", "出错了!", "生成修改主键唯一键页面出错!");
 				}
 			}else{
 				try{
 					this.insertCopy(rowMap,updateMap,tableName,false);
 				}catch(Exception ex){
 					ex.printStackTrace();
-					DialogTools.exception(stage, "错误", "出错了!", "复制数据出现错误", ex);
+					DialogTools.error(stage, "错误", "出错了!", "复制数据出现错误");
 				}
 			}
 
@@ -589,7 +587,7 @@ public class TableController {
 	                stage.show();
 				} catch (Exception e) {
 					e.printStackTrace();
-					DialogTools.error("错误", "出错了!", "生成修改主键唯一键页面出错!");
+					DialogTools.error(stage,"错误", "出错了!", "生成修改主键唯一键页面出错!");
 				}
 			}else{
 				try{
@@ -600,7 +598,7 @@ public class TableController {
 					}
 				}catch(Exception ex){
 					ex.printStackTrace();
-					DialogTools.exception(stage, "错误", "出错了!", "复制数据出现错误", ex);
+					DialogTools.error(stage, "错误", "出错了!", "复制数据出现错误");
 				}
 			}
 
@@ -890,7 +888,7 @@ public class TableController {
           stage.setTitle("新增数据");
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				DialogTools.error("错误", "出错了!", "新增数据出错!");
+				DialogTools.error(stage,"错误", "出错了!", "新增数据出错!");
 			}
 	 }
 	 /**全选*/

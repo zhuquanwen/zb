@@ -2,7 +2,6 @@ package com.iscas.zb;
 
 import java.sql.SQLException;
 
-import org.controlsfx.dialog.Dialogs;
 
 import com.iscas.zb.DisplayShelfSample.DisplayShelf;
 import com.iscas.zb.controller.MainController;
@@ -73,7 +72,7 @@ public class Main  {
 //			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
-			DialogTools.error("错误", "出错了", "进入主页面出错");
+			DialogTools.error(primaryStage,"错误", "出错了", "进入主页面出错");
 		}
 	}
 

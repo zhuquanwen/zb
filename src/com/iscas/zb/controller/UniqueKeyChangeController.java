@@ -155,7 +155,7 @@ public class UniqueKeyChangeController {
 
 		}catch(Exception ex){
 			ex.printStackTrace();
-			DialogTools.exception(stage, "错误", "出错了!", "复制数据出现错误", ex);
+			DialogTools.error(stage, "错误", "出错了!", "复制数据出现错误");
 		}
 
 	}

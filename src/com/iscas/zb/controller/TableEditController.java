@@ -178,7 +178,7 @@ public class TableEditController {
 				}).start();
 		}catch(Exception ex){
 			ex.printStackTrace();
-			DialogTools.exception(stage, "´íÎó", "³öÏÖÒì³£", "±à¼­Ìá½»Ê§°Ü£¡", ex);
+			DialogTools.error(stage, "´íÎó", "³öÏÖÒì³£", "±à¼­Ìá½»Ê§°Ü£¡");
 		}
 
 

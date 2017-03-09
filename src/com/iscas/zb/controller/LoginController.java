@@ -170,11 +170,14 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         readRecordLogin();
         pi.setVisible(false);
-        stage.setOnCloseRequest(e -> {
-        	System.exit(0);
-        });
-
     }
+
+    public void addCloseListener(){
+    	 stage.setOnCloseRequest(e -> {
+         	System.exit(0);
+         });
+    }
+
     private void readRecordLogin() {
     	File file = new File("recordLogin");
     	if(file.exists()){

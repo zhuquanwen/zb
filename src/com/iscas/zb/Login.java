@@ -7,9 +7,12 @@ package com.iscas.zb;
 
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
+
 import com.iscas.zb.controller.LoginController;
 import com.iscas.zb.controller.MainController;
 import com.iscas.zb.init.SpringInit;
+import com.iscas.zb.init.StaticDataInit;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Application;
@@ -28,14 +31,16 @@ import javafx.stage.Stage;
  * @author dell
  */
 public class Login extends Application {
-
+	Logger log = Logger.getLogger(Login.class);
     @Override
     public void start(Stage stage) throws Exception {
+    	StaticDataInit.init();
     	SpringInit.initSpring();
     	SpringFxmlLoader loader = new SpringFxmlLoader();
     	AnchorPane root = (AnchorPane) loader.springLoad("view/login.fxml", Main.class);
         LoginController controller = loader.getController();
         controller.setStage(stage);
+        controller.addCloseListener();
         Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.setScene(scene);
