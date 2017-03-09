@@ -1,10 +1,8 @@
 package com.iscas.zb.controller;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -31,10 +29,11 @@ import javafx.stage.Stage;
 /**
 *@date: 2017年3月3日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 查询页面对应的控制器
 */
 @Controller
 @Scope("prototype")
+@SuppressWarnings("rawtypes")
 public class SelectController {
 	@FXML
 	private Button normalSButton;
@@ -50,6 +49,7 @@ public class SelectController {
 	private TextArea textArea1;
 	@FXML
 	private TextField textField1;
+
 	@FXML
 	private ComboBox conditionCombobox;
 	@FXML
@@ -236,6 +236,7 @@ public class SelectController {
 					}
 					selectString +=  " ) ";
 					//查询一下总条目，看一下这个查询条件有没有错误，如果有错，直接抛出到异常里，不对TC做修改,以免造成一些不必要的错误
+					@SuppressWarnings("unused")
 					Integer total = tableService.getTotal(tableName, " where 1 = 1 "  + selectString);
 
 					tc.setSelectCondition(selectString);
@@ -301,6 +302,7 @@ public class SelectController {
 					}
 
 					//查询一下总条目，看一下这个查询条件有没有错误，如果有错，直接抛出到异常里，不对TC做修改,以免造成一些不必要的错误
+					@SuppressWarnings("unused")
 					Integer total = tableService.getTotal(tableName, " where 1 = 1 "  + selectString);
 
 					tc.setSelectCondition(selectString);

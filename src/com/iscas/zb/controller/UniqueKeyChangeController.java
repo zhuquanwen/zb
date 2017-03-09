@@ -3,12 +3,9 @@ package com.iscas.zb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.iscas.zb.model.HandlerModel;
-import com.iscas.zb.service.UniqueKeyChangeService;
 import com.iscas.zb.tools.DialogTools;
 
 import javafx.application.Platform;
@@ -29,11 +26,13 @@ import javafx.util.Callback;
 /**
 *@date: 2017年3月2日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 主键唯一键修改页面对应的编辑器
 */
 @Controller
 @Scope("prototype")
+@SuppressWarnings(value={"rawtypes","unchecked"})
 public class UniqueKeyChangeController {
+
 	@FXML
 	private TableView tableView;
 	@FXML
@@ -42,8 +41,7 @@ public class UniqueKeyChangeController {
 	private Button cancelButton;
 	@FXML
 	private ProgressIndicator progressIndicator;
-	@Autowired
-	private UniqueKeyChangeService uniqueKeyChangeService;
+
 	private ObservableList obList;
 	private Map<String,Object> rowMap ;
 	private Map<String,Object> updateMap = new HashMap<String,Object>();

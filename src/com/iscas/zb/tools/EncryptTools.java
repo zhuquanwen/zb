@@ -5,7 +5,7 @@ import com.iscas.zb.data.StaticData;
 /**
 *@date: 2017年3月6日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 加解密工具类
 */
 public class EncryptTools {
 	public static String encrypt(String str) throws Exception{

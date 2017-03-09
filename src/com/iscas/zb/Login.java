@@ -5,31 +5,23 @@
  */
 package com.iscas.zb;
 
-import java.io.InputStream;
-
 import org.apache.log4j.Logger;
 
 import com.iscas.zb.controller.LoginController;
-import com.iscas.zb.controller.MainController;
 import com.iscas.zb.init.SpringInit;
 import com.iscas.zb.init.StaticDataInit;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- *
- * @author dell
- */
+*@date: 2017年2月24日
+*@author: zhuquanwen
+*@desc: 程序入口
+*/
 public class Login extends Application {
 	Logger log = Logger.getLogger(Login.class);
     @Override

@@ -1,11 +1,9 @@
 package com.iscas.zb.controller;
 
 
-import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -26,17 +24,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+/**
+*@date: 2017年2月25日
+*@author: zhuquanwen
+*@desc: 主页面对应控制器
+*/
 @Controller
 @Scope("prototype")
+@SuppressWarnings("rawtypes")
 public class MainController {
 	Logger log = Logger.getLogger(MainController.class);
-	private Main main;
 	@FXML
 	private AnchorPane anchorPane;
+
 	@FXML
 	private TreeView treeView;
 	@FXML
 	private Label label;
+	@SuppressWarnings("unused")
 	@Autowired(required=true)
 	private MainService mainService;
 	@Autowired(required=true)
@@ -45,13 +50,9 @@ public class MainController {
 		return treeView;
 	}
 
-	public void setMainApp(Main main) {
-	        this.main = main;
-	 }
 
 	 @FXML
 	 private void initialize() {
-		 //mainService = MainService.getSingleton();
 		 initTreeView(0);
 	 }
 	 @SuppressWarnings("unchecked")
@@ -78,13 +79,7 @@ public class MainController {
 
 	                            	if(getChildren().size() == 1){
 	                            		if (t.getClickCount() == 1) {
-//		            		            	Dialogs.create()
-//		            		                .owner(Main.stage)
-//		            		                .title("提示")
-//		            		                .masthead("提示")
-//		            		                .message("弹出表格信息窗口")
-	//
-//		            		                .showInformation();
+//
 		                            		//跳转至表格页面
 		                            		Stage stage = new Stage();
 		                            		//stage.setTitle(f.getName());
@@ -139,26 +134,5 @@ public class MainController {
 
 	 }
 
-//	 private class TaskCellFactory implements Callback<TableColumn<TableMenuEntity, String>, TableCell<TableMenuEntity, String>> {
-//
-//		    @Override
-//		    public TableCell<TableMenuEntity, String> call(TableColumn<TableMenuEntity, String> param) {
-//		        TextFieldTableCell<TableMenuEntity, String> cell = new TextFieldTableCell<>();
-//		        cell.setOnMouseClicked((MouseEvent t) -> {
-//		            if (t.getClickCount() == 1) {
-//		            	Dialogs.create()
-//		                .owner(Main.stage)
-//		                .title("提示")
-//		                .masthead("提示")
-//		                .message("弹出表格信息窗口")
-//
-//		                .showInformation();
-//
-//
-//		            }
-//		        });
-//		        //cell.setContextMenu(taskContextMenu);
-//		        return cell;
-//		    }
-//		}
+
 }

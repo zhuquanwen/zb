@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: JDbc工具类
 */
 public class JdbcTools {
 	private static Logger log = Logger.getLogger(JdbcTools.class);

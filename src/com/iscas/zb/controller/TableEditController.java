@@ -33,15 +33,17 @@ import oracle.sql.ROWID;
 /**
 *@date: 2017年2月27日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表格编辑页面对应的控制器
 */
 @Controller
 @Scope("prototype")
+@SuppressWarnings(value={"rawtypes","unchecked"})
 public class TableEditController {
 	@Autowired
 	private TableEditService tableEditService;
 	@FXML
 	private Button disponseButton;
+
 	@FXML
 	private TableView tableView;
 	@FXML
@@ -233,6 +235,7 @@ public class TableEditController {
 
 
 			  Platform.runLater(new Runnable() {
+
 					@Override public void run() {
 						//生成列
 						tableView.getColumns().clear();

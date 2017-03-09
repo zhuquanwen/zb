@@ -5,17 +5,13 @@ package com.iscas.zb.tools;
 *@desc: 这是一个类说明
 */
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -23,7 +19,11 @@ import javax.crypto.spec.DESKeySpec;
 
 import com.iscas.zb.data.StaticData;
 
-
+/**
+*@date: 2017年3月9日
+*@author: zhuquanwen
+*@desc: DES加密工具
+*/
 public class DESTools {
     //算法名称
     public static final String KEY_ALGORITHM = "DES";

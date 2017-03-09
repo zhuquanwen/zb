@@ -18,10 +18,11 @@ import javafx.collections.ObservableList;
 /**
 *@date: 2017年3月3日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 查询service
 */
 @Transactional
 @Service
+@SuppressWarnings("rawtypes")
 public class SelectService {
 	@Autowired
 	private UnEntityDao unEntityDao;
@@ -30,6 +31,7 @@ public class SelectService {
 		List<String> ps = new ArrayList<String>();
 		String sql = SqlData.getPrimarySql;
 		sql = sql.replace("@tableName", tableName);
+
 		List<Map> mapList = CommonTools.getDBList(unEntityDao, sql);
 		if(mapList != null && mapList.size() > 0){
 			mapList.forEach(ml -> {

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
 *@date: 2017年2月27日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: XML对应的模型
 */
 @XmlRootElement(name="col_un_edit")
 public class UnEditCols {

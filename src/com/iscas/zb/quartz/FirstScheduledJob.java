@@ -2,17 +2,15 @@ package com.iscas.zb.quartz;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.iscas.zb.data.StaticData;
 import com.iscas.zb.tools.EnToChTools;
 import com.iscas.zb.tools.TableRelationTools;
 
 /**
 *@date: 2017年2月27日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: quartz操作
 */
 public class FirstScheduledJob extends QuartzJobBean {
 

@@ -6,7 +6,7 @@ import com.iscas.zb.tools.EnToChTools;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 翻译初始化
 */
 public class TranslateInit {
 	public static void translateInit(){

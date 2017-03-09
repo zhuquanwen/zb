@@ -2,7 +2,7 @@ package com.iscas.zb.model;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: 列说明
+*@desc: 列说明模型
 */
 public class ColInfo {
 	private String colName;

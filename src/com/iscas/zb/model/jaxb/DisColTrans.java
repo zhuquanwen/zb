@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: jaxb 数据库中varchar2或char类型但是不需要显示英文列的配置disponse_col标签
+*@desc: jaxb 数据库中varchar2或char类型但是不需要显示英文列的配置disponse_col标签，
+*		xml对应的模型
 */
 
 @XmlRootElement(name="disponse_col")

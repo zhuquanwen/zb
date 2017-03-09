@@ -6,7 +6,7 @@ import com.iscas.zb.tools.TableRelationTools;
 /**
 *@date: 2017年2月24日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表关系初始化
 */
 public class TableRelationInit {
 	public static void tableRelationInit(){

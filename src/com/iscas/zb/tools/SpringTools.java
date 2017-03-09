@@ -1,10 +1,7 @@
 package com.iscas.zb.tools;
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 import org.apache.xbean.spring.context.ResourceXmlApplicationContext;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 
 import com.iscas.zb.data.StaticData;
@@ -13,7 +10,7 @@ import com.iscas.zb.data.StaticData;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: spring工具
 */
 public class SpringTools {
 	private static Logger log = Logger.getLogger(SpringTools.class);

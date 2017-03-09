@@ -12,7 +12,11 @@ import com.iscas.zb.model.jaxb.JTables;
 import com.iscas.zb.tools.JaxbTools;
 
 import javafx.scene.control.TreeItem;
-
+/**
+*@date: 2017年2月22日
+*@author: zhuquanwen
+*@desc: 初始化菜单
+*/
 public class MenuInit {
 	public static void menuInit() throws Exception{
 		JTableMenu tm = JaxbTools.xmlToObj(StaticData.config_table_menu, new JTableMenu());

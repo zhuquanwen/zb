@@ -2,22 +2,13 @@ package com.iscas.zb;
 
 import java.sql.SQLException;
 
-
 import com.iscas.zb.DisplayShelfSample.DisplayShelf;
 import com.iscas.zb.controller.MainController;
 import com.iscas.zb.data.StaticData;
-import com.iscas.zb.init.JdbcInit;
-import com.iscas.zb.init.MenuInit;
-import com.iscas.zb.init.SpringInit;
-import com.iscas.zb.init.TableRelationInit;
-import com.iscas.zb.init.TranslateInit;
-import com.iscas.zb.init.XmlToObjectInit;
 import com.iscas.zb.resource.ClassLoad;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -37,7 +28,6 @@ public class Main  {
             //loader.setLocation(Main.class.getResource("view/MainView.fxml"));
             root = (AnchorPane) loader.springLoad("view/MainView.fxml", Main.class);
             MainController controller = loader.getController();
-            controller.setMainApp(this);
             // Show the scene containing the root layout.
             Scene scene = new Scene(root);
             primaryStage.setResizable(false);

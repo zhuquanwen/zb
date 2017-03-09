@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import org.springframework.context.ApplicationContext;
 
-import com.iscas.zb.Main;
 import com.iscas.zb.data.StaticData;
 
 import javafx.fxml.FXMLLoader;

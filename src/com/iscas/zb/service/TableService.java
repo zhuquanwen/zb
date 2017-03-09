@@ -1,6 +1,5 @@
 package com.iscas.zb.service;
 
-import java.awt.Checkbox;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +26,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import oracle.sql.ROWID;
+/**
+*@date: 2017年2月27日
+*@author: zhuquanwen
+*@desc: 表格service
+*/
 @Transactional(propagation=Propagation.REQUIRED,timeout=60)
 @Service
+@SuppressWarnings({"unchecked","rawtypes","unused"})
 public class TableService {
 	@Autowired(required=true)
 	private UnEntityDao unEntityDao;
@@ -45,6 +49,7 @@ public class TableService {
 	}
 
 	//获得列信息
+
 	public LinkedHashMap<String,Map<String,String>> getColInfosByTableName(String tableName,TableController tc){
 		LinkedHashMap<String,Map<String,String>> map = new LinkedHashMap<String,Map<String,String>>();
 		LinkedHashMap<String,String> enchMap = new LinkedHashMap<String,String>();

@@ -10,9 +10,11 @@ import com.iscas.zb.data.SqlData;
 /**
 *@date: 2017年2月23日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 通用工具类
 */
+@SuppressWarnings(value={"unchecked","rawtypes"})
 public class CommonTools {
+
 	public static List<Map> getDBList(UnEntityDao dao,String sql){
 		Map paramMap = new HashMap();
 		paramMap.put("sql", sql);

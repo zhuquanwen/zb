@@ -22,15 +22,17 @@ import javafx.scene.control.TextField;
 /**
 *@date: 2017年3月2日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 唯一键修改service
 */
 @Transactional
 @Service
+@SuppressWarnings({"rawtypes","unchecked"})
 public class UniqueKeyChangeService {
 	@Autowired
 	private UnEntityDao unEntityDao;
 
 	/**获得要修改的主键和唯一键对应的值*/
+
 	public ObservableList getChangeInfos(Map<String, Object> rowMap, Map<String, Object> updateMap,String tableName) {
 		ObservableList<Map> obList = FXCollections.observableArrayList();
 		String sql = SqlData.getUniqueSql;

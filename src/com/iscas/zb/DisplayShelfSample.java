@@ -16,7 +16,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TableView;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.effect.ReflectionBuilder;
 import javafx.scene.image.Image;
@@ -28,9 +27,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-
+/**
+*@date: 2017年2月24日
+*@author: zhuquanwen
+*@desc: 上面的菜单图片
+*/
+@SuppressWarnings("deprecation")
 public class DisplayShelfSample  {
-    private static final double WIDTH = 450, HEIGHT = 300;
 
 
 
@@ -241,7 +244,7 @@ public class DisplayShelfSample  {
         public final void setAngle(double value) { angle.setValue(value); }
         public final DoubleProperty angleModel() { return angle; }
 
-        public PerspectiveImage(Image image) {
+		public PerspectiveImage(Image image) {
             ImageView imageView = new ImageView(image);
             imageView.setEffect(ReflectionBuilder.create().fraction(REFLECTION_SIZE).build());
             setEffect(transform);

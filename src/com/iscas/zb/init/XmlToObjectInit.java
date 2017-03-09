@@ -12,7 +12,7 @@ import com.iscas.zb.tools.JaxbTools;
 /**
 *@date: 2017年2月22日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: Xml转化初始化
 */
 public class XmlToObjectInit {
 	private static Logger log = Logger.getLogger(XmlToObjectInit.class);

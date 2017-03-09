@@ -11,6 +11,7 @@ import com.iscas.zb.tools.JaxbTools;
 *@author: zhuquanwen
 *@desc: 这是一个类说明
 */
+@SuppressWarnings("unused")
 public class TestJaxb {
 	public static void main(String[] args) {
 		//test1();
@@ -18,6 +19,7 @@ public class TestJaxb {
 		//test3();
 		test4();
 	}
+
 	private static void test1(){
 		try {
 			DisColTrans  dct = JaxbTools.xmlToObj(StaticData.config_col_char_disponse_translate, new DisColTrans());

@@ -1,0 +1,30 @@
+2017-03-07 16:04:18  [ JavaFX Application Thread:0 ] - [ INFO ]  Refreshing org.apache.xbean.spring.context.ResourceXmlApplicationContext@737b3e04: startup date [Tue Mar 07 16:04:18 CST 2017]; root of context hierarchy
+2017-03-07 16:04:18  [ JavaFX Application Thread:90 ] - [ INFO ]  Loading XML bean definitions from file [C:\Users\Administrator\workspace\zb\config\applicationContext.xml]
+2017-03-07 16:04:18  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_QuartzSchedulerThread:27481 ] - [ DEBUG ]  batch acquisition of 0 triggers
+2017-03-07 16:04:18  [ JavaFX Application Thread:539 ] - [ INFO ]  Loading XML bean definitions from file [C:\Users\Administrator\workspace\zb\config\mybatis.xml]
+2017-03-07 16:04:18  [ JavaFX Application Thread:605 ] - [ INFO ]  Overriding bean definition for bean 'tableRelationTools' with a different definition: replacing [Generic bean: class [com.iscas.zb.tools.TableRelationTools]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\tools\TableRelationTools.class]] with [Generic bean: class [com.iscas.zb.tools.TableRelationTools]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [C:\Users\Administrator\workspace\zb\config\applicationContext.xml]]
+2017-03-07 16:04:18  [ JavaFX Application Thread:607 ] - [ INFO ]  Overriding bean definition for bean 'enToChTools' with a different definition: replacing [Generic bean: class [com.iscas.zb.tools.EnToChTools]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\tools\EnToChTools.class]] with [Generic bean: class [com.iscas.zb.tools.EnToChTools]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [C:\Users\Administrator\workspace\zb\config\applicationContext.xml]]
+2017-03-07 16:04:19  [ JavaFX Application Thread:1173 ] - [ INFO ]  Loading properties file from file [C:\Users\Administrator\workspace\zb\config\jdbc.properties]
+2017-03-07 16:04:20  [ JavaFX Application Thread:2376 ] - [ INFO ]  Using default implementation for ThreadExecutor
+2017-03-07 16:04:20  [ JavaFX Application Thread:2398 ] - [ INFO ]  Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2017-03-07 16:04:20  [ JavaFX Application Thread:2398 ] - [ INFO ]  Quartz Scheduler v.2.2.2 created.
+2017-03-07 16:04:20  [ JavaFX Application Thread:2400 ] - [ INFO ]  RAMJobStore initialized.
+2017-03-07 16:04:20  [ JavaFX Application Thread:2401 ] - [ INFO ]  Scheduler meta-data: Quartz Scheduler (v2.2.2) 'org.springframework.scheduling.quartz.SchedulerFactoryBean#0' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2017-03-07 16:04:20  [ JavaFX Application Thread:2402 ] - [ INFO ]  Quartz scheduler 'org.springframework.scheduling.quartz.SchedulerFactoryBean#0' initialized from an externally provided properties instance.
+2017-03-07 16:04:20  [ JavaFX Application Thread:2402 ] - [ INFO ]  Quartz scheduler version: 2.2.2
+2017-03-07 16:04:20  [ JavaFX Application Thread:2404 ] - [ INFO ]  JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@3d6970f3
+2017-03-07 16:04:20  [ JavaFX Application Thread:2477 ] - [ INFO ]  Starting beans in phase 2147483647
+2017-03-07 16:04:20  [ JavaFX Application Thread:2478 ] - [ INFO ]  Starting Quartz Scheduler now
+2017-03-07 16:04:20  [ JavaFX Application Thread:2478 ] - [ INFO ]  Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED started.
+2017-03-07 16:04:20  [ JavaFX Application Thread:2486 ] - [ INFO ]  --spring∆Ù∂Ø--
+2017-03-07 16:04:46  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_QuartzSchedulerThread:56104 ] - [ DEBUG ]  batch acquisition of 0 triggers
+2017-03-07 16:05:15  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_QuartzSchedulerThread:84448 ] - [ DEBUG ]  batch acquisition of 0 triggers
+2017-03-07 16:05:42  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_QuartzSchedulerThread:111598 ] - [ DEBUG ]  batch acquisition of 0 triggers
+2017-03-07 16:06:12  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_QuartzSchedulerThread:141416 ] - [ DEBUG ]  batch acquisition of 0 triggers

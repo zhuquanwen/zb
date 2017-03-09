@@ -11,12 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
 
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -39,7 +37,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+*@date: 2017年2月25日
+*@author: zhuquanwen
+*@desc: 登录页面对应控制器
+*/
 @Controller
 @Scope("prototype")
 public class LoginController implements Initializable {
@@ -186,6 +188,7 @@ public class LoginController implements Initializable {
 				BufferedReader br = new BufferedReader(fr);
 				String username = br.readLine();
 				String password = br.readLine();
+				br.close();
 				if(username != null){
 					usernameTextField.setText(username);
 					passwordTextField.setText(password);

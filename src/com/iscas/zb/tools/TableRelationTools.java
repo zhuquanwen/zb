@@ -18,12 +18,14 @@ import com.iscas.zb.model.jaxb.ChildExcept;
 /**
 *@date: 2017年2月24日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表关系工具类
 */
 @Component
+@SuppressWarnings("rawtypes")
 public class TableRelationTools {
 	@Autowired(required=true)
 	private UnEntityDao unEntityDao;
+
 
 	public void getRelation(boolean quartzFlag){
 		if(StaticData.tableRelationMap == null || quartzFlag){

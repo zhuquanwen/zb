@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.iscas.zb.service.TableEditService;
-import com.iscas.zb.tools.DialogTools;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -15,9 +14,11 @@ import javafx.stage.Stage;
 /**
 *@date: 2017年2月28日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表格可编辑单元格
 */
+@SuppressWarnings(value = {"unused","rawtypes"})
 public class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
+
 	private Stage stage;
 	private ObservableList obList;
 	private String tableName;

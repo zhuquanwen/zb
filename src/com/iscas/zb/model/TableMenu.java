@@ -1,5 +1,9 @@
 package com.iscas.zb.model;
-
+/**
+*@date: 2017年3月6日
+*@author: zhuquanwen
+*@desc: 菜单
+*/
 public enum TableMenu {
 	UNKOWN("未知",-1),
 	JMCS("建模参数",0),

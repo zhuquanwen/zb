@@ -5,7 +5,7 @@ import java.util.List;
 /**
 *@date: 2017年2月24日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表关系模型
 */
 public class ChildRelation {
 	private String childTableName;

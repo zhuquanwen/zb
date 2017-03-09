@@ -15,7 +15,11 @@ import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.model.jaxb.UnEditCols;
 
 import javafx.scene.control.TreeItem;
-
+/**
+*@date: 2017年2月22日
+*@author: zhuquanwen
+*@desc: 一些静态数据
+*/
 public class StaticData {
 	/**静态数据配置文件*/
 	public final static String static_info_properties = "config/static-data-config.properties";

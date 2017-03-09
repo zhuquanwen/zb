@@ -55,12 +55,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * @author Administrator
- *
- */
+*@date: 2017年3月3日
+*@author: zhuquanwen
+*@desc: 表格页面对应的控制器
+*/
 @Controller
 @Scope("prototype")
-@SuppressWarnings("unchecked")
+@SuppressWarnings(value={"rawtypes","unchecked"})
 public class TableController {
 	Logger log = Logger.getLogger(TableController.class);
 	//表格新增
@@ -85,6 +86,7 @@ public class TableController {
 	private Button selectButton;
 
 	//表格显示窗口
+
 	@FXML
 	private TableView tableView;
 	//每页显示多少条
@@ -662,7 +664,6 @@ public class TableController {
 
 
 	/**初始化表格*/
-	@SuppressWarnings("rawtypes")
 	public void selectTable(HandlerModel hm){
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		String condition = sqlCondition + selectCondition;

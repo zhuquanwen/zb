@@ -15,7 +15,6 @@ import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.ChChangeType;
 import com.iscas.zb.model.ChildRelation;
-import com.iscas.zb.model.EditTableCell;
 import com.iscas.zb.model.jaxb.Dcol;
 import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.EnToChTools;
@@ -30,15 +29,16 @@ import oracle.sql.ROWID;
 /**
 *@date: 2017年2月27日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 表格编辑service
 */
 @Transactional(propagation=Propagation.REQUIRED,timeout=60)
 @Service
+@SuppressWarnings({"unchecked","rawtypes"})
 public class TableEditService {
 	@Autowired
 	private UnEntityDao unEntityDao;
 
-	@SuppressWarnings("unchecked")
+
 	public ObservableList rowMapToColMap(Map rowMap,String tableName,boolean disponseCh,
 			Map<String,Object> updateMap,Map<String,TextField> updateChMap
 			,Map<Map<String, String>, String> unEditMap ,boolean insertFlag){

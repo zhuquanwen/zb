@@ -15,12 +15,14 @@ import com.iscas.zb.model.ColInfo;
 /**
 *@date: 2017年2月23日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 中英文转换工具
 */
 @Component
+@SuppressWarnings("rawtypes")
 public class EnToChTools {
 	@Autowired
 	private UnEntityDao unEntityDao;
+
 	public synchronized  void  getContentMap(boolean quartzFlag){
 		if(StaticData.contentTransMap == null || quartzFlag){
 			Map<String,String> map = new HashMap<String,String>();

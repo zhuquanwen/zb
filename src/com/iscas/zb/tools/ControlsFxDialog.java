@@ -1,25 +1,15 @@
 package com.iscas.zb.tools;
 
-import org.controlsfx.ControlsFXSample;
-
-import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 /**
 *@date: 2017年3月9日
 *@author: zhuquanwen
-*@desc: 这是一个类说明
+*@desc: 新版controlsfx 生成dialogs
 */
 public class ControlsFxDialog {
 

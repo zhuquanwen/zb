@@ -5,9 +5,7 @@ import java.io.File;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import com.iscas.zb.model.TableMenu;
 import com.iscas.zb.model.jaxb.JTableMenu;
-import com.iscas.zb.model.jaxb.JTables;
 
 public class JaxbTools {
 	@SuppressWarnings({ "unchecked"})
