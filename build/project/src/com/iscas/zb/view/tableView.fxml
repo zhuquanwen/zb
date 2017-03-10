@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="672.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iscas.zb.controller.TableController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#processAdd" text=" 新增" />
+            <Button fx:id="checkBoxSelectButton" mnemonicParsing="false" onAction="#processCheckBoxSelect" text="全选" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#processDelete" text="批量删除" />
+            <Button fx:id="cascadeDeleteButton" mnemonicParsing="false" onAction="#processCascadeDelete" text="批量级联删除" />
+            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#processRefresh" text="刷新" />
+            <Button fx:id="refreshChButton" mnemonicParsing="false" onAction="#processRefreshCh" text="刷新汉化" />
+            <Button fx:id="viewChButton" mnemonicParsing="false" onAction="#processViewCh" text="隐藏中文列" />
+            <Button fx:id="selectButton" mnemonicParsing="false" onAction="#processSelect" text="查询" />
+            <ProgressIndicator fx:id="progressIndicator" prefHeight="15.0" prefWidth="21.0" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="tableView" editable="true" layoutY="29.0" prefHeight="486.0" prefWidth="769.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />
+      <HBox alignment="CENTER" layoutY="515.0" prefHeight="29.0" prefWidth="769.0" spacing="10.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label text="每页" />
+            <ComboBox fx:id="pageSizeCombobox" prefHeight="23.0" prefWidth="70.0" />
+            <Label text="条" />
+            <Hyperlink fx:id="firstPageLink" onAction="#processFirstPage" text="首页" />
+            <Hyperlink fx:id="frontPageLink" onAction="#processFrontPage" text="上一页" />
+            <Label fx:id="currentPageLabel" text="第1页" />
+            <Hyperlink fx:id="nextPageLink" onAction="#processNextPage" text="下一页" />
+            <Hyperlink fx:id="lastPageLink" onAction="#processLastPage" text="尾页" />
+            <Label fx:id="totalPageLabel" text="共111页" />
+            <Label text="到第" />
+            <TextField fx:id="turnPageTextField" prefHeight="23.0" prefWidth="52.0" />
+            <Label text="页" />
+            <Hyperlink fx:id="turnPageLink" onAction="#processTurnPage" text="确定" />
+         </children></HBox>
+      <HBox fx:id="hBox1" alignment="CENTER" layoutY="544.0" prefHeight="29.0" prefWidth="783.0" spacing="10.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Hyperlink text="测试关联表" />
+            <Hyperlink text="测试关联表" />
+         </children>
+      </HBox>
+      <HBox fx:id="hBox2" alignment="CENTER" layoutX="-3.0" layoutY="573.0" prefHeight="29.0" prefWidth="783.0" spacing="10.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <HBox fx:id="hBox3" alignment="CENTER" layoutY="526.0" prefHeight="29.0" prefWidth="777.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

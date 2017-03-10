@@ -41,11 +41,11 @@ public class MainController {
 	private TreeView treeView;
 	@FXML
 	private Label label;
-	@SuppressWarnings("unused")
 	@Autowired(required=true)
 	private MainService mainService;
 	@Autowired(required=true)
 	private TableService tableService;
+
 	public TreeView getTreeView() {
 		return treeView;
 	}
@@ -54,6 +54,7 @@ public class MainController {
 	 @FXML
 	 private void initialize() {
 		 initTreeView(0);
+		 mainService.getIp();
 	 }
 	 @SuppressWarnings("unchecked")
 	public void initTreeView(int index){

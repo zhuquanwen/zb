@@ -1,5 +1,5 @@
-2017-03-09 10:53:20  [ JavaFX Application Thread:11260 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@7f4bfb80
-2017-03-09 10:53:20  [ JavaFX Application Thread:11261 ] - [ ERROR ]  
+2017-03-10 11:00:27  [ JavaFX Application Thread:300281 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@45915a2a
+2017-03-10 11:00:27  [ JavaFX Application Thread:300283 ] - [ ERROR ]  
 ### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
 
 ### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
@@ -10,8 +10,32 @@
 
 ; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
 
-2017-03-09 14:48:57  [ JavaFX Application Thread:6794 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@18f6b76c
-2017-03-09 14:48:57  [ JavaFX Application Thread:6794 ] - [ ERROR ]  
+2017-03-10 11:07:33  [ JavaFX Application Thread:20428 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@14ae462
+2017-03-10 11:07:33  [ JavaFX Application Thread:20429 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 11:16:17  [ JavaFX Application Thread:21829 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@15f35588
+2017-03-10 11:16:17  [ JavaFX Application Thread:21829 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 11:29:05  [ JavaFX Application Thread:8888 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@4c0ae826
+2017-03-10 11:29:05  [ JavaFX Application Thread:8889 ] - [ ERROR ]  
 ### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
 
 ### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]

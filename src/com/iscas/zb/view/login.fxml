@@ -25,12 +25,12 @@
             <PasswordField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="resetButton" defaultButton="true" layoutX="173.0" layoutY="116.0" mnemonicParsing="false" onAction="#processReset" text="重 置">
+      <Button fx:id="resetButton" layoutX="173.0" layoutY="116.0" mnemonicParsing="false" onAction="#processReset" text="重 置">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="loginButton" layoutX="79.0" layoutY="116.0" mnemonicParsing="false" onAction="#processLogin" text="登 陆">
+      <Button fx:id="loginButton" defaultButton="true" layoutX="79.0" layoutY="116.0" mnemonicParsing="false" onAction="#processLogin" text="登 陆">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

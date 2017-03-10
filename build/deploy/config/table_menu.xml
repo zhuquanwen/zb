@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table_menu>
+	<tables index = "0">
+		<table name="想定事件时间" name_en="NOP"  ></table>
+		<table name="基本参数" name_en=""  ></table>
+		<table name="海拔高度" name_en=""  ></table>
+		<table name="深度分区" name_en=""  ></table>
+		<table name="随机种子" name_en=""  ></table>
+		<table name="最佳路径" name_en=""  ></table>
+		<table name="后勤物资类型" name_en=""  ></table>
+		<table name="特殊物资对应关系" name_en=""  ></table>
+		<table name="战斗力系统" name_en=""  ></table>
+		<table name="特殊战斗力系统分配" name_en=""  ></table>
+		<table name="气象基本类型" name_en=""  ></table>
+		<table name="度量单位" name_en=""  ></table>
+		<table name="疾病类型定义" name_en=""  ></table>
+		<table name="气象类型详细定义" name_en=""  ></table>
+		<table name="分类码" name_en=""  ></table>
+		<table name="武器发射能力" name_en=""  ></table>
+		<table name="敌我识别模型" name_en=""  ></table>
+		<table name="C3质量等级" name_en=""  ></table>
+		<table name="潜艇航速" name_en=""  ></table>
+		<table name="参演方" name_en=""  ></table>
+	</tables>
+
+	<tables index = "1">
+		<table name="兵力编成" name_en=""  >
+			<tables index="11">
+				<table name="空军基地" name_en="TARGET"  ></table>
+				<table name="地面部队" name_en="GROUND_UNIT"  ></table>
+				<table name="空军飞行部队" name_en="SUB_TARGET"  ></table>
+				<table name="保障部队" name_en="TEST"  ></table>
+				<table name="海军舰艇部队" name_en="TEST1"  ></table>
+				<table name="前方弹药油量补给" name_en=""  ></table>
+				<table name="特战部队" name_en=""  ></table>
+				<table name="物资补给分队" name_en=""  ></table>
+			</tables>
+		</table>
+		<table name="作战集团" name_en=""  ></table>
+		<table name="舰艇编队" name_en=""  ></table>
+		<table name="部队级别" name_en=""  ></table>
+		<table name="编制" name_en=""  ></table>
+
+	</tables>
+
+	<tables index = "2">
+		<table name="桥梁" name_en=""  ></table>
+		<table name="隧道" name_en=""  ></table>
+		<table name="探测设备" name_en=""  ></table>
+		<table name="机场跑道" name_en=""  ></table>
+		<table name="拦截点" name_en=""  ></table>
+		<table name="仓库" name_en=""  ></table>
+		<table name="面面武器" name_en=""  ></table>
+		<table name="空面武器" name_en=""  ></table>
+		<table name="后方设施" name_en=""  ></table>
+		<table name="装卸设备" name_en=""  ></table>
+		<table name="雷场" name_en=""  ></table>
+		<table name="泵场" name_en=""  ></table>
+		<table name="干扰设备" name_en=""  ></table>
+		<table name="通信设备" name_en=""  ></table>
+		<table name="战斗兵器" name_en=""  ></table>
+		<table name="运输设备" name_en=""  ></table>
+		<table name="航空器" name_en=""  ></table>
+		<table name="小艇" name_en=""  ></table>
+		<table name="物资补给" name_en=""  ></table>
+		<table name="探雷" name_en=""  ></table>
+		<table name="扫雷" name_en=""  ></table>
+	</tables>
+
+	<tables index = "3">
+		<table name="面空武器" name_en=""  ></table>
+		<table name="桥梁设施" name_en=""  ></table>
+		<table name="隧道设施" name_en=""  ></table>
+		<table name="雷达探测基地" name_en=""  ></table>
+		<table name="跑道设施" name_en=""  ></table>
+		<table name="拦截点" name_en=""  ></table>
+		<table name="补给仓库" name_en=""  ></table>
+		<table name="面面武器" name_en=""  ></table>
+		<table name="后方战略设施" name_en=""  ></table>
+		<table name="机堡" name_en=""  ></table>
+		<table name="装卸设施" name_en=""  ></table>
+		<table name="雷场" name_en=""  ></table>
+		<table name="泵站" name_en=""  ></table>
+		<table name="干扰发射基站" name_en=""  ></table>
+		<table name="通信站" name_en=""  ></table>
+		<table name="战斗兵器" name_en=""  ></table>
+		<table name="潜艇实体" name_en=""  ></table>
+		<table name="航空器实体" name_en=""  ></table>
+		<table name="运输车辆实体" name_en=""  ></table>
+		<table name="物资补给目标" name_en=""  ></table>
+		<table name="小艇" name_en=""  ></table>
+		<table name="铁路" name_en=""  ></table>
+	</tables>
+
+	<tables index = "4">
+		<table name="交战方" name_en=""  ></table>
+		<table name="战斗单位原型" name_en=""  ></table>
+		<table name="舰艇部队原型" name_en=""  ></table>
+		<table name="特战部队原型" name_en=""  ></table>
+		<table name="空中管制原型" name_en=""  ></table>
+		<table name="战斗系统原型" name_en=""  ></table>
+		<table name="指挥控制原型" name_en=""  ></table>
+		<table name="生存能力原型" name_en=""  ></table>
+		<table name="通行能力原型" name_en=""  ></table>
+		<table name="火力损伤原型" name_en=""  ></table>
+		<table name="情报信息原型" name_en=""  ></table>
+		<table name="机动原型" name_en=""  ></table>
+		<table name="雷场影响原型" name_en=""  ></table>
+		<table name="后勤保障原型" name_en=""  ></table>
+		<table name="不同后勤原型的补给" name_en=""  ></table>
+
+	</tables>
+
+	<tables index = "5">
+		<table name="雷场触雷概率和修正系数" name_en=""  ></table>
+		<table name="火炮口径参数" name_en=""  ></table>
+		<table name="攻击性武器" name_en=""  ></table>
+		<table name="挂载方案" name_en=""  ></table>
+		<table name="各机型挂载方案" name_en=""  ></table>
+		<table name="空空武器杀伤力指数" name_en=""  ></table>
+		<table name="面武器杀伤力指数" name_en=""  ></table>
+		<table name="点武器杀伤力指数" name_en=""  ></table>
+		<table name="面空武器杀伤力指数" name_en=""  ></table>
+		<table name="命中概率指数" name_en=""  ></table>
+		<table name="面杀伤指数" name_en=""  ></table>
+		<table name="兰彻斯特系数" name_en=""  ></table>
+		<table name="昼夜及气象影响系数" name_en=""  ></table>
+
+	</tables>
+
+	<tables index = "6">
+		<table name="数据内容中英文对照表" name_en="ZB_CONTENT_TRANSLATE"  ></table>
+		<table name="表名称中英文对照表" name_en="ZB_COL_TRANSLATE"  ></table>
+		<table name="列名称中英文对照表" name_en="ZB_TABLE_TRANSLATE"  ></table>
+	</tables>
+</table_menu>

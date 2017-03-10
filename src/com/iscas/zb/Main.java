@@ -18,7 +18,7 @@ import javafx.stage.WindowEvent;
 
 public class Main  {
 
-	public  void start(Stage primaryStage) {
+	public  void start(Stage primaryStage,String ip) {
 		try {
 
 
@@ -32,7 +32,12 @@ public class Main  {
             Scene scene = new Scene(root);
             primaryStage.setResizable(false);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("数据整编工具");
+            String title = "数据整编工具";
+            if(ip != null){
+            	title += "[IP:" + ip + "]";
+            }
+
+            primaryStage.setTitle(title);
             primaryStage.show();
             primaryStage.setOnCloseRequest((WindowEvent event) -> {
             	//关闭的时候系统退出
@@ -49,7 +54,11 @@ public class Main  {
              // load images
             Image[] images = new Image[7];
             for (int i = 0; i < 7; i++) {
-                images[i] = new Image( ClassLoad.class.getResource("menu"+(i+1)+".jpg").toExternalForm(),false);
+            	String fileName = "menu"+(i+1)+".jpg";
+            	if(i == 6){
+            		fileName = "menu"+(i+1)+".png";
+            	}
+                images[i] = new Image( ClassLoad.class.getResource(fileName).toExternalForm(),false);
             }
             // create display shelf
             DisplayShelf displayShelf = new DisplayShelf(images,controller);

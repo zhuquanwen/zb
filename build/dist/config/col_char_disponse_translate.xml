@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<disponse_col>
+	<!-- 3张翻译表对应的记录都不用翻译了 begin -->
+	<dcol table_name = "ZB_TABLE_TRANSLATE" col_name="TABLE_NAME">
+	</dcol>
+	<dcol table_name = "ZB_TABLE_TRANSLATE" col_name="TABLE_NAME_CH">
+	</dcol>
+	<dcol table_name = "ZB_CONTENT_TRANSLATE" col_name="NAME">
+	</dcol>
+	<dcol table_name = "ZB_CONTENT_TRANSLATE" col_name="NAME_CH">
+	</dcol>
+	<dcol table_name = "ZB_COL_TRANSLATE" col_name="TABLE_NAME">
+	</dcol>
+	<dcol table_name = "ZB_COL_TRANSLATE" col_name="COL_NAME">
+	</dcol>
+	<dcol table_name = "ZB_COL_TRANSLATE" col_name="COL_NAME_CH">
+	</dcol>
+
+
+	<dcol table_name = "GROUND_UNIT" col_name="AAA">
+	</dcol>
+	<dcol table_name = "GROUND_UNIT" col_name="EEEE">
+	</dcol>
+
+	<dcol table_name = "SUB_TARGET" col_name="BBB">
+	</dcol>
+
+</disponse_col>

@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -24,6 +25,7 @@ import com.iscas.zb.init.MenuInit;
 import com.iscas.zb.init.TableRelationInit;
 import com.iscas.zb.init.TranslateInit;
 import com.iscas.zb.init.XmlToObjectInit;
+import com.iscas.zb.service.MainService;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.JdbcTools;
 
@@ -64,6 +66,8 @@ public class LoginController implements Initializable {
     private PasswordField passwordTextField;
     @FXML
     private ProgressIndicator pi;
+    @Autowired
+    private MainService mainService;
 
     private Stage stage;
 
@@ -157,7 +161,8 @@ public class LoginController implements Initializable {
 			  Platform.runLater(new Runnable() {
 					@Override public void run() {
 						Stage stagex = new Stage();
-				    	new Main().start(stagex);
+						String ip = mainService.getIp();
+				    	new Main().start(stagex,ip);
 				    	stage.close();
 					}
 				 });

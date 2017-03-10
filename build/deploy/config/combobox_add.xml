@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<child_table_add>
+	<childAdd parent_table_name="TARGET" child_table_name="UNRE_TARGET"
+	 parent_col_name1="NAME" parent_col_name2=""
+	 child_col_name1="TARGET_NAME" child_col_name2="" >
+	</childAdd>
+</child_table_add>

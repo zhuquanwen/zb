@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="695.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iscas.zb.controller.MainController">
+   <children>
+      <AnchorPane layoutY="308.0" prefHeight="388.0" prefWidth="700.0">
+         <children>
+            <TreeView fx:id="treeView" layoutY="10.0" prefHeight="377.0" prefWidth="700.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
