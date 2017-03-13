@@ -12,6 +12,7 @@ import com.iscas.zb.data.StaticData;
 import com.iscas.zb.model.jaxb.JTable;
 import com.iscas.zb.service.MainService;
 import com.iscas.zb.service.TableService;
+import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
@@ -45,6 +46,18 @@ public class MainController {
 	private MainService mainService;
 	@Autowired(required=true)
 	private TableService tableService;
+	private Stage stage;
+
+
+	public Stage getStage() {
+		return stage;
+	}
+
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
 
 	public TreeView getTreeView() {
 		return treeView;
@@ -56,8 +69,35 @@ public class MainController {
 		 initTreeView(0);
 		 mainService.getIp();
 	 }
-	 @SuppressWarnings("unchecked")
+	 @SuppressWarnings({ "unchecked", "finally" })
 	public void initTreeView(int index){
+		 if(7 == index){
+			 //部队编成树
+			 AnchorPane root = null;
+ 			SpringFxmlLoader loader = new SpringFxmlLoader();
+				try {
+					root = (AnchorPane) loader.springLoad("view/TreeView.fxml", Main.class);
+				 Stage stage = new Stage();
+                 TreeController controller = loader.getController();
+                 controller.setStage(stage);
+                 controller.createTree();
+                 Scene scene = new Scene(root);
+                 stage.setScene(scene);
+                 CommonTools.setIcon(stage);
+                 String title = "部队编成树";
+                 stage.setTitle(title);
+                 stage.show();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					DialogTools.error(MainController.this.stage,"错误", "出错了!", "编成树页面出错!");
+				}finally {
+					return;
+				}
+
+		 }
+
 	        //TreeView<JTable> treeView = new TreeView<JTable>();
 	        treeView.setCellFactory(new Callback<TreeView<JTable>, TreeCell<JTable>>() {
 
@@ -99,6 +139,7 @@ public class MainController {
 			                                    Scene scene = new Scene(root);
 			                                    stage.setScene(scene);
 			                                    log.info("--弹出表" + f.getName() + "--");
+			                                    CommonTools.setIcon(stage);
 			                                    stage.show();
 			                                    Integer total = tableService.getTotal(f.getNameEn(),  " where 1 =1 ");
 			                                    String title = f.getName() + "[" + f.getNameEn() + "]" + "[" + total + "]";
@@ -116,7 +157,7 @@ public class MainController {
 												e.printStackTrace();
 												log.error(e.getStackTrace());
 												log.error(e.getMessage());
-												DialogTools.error(stage,"错误", "出错了!", "查询表单数据出错!");
+												DialogTools.error(MainController.this.stage,"错误", "出错了!", "查询表单数据出错!");
 											}
 
 		            		            }

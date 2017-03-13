@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.iscas.zb.controller.LoginController;
 import com.iscas.zb.init.SpringInit;
 import com.iscas.zb.init.StaticDataInit;
+import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Application;
@@ -34,10 +35,13 @@ public class Login extends Application {
         controller.setStage(stage);
         controller.addCloseListener();
         Scene scene = new Scene(root);
+
         stage.setResizable(false);
         stage.setScene(scene);
         stage.setTitle("µÇÂ¼");
+        CommonTools.setIcon(stage);
         stage.show();
+
 
         //this.stop();
     }

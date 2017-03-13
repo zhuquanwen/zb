@@ -19,6 +19,7 @@ import com.iscas.zb.model.ChildRelation;
 import com.iscas.zb.model.HandlerModel;
 import com.iscas.zb.service.TableService;
 import com.iscas.zb.service.UniqueKeyChangeService;
+import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.EnToChTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
@@ -405,6 +406,7 @@ public class TableController {
 				Scene scene = new Scene(root);
              stage.setScene(scene);
              stage.initModality(Modality.APPLICATION_MODAL);
+             CommonTools.setIcon(stage);
              stage.show();
              stage.setTitle("列表编辑");
 			} catch (Exception e) {
@@ -540,6 +542,7 @@ public class TableController {
 	                stage.setScene(scene);
 	                stage.initModality(Modality.APPLICATION_MODAL);
 	                stage.setTitle("修改主键和唯一键");
+	                CommonTools.setIcon(stage);
 	                stage.show();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -586,6 +589,7 @@ public class TableController {
 	                stage.setScene(scene);
 	                stage.initModality(Modality.APPLICATION_MODAL);
 	                stage.setTitle("修改主键和唯一键(*子表有与主表无关的主键或唯一键，无法实现级联复制)");
+	                CommonTools.setIcon(stage);
 	                stage.show();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -884,7 +888,7 @@ public class TableController {
 
 				Scene scene = new Scene(root);
           stage.setScene(scene);
-
+          CommonTools.setIcon(stage);
           stage.show();
           stage.setTitle("新增数据");
 			} catch (Exception ex) {
@@ -1145,6 +1149,7 @@ public class TableController {
 			 Scene scene = new Scene(root);
 			 stage.setScene(scene);
 			 stage.setResizable(false);
+			 CommonTools.setIcon(stage);
 			 stage.show();
 		 } catch (Exception e1) {
 			e1.printStackTrace();

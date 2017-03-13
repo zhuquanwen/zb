@@ -46,3 +46,269 @@
 
 ; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
 
+2017-03-10 13:57:32  [ JavaFX Application Thread:8916132 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@1dbe69ed
+2017-03-10 13:57:32  [ JavaFX Application Thread:8916132 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 14:02:50  [ JavaFX Application Thread:9233727 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@24766137
+2017-03-10 14:02:50  [ JavaFX Application Thread:9233728 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 14:06:55  [ JavaFX Application Thread:9478741 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@4ba12c22
+2017-03-10 14:06:55  [ JavaFX Application Thread:9478742 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 14:07:02  [ JavaFX Application Thread:9486278 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@3e60f3c7
+2017-03-10 14:07:02  [ JavaFX Application Thread:9486278 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 14:44:58  [ JavaFX Application Thread:373761 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@752d73a7
+2017-03-10 14:44:58  [ JavaFX Application Thread:373762 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 16:00:00  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_Worker-6:3355788 ] - [ ERROR ]  Job DEFAULT.firstComplexJobDetail threw an unhandled Exception: 
+org.springframework.dao.ConcurrencyFailureException: 
+### Error querying database.  Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select * from ZB_COL_TRANSLATE
+### Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+; SQL []; ORA-00028: 您的会话己被终止
+; nested exception is java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:75)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:447)
+	at com.sun.proxy.$Proxy13.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:231)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:137)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:75)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:53)
+	at com.sun.proxy.$Proxy14.selectDataToList(Unknown Source)
+	at com.iscas.zb.tools.CommonTools.getDBList(CommonTools.java:26)
+	at com.iscas.zb.tools.EnToChTools.getColMap(EnToChTools.java:59)
+	at com.iscas.zb.quartz.FirstScheduledJob.executeInternal(FirstScheduledJob.java:25)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+Caused by: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:439)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:395)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:802)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:436)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:186)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:521)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:205)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:861)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1145)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1267)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3449)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3550)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1374)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.execute(DelegatingPreparedStatement.java:169)
+	at sun.reflect.GeneratedMethodAccessor15.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:59)
+	at com.sun.proxy.$Proxy26.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:63)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:324)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+	at sun.reflect.GeneratedMethodAccessor13.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:434)
+	... 12 more
+2017-03-10 16:00:00  [ org.springframework.scheduling.quartz.SchedulerFactoryBean#0_Worker-6:3355789 ] - [ ERROR ]  Job (DEFAULT.firstComplexJobDetail threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception. [See nested exception: org.springframework.dao.ConcurrencyFailureException: 
+### Error querying database.  Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select * from ZB_COL_TRANSLATE
+### Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+; SQL []; ORA-00028: 您的会话己被终止
+; nested exception is java.sql.SQLException: ORA-00028: 您的会话己被终止
+]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:213)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+Caused by: org.springframework.dao.ConcurrencyFailureException: 
+### Error querying database.  Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select * from ZB_COL_TRANSLATE
+### Cause: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+; SQL []; ORA-00028: 您的会话己被终止
+; nested exception is java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:75)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:447)
+	at com.sun.proxy.$Proxy13.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:231)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:137)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:75)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:53)
+	at com.sun.proxy.$Proxy14.selectDataToList(Unknown Source)
+	at com.iscas.zb.tools.CommonTools.getDBList(CommonTools.java:26)
+	at com.iscas.zb.tools.EnToChTools.getColMap(EnToChTools.java:59)
+	at com.iscas.zb.quartz.FirstScheduledJob.executeInternal(FirstScheduledJob.java:25)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	... 1 more
+Caused by: java.sql.SQLException: ORA-00028: 您的会话己被终止
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:439)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:395)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:802)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:436)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:186)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:521)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:205)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:861)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1145)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1267)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3449)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3550)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1374)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.execute(DelegatingPreparedStatement.java:169)
+	at sun.reflect.GeneratedMethodAccessor15.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:59)
+	at com.sun.proxy.$Proxy26.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:63)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:324)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+	at sun.reflect.GeneratedMethodAccessor13.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:434)
+	... 12 more
+2017-03-10 16:50:39  [ JavaFX Application Thread:35948 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@5289a3f0
+2017-03-10 16:50:39  [ JavaFX Application Thread:35949 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 16:52:59  [ JavaFX Application Thread:175678 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@5104e7af
+2017-03-10 16:52:59  [ JavaFX Application Thread:175679 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 17:11:15  [ JavaFX Application Thread:1271169 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@329a93c9
+2017-03-10 17:11:15  [ JavaFX Application Thread:1271169 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 17:11:50  [ JavaFX Application Thread:1306569 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@7d57130b
+2017-03-10 17:11:50  [ JavaFX Application Thread:1306569 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+2017-03-10 17:12:15  [ JavaFX Application Thread:1332160 ] - [ ERROR ]  [Ljava.lang.StackTraceElement;@1174658c
+2017-03-10 17:12:15  [ JavaFX Application Thread:1332160 ] - [ ERROR ]  
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+### The error may exist in file [C:\Users\Administrator\workspace\zb\bin\com\iscas\zb\mapper\UnEntityMapper.xml]
+### The error may involve com.iscas.zb.dao.UnEntityDao.selectDataToList-Inline
+### The error occurred while setting parameters
+### SQL: select count(*) as total from   where 1 =1
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00903: 表名无效
+

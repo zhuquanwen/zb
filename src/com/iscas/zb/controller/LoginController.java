@@ -177,6 +177,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         readRecordLogin();
         pi.setVisible(false);
+
     }
 
     public void addCloseListener(){

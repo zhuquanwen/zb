@@ -1,0 +1,9 @@
+
+查询顶级部队的SQL:
+select t7.short_name,t8.sort_order from (select  t1.gu_short_name as short_name  from ground_unit t1 where t1.gu_higher_hq is null
+union all select t2.ab_short_name as short_name from airbase t2 where t2.ab_higher_hq is null
+union all select t3.fu_short_name as short_name from farp t3 where t3.fu_higher_hq is null
+union all select t4.nv_short_name as short_name from navi_unit t4 where t4.nv_higher_hq is null
+union all select t5.sq_short_name as short_name from sqa t5 where t5.sq_higher_hq is null
+union all select t6.su_short_name as short_name  from support_unit t6 where t6.su_higher_hq is null) t7
+left join zb_tree_sort t8 on t7.short_name = t8.unit_short_name where t8.higher_hq is null order by t8.sort_order

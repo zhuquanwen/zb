@@ -6,6 +6,7 @@ import com.iscas.zb.DisplayShelfSample.DisplayShelf;
 import com.iscas.zb.controller.MainController;
 import com.iscas.zb.data.StaticData;
 import com.iscas.zb.resource.ClassLoad;
+import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
@@ -29,6 +30,7 @@ public class Main  {
             root = (AnchorPane) loader.springLoad("view/MainView.fxml", Main.class);
             MainController controller = loader.getController();
             // Show the scene containing the root layout.
+            controller.setStage(primaryStage);
             Scene scene = new Scene(root);
             primaryStage.setResizable(false);
             primaryStage.setScene(scene);
@@ -38,6 +40,7 @@ public class Main  {
             }
 
             primaryStage.setTitle(title);
+            CommonTools.setIcon(primaryStage);
             primaryStage.show();
             primaryStage.setOnCloseRequest((WindowEvent event) -> {
             	//关闭的时候系统退出
@@ -52,10 +55,10 @@ public class Main  {
             });
 
              // load images
-            Image[] images = new Image[7];
-            for (int i = 0; i < 7; i++) {
+            Image[] images = new Image[8];
+            for (int i = 0; i < 8; i++) {
             	String fileName = "menu"+(i+1)+".jpg";
-            	if(i == 6){
+            	if(i == 6 || i == 7){
             		fileName = "menu"+(i+1)+".png";
             	}
                 images[i] = new Image( ClassLoad.class.getResource(fileName).toExternalForm(),false);

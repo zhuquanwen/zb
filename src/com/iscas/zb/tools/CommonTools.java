@@ -1,11 +1,16 @@
 package com.iscas.zb.tools;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.iscas.zb.dao.UnEntityDao;
 import com.iscas.zb.data.SqlData;
+import com.iscas.zb.resource.ClassLoad;
+
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
 *@date: 2017Äê2ÔÂ23ÈÕ
@@ -28,5 +33,10 @@ public class CommonTools {
 		List<Map> maps = CommonTools.getDBList(unEntityDao, sql);
 		return maps;
 
+	}
+
+	public static void setIcon(Stage stage){
+		InputStream is = ClassLoad.class.getResourceAsStream("zb.jpg");
+		stage.getIcons().add(new Image(is));
 	}
 }

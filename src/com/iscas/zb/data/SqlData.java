@@ -60,4 +60,23 @@ public class SqlData {
 			+ " and t1.constraint_name = t2.constraint_name and "
 			+ "(t1.constraint_type = 'P' ) "
 			+ " and t1.table_name = '@tableName'";
+
+	/**查询表的最上级部队*/
+	public static String topUnitSql = "select t7.short_name,t7.higher_hq,t7.ty,t7.force_side,t8.sort_order from (select  t1.gu_short_name as short_name,t1.gu_higher_hq as higher_hq, 'GU' as ty ,t1.gu_force_side as force_side from ground_unit t1 where t1.gu_higher_hq is null " +
+									" union all select t2.ab_short_name as short_name ,t2.ab_higher_hq as higher_hq, 'AB' as ty,t2.ab_force_side as force_side from airbase t2 where t2.ab_higher_hq is null " +
+									" union all select t3.fu_short_name as short_name ,t3.fu_higher_hq as higher_hq, 'FU' as ty ,t3.fu_force_side as force_side from farp t3 where t3.fu_higher_hq is null " +
+									" union all select t4.nv_short_name as short_name ,t4.nv_higher_hq as higher_hq, 'NV' as ty ,t4.nv_force_side as force_side from navi_unit t4 where t4.nv_higher_hq is null " +
+									" union all select t5.sq_short_name as short_name ,t5.sq_higher_hq as higher_hq, 'SQ' as ty ,t5.sq_force_side as force_side from sqa t5 where t5.sq_higher_hq is null " +
+									" union all select t6.su_short_name as short_name ,t6.su_higher_hq as higher_hq, 'SU' as ty ,t6.su_force_side as force_side  from support_unit t6 where t6.su_higher_hq is null) t7 " +
+									" left join zb_tree_sort t8 on t7.short_name = t8.unit_short_name where t8.higher_hq is null order by t8.sort_order ";
+
+	/**查询某个部队下的部队*/
+	public static String leafUnitSql = "select t7.short_name,t7.higher_hq,t7.ty,t7.force_side,t8.sort_order from (select  t1.gu_short_name as short_name,t1.gu_higher_hq as higher_hq, 'GU' as ty ,t1.gu_force_side as force_side from ground_unit t1 where t1.gu_higher_hq = '@shortName' " +
+								" union all select t2.ab_short_name as short_name ,t2.ab_higher_hq as higher_hq, 'AB' as ty,t2.ab_force_side as force_side from airbase t2 where t2.ab_higher_hq = '@shortName' " +
+								" union all select t3.fu_short_name as short_name ,t3.fu_higher_hq as higher_hq, 'FU' as ty ,t3.fu_force_side as force_side from farp t3 where t3.fu_higher_hq = '@shortName' " +
+								" union all select t4.nv_short_name as short_name ,t4.nv_higher_hq as higher_hq, 'NV' as ty ,t4.nv_force_side as force_side from navi_unit t4 where t4.nv_higher_hq = '@shortName' " +
+								" union all select t5.sq_short_name as short_name ,t5.sq_higher_hq as higher_hq, 'SQ' as ty ,t5.sq_force_side as force_side from sqa t5 where t5.sq_higher_hq = '@shortName' " +
+								" union all select t6.su_short_name as short_name ,t6.su_higher_hq as higher_hq, 'SU' as ty ,t6.su_force_side as force_side  from support_unit t6 where t6.su_higher_hq = '@shortName' ) t7 " +
+								" left join zb_tree_sort t8 on t7.short_name = t8.unit_short_name where t8.higher_hq is null order by t8.sort_order ";
+
 }
