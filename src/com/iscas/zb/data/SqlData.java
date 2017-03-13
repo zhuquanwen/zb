@@ -79,4 +79,6 @@ public class SqlData {
 								" union all select t6.su_short_name as short_name ,t6.su_higher_hq as higher_hq, 'SU' as ty ,t6.su_force_side as force_side  from support_unit t6 where t6.su_higher_hq = '@shortName' ) t7 " +
 								" left join zb_tree_sort t8 on t7.short_name = t8.unit_short_name where t8.higher_hq is null order by t8.sort_order ";
 
+	/**按照部队名称查询一个部队信息*/
+	public static String getUnitByShortNameSql = " SELECT t.*,t.rowid as rid FROM @tableName t  where t.@prefix_short_name = '@shortName'";
 }

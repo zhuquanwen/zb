@@ -9,24 +9,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.iscas.zb.Main;
+import com.iscas.zb.model.EditTableCell;
 import com.iscas.zb.model.Unit;
+import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.service.TreeService;
+import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
+import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -44,6 +53,13 @@ public class TreeController implements Initializable{
 	@FXML
 	private AnchorPane rightAnchorPane;
 	@FXML
+	private AnchorPane tab1;
+	@FXML
+	private AnchorPane tab2;
+
+	@FXML
+	private TableView tableView2;
+	@FXML
 	private Button allExpandButton;
 	@FXML
 	private Button refreshButton;
@@ -54,6 +70,10 @@ public class TreeController implements Initializable{
 	private Unit u = null;
 	@Autowired
 	private TreeService treeService;
+	@Autowired
+	private TableEditService tableEditService;
+
+	private ObservableList obList;
 
 	public Stage getStage() {
 		return stage;
@@ -73,10 +93,11 @@ public class TreeController implements Initializable{
 	public void disabledButtons(boolean flag){
 		allExpandButton.setDisable(flag);
 		refreshButton.setDisable(flag);
-		rightAnchorPane.setDisable(flag);
+		tableView2.setDisable(flag);
 		if(flag){
 			pi.setVisible(true);
-			rightAnchorPane.getChildren().clear();
+			tab1.getChildren().clear();
+			tableView2.getColumns().clear();
 
 		}else{
 			pi.setVisible(false);
@@ -134,11 +155,14 @@ public class TreeController implements Initializable{
 					                            setText(unit.getNameCh());
 					                            setGraphic(null);
 					                            setOnMouseClicked((MouseEvent t) -> {
-					                            	if(t.getClickCount() == 2){
-					                            		//双击，检查有么有子节点，动态加载
+					                            	if(t.getClickCount() == 1){
+
 					                            		if("部队编成树".equals(unit.getNameCh())){
 					                            			return;
 					                            		}
+					                            		//生成子节点属性
+					                            		createPropTable(unit);
+					                            		//检查有么有子节点，动态加载
 					                            		if(this.getTreeItem().getChildren() != null && this.getTreeItem().getChildren().size() > 0){
 					                            			return;
 					                            		}
@@ -163,18 +187,11 @@ public class TreeController implements Initializable{
 					                };
 					            }
 					        });
-
-
 						treeView.setRoot(ti);
 					}
 				 });
 			 }
 			}).start();
-
-
-
-
-
 	}
 	/**刷新*/
 	public void processRefresh(ActionEvent e){
@@ -186,6 +203,7 @@ public class TreeController implements Initializable{
 			 @Override public void run() {
 			 Platform.runLater(new Runnable() {
 				@Override public void run() {
+					treeView.setRoot(null);
 					disabledButtons(true);
 				}
 			 });
@@ -214,7 +232,7 @@ public class TreeController implements Initializable{
 
 					@Override public void run() {
 
-						treeView.setRoot(null);
+
 						if(u != null){
 							ti = new TreeItem<Unit> (u);
 							getTreeItems(ti);
@@ -259,4 +277,34 @@ public class TreeController implements Initializable{
 			}
 		}
 	}
+	private void createPropTable(Unit unit){
+		tab1.getChildren().clear();
+		String tableName = CommonTools.getUnitTableNameByType(unit.getType());
+		Map<String,Object> map = treeService.getUnitProp(tableName,unit);
+
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+
+			try {
+				AnchorPane p1 = (AnchorPane) loader.springLoad("view/TableEditView.fxml", Main.class);
+				TableEditController controller = loader.getController();
+				controller.setTableName(tableName);
+				controller.setInsertFlag(false);
+				controller.setRowMap(map);
+				controller.select();
+				controller.setTreeFlag(true);
+				controller.setStage(stage);
+				controller.treeFlagDoSomeThing();
+				tab1.getChildren().add(p1);
+				tab1.setTopAnchor(p1, 0.0);
+				tab1.setBottomAnchor(p1, 0.0);
+				tab1.setLeftAnchor(p1, 0.0);
+				tab1.setRightAnchor(p1, 0.0);
+				//controller.setTc(TableController.this);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				DialogTools.error(stage,"错误", "出错了!", "表单编辑出错!");
+			}
+	}
+
 }

@@ -39,4 +39,31 @@ public class CommonTools {
 		InputStream is = ClassLoad.class.getResourceAsStream("zb.jpg");
 		stage.getIcons().add(new Image(is));
 	}
+	public static String getUnitTableNameByType(String ty){
+		String type = "UNKOWN";
+		switch (ty) {
+		case "GU":
+			type = "GROUND_UNIT";
+			break;
+		case "SQ":
+			type = "SQA";
+			break;
+		case "AB":
+			type = "AIRBASE";
+			break;
+		case "SU":
+			type = "SUPPORT_UNIT";
+			break;
+		case "NV":
+			type = "NAVI_UNIT";
+			break;
+		case "FU":
+			type = "FARP";
+			break;
+
+		default:
+			break;
+		}
+		return type;
+	}
 }

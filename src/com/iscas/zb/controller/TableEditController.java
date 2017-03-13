@@ -3,6 +3,7 @@ package com.iscas.zb.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -52,6 +54,8 @@ public class TableEditController {
 	private Button commitButton;
 	@FXML
 	private Button cancelButton;
+	@FXML
+	private Label successLabel;
 	private Stage stage;
 	private String tableName;
 	private Map rowMap;
@@ -62,8 +66,14 @@ public class TableEditController {
 	private Map<String,TextField> updateChMap = new HashMap<String,TextField>();
 	private TableController tc;
 	private boolean insertFlag = false;
+	private boolean treeFlag = false;
 
-
+	public boolean isTreeFlag() {
+		return treeFlag;
+	}
+	public void setTreeFlag(boolean treeFlag) {
+		this.treeFlag = treeFlag;
+	}
 	public boolean isInsertFlag() {
 		return insertFlag;
 	}
@@ -105,6 +115,14 @@ public class TableEditController {
 		//初始化不可编辑列
 		this.initUnEdits();
 		progressIndicator.setVisible(false);
+		successLabel.setVisible(false);
+
+	}
+	public void treeFlagDoSomeThing(){
+		if(treeFlag){
+			cancelButton.setVisible(false);
+			commitButton.setText("确定修改");
+		}
 	}
 	private void allButtonsDisabled(boolean flag){
 		disponseButton.setDisable(flag);
@@ -131,6 +149,7 @@ public class TableEditController {
 	}
 	/**确定*/
 	public void processCommit(ActionEvent e){
+		successLabel.setVisible(false);
 		try{
 			String[] rowid = new String[1];
 			Object obj = rowMap.get("RID");
@@ -168,6 +187,10 @@ public class TableEditController {
 
 				  Platform.runLater(new Runnable() {
 						@Override public void run() {
+							if(treeFlag){
+								successLabel.setVisible(true);
+								return;
+							}
 							HandlerModel hm =HandlerModel.UNKOWN;
 							if(insertFlag){
 								hm = HandlerModel.INSERT;
@@ -176,6 +199,7 @@ public class TableEditController {
 							stage.close();
 						}
 					 });
+
 				 }
 				}).start();
 		}catch(Exception ex){
@@ -187,10 +211,14 @@ public class TableEditController {
 	}
 	/**取消*/
 	public void processCancel(ActionEvent e){
+		if(treeFlag){
+			return;
+		}
 		stage.close();
 	}
 	/**隐藏中文列*/
 	public void processDisponseCh(ActionEvent e){
+		successLabel.setVisible(false);
 		String text = disponseButton.getText();
 		if("隐藏中文列".equals(text)){
 			disponseCh = true;
@@ -245,12 +273,21 @@ public class TableEditController {
 						col1.setCellFactory(new TaskCellFactory());
 						col1.setCellValueFactory(new MapValueFactory("key"));
 						col1.setEditable(false);
-						col1.setPrefWidth(275);
+						if(!treeFlag){
+							col1.setPrefWidth(275);
+						}else{
+							col1.setPrefWidth(320);
+						}
+
 						TableColumn<Map<String,Object>, Object> col2 = new
 					    		TableColumn<Map<String,Object>, Object>("属性值");
 						col2.setCellFactory(new TaskCellFactory());
 						col2.setCellValueFactory(new MapValueFactory("value"));
-						col2.setPrefWidth(200);
+						if(!treeFlag){
+							col2.setPrefWidth(200);
+						}else{
+							col2.setPrefWidth(250);
+						}
 						tableView.getColumns().add(col1);
 						tableView.getColumns().add(col2);
 						tableView.setItems(obList);

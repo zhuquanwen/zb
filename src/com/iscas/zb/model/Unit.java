@@ -3,8 +3,6 @@ package com.iscas.zb.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.TreeItem;
-
 /**
 *@date: 2017Äê3ÔÂ13ÈÕ
 *@author: zhuquanwen

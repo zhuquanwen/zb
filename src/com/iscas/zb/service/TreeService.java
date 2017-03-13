@@ -78,5 +78,18 @@ public class TreeService {
 		unit.setUnits(us);
 		return us;
 	}
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getUnitProp(String tableName, Unit unit) {
+		String sql = SqlData.getUnitByShortNameSql;
+		sql = sql.replace("@tableName", tableName);
+		sql = sql.replace("@prefix", unit.getType());
+		sql = sql.replace("@shortName", unit.getShortName());
+		List<Map> maps = CommonTools.getDBList(unEntityDao, sql);
+		if(maps != null && maps.size() > 0){
+			Map map = maps.get(0);
+			return (Map<String,Object>)map;
+		}
+		return null;
+	}
 
 }
