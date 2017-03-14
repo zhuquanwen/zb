@@ -51,7 +51,7 @@
 	<classpathentry kind="lib" path="lib/spring-test-4.3.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-tx-4.3.6.RELEASE-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/spring-tx-4.3.6.RELEASE-sources.jar"/>
-	<classpathentry kind="lib" path="lib/spring-tx-4.3.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-tx-4.3.6.RELEASE.jar" sourcepath="C:/Users/Administrator/.m2/repository/org/springframework/spring-tx/4.3.6.RELEASE/spring-tx-4.3.6.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="lib/spring-web-4.3.6.RELEASE-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/spring-web-4.3.6.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="lib/spring-web-4.3.6.RELEASE.jar"/>

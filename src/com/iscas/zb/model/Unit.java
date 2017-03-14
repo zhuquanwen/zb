@@ -14,6 +14,7 @@ public class Unit {
 	private List<Unit> units = new ArrayList<Unit>();
 	private String type;
 	private String nameCh;
+	private Integer order;
 	public String getShortName() {
 		return shortName;
 	}
@@ -43,6 +44,12 @@ public class Unit {
 	}
 	public void setNameCh(String nameCh) {
 		this.nameCh = nameCh;
+	}
+	public Integer getOrder() {
+		return order;
+	}
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 }

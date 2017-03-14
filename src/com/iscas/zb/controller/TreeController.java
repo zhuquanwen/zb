@@ -10,32 +10,26 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.iscas.zb.Main;
-import com.iscas.zb.model.EditTableCell;
 import com.iscas.zb.model.Unit;
-import com.iscas.zb.service.TableEditService;
 import com.iscas.zb.service.TreeService;
 import com.iscas.zb.tools.CommonTools;
 import com.iscas.zb.tools.DialogTools;
 import com.iscas.zb.tools.SpringFxmlLoader;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -57,8 +51,7 @@ public class TreeController implements Initializable{
 	@FXML
 	private AnchorPane tab2;
 
-	@FXML
-	private TableView tableView2;
+
 	@FXML
 	private Button allExpandButton;
 	@FXML
@@ -70,10 +63,7 @@ public class TreeController implements Initializable{
 	private Unit u = null;
 	@Autowired
 	private TreeService treeService;
-	@Autowired
-	private TableEditService tableEditService;
 
-	private ObservableList obList;
 
 	public Stage getStage() {
 		return stage;
@@ -93,12 +83,10 @@ public class TreeController implements Initializable{
 	public void disabledButtons(boolean flag){
 		allExpandButton.setDisable(flag);
 		refreshButton.setDisable(flag);
-		tableView2.setDisable(flag);
 		if(flag){
 			pi.setVisible(true);
 			tab1.getChildren().clear();
-			tableView2.getColumns().clear();
-
+			tab2.getChildren().clear();
 		}else{
 			pi.setVisible(false);
 		}
@@ -141,7 +129,7 @@ public class TreeController implements Initializable{
 						 treeView.setCellFactory(new Callback<TreeView<Unit>, TreeCell<Unit>>() {
 
 					            @Override
-					            public TreeCell<Unit> call(TreeView<Unit> unit) {
+					            public TreeCell<Unit> call(TreeView<Unit> treeView) {
 
 					            	return new TreeCell<Unit>(){
 
@@ -158,31 +146,37 @@ public class TreeController implements Initializable{
 					                            	if(t.getClickCount() == 1){
 
 					                            		if("部队编成树".equals(unit.getNameCh())){
-					                            			return;
-					                            		}
-					                            		//生成子节点属性
-					                            		createPropTable(unit);
-					                            		//检查有么有子节点，动态加载
-					                            		if(this.getTreeItem().getChildren() != null && this.getTreeItem().getChildren().size() > 0){
-					                            			return;
-					                            		}
-					                            		//获取子节点，并且生成子节点
-					                            		List<Unit> us = treeService.getLeaf(unit);
-					                            		if(us != null && us.size() > 0){
-					                            			TreeItem<Unit> treeUnit = this.getTreeItem();
-					                            			treeUnit.setExpanded(true);
-					                            			us.forEach( u -> {
-					                            				TreeItem<Unit> subTreeUnit = new TreeItem<Unit>(u);
-					                            				treeUnit.getChildren().add(subTreeUnit);
-					                            			});
-					                            		}
-					                            	}
 
+					                            		}else{
+					                            			//生成子节点属性
+						                            		createPropTable(unit);
+						                            		//检查有么有子节点，动态加载
+						                            		if(this.getTreeItem().getChildren() != null && this.getTreeItem().getChildren().size() > 0){
+						                            		}else{
+						                            			//获取子节点，并且生成子节点
+							                            		List<Unit> us = treeService.getLeaf(unit);
+							                            		if(us != null && us.size() > 0){
+							                            			TreeItem<Unit> treeUnit = this.getTreeItem();
+							                            			treeUnit.setExpanded(true);
+							                            			us.forEach( u -> {
+							                            				TreeItem<Unit> subTreeUnit = new TreeItem<Unit>(u);
+							                            				treeUnit.getChildren().add(subTreeUnit);
+							                            			});
+							                            		}
+						                            		}
+					                            		}
+					                            		//生成排序信息
+
+					                            		createSortTable(unit,this.getTreeItem());
+
+					                            	}
 
 					                            } );
 
 					                        }
 					                    }
+
+
 
 					                };
 					            }
@@ -277,6 +271,36 @@ public class TreeController implements Initializable{
 			}
 		}
 	}
+	/**生成排序信息*/
+	@SuppressWarnings("static-access")
+	private void createSortTable(Unit unit,TreeItem<Unit> treeView) {
+		tab2.getChildren().clear();
+
+
+			SpringFxmlLoader loader = new SpringFxmlLoader();
+
+			try {
+				AnchorPane p1 = (AnchorPane) loader.springLoad("view/UnitSortView.fxml", Main.class);
+				UnitSortController controller = loader.getController();
+				controller.setStage(stage);
+				controller.setUnit(unit);
+				controller.setTreeView(treeView);
+				controller.select();
+				tab2.getChildren().add(p1);
+				tab2.setTopAnchor(p1, 0.0);
+				tab2.setBottomAnchor(p1, 0.0);
+				tab2.setLeftAnchor(p1, 0.0);
+				tab2.setRightAnchor(p1, 0.0);
+				//controller.setTc(TableController.this);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				DialogTools.error(stage,"错误", "出错了!", "表单编辑出错!");
+			}
+
+	}
+	/**生成部队属性*/
+	@SuppressWarnings("static-access")
 	private void createPropTable(Unit unit){
 		tab1.getChildren().clear();
 		String tableName = CommonTools.getUnitTableNameByType(unit.getType());
@@ -306,5 +330,55 @@ public class TreeController implements Initializable{
 				DialogTools.error(stage,"错误", "出错了!", "表单编辑出错!");
 			}
 	}
+	private class TaskCellFactory implements Callback<TableColumn<Map<String,Object>, Object>, TableCell<Map<String,Object>, Object>> {
+		   @Override
+		   public TableCell<Map<String,Object>, Object> call(TableColumn<Map<String,Object>, Object> param) {
+			   EditTableCell<Map<String,Object>, Object> cell = new EditTableCell<Map<String,Object>, Object>();
+		       return cell;
+		   }
+	}
+	private class EditTableCell<T,R> extends TableCell<Map<String,Object>, Object> {
 
+
+		@Override
+		protected void updateItem(Object item, boolean empty) {
+			if (item == getItem()) return;
+
+	        super.updateItem(item, empty);
+	        if("属性".equals(this.getTableColumn().getText())){
+				//this.setStyle("-fx-background-color: #aaaaaa; -fx-table-cell-border-color: black;");
+	        	//this.setStyle(" -fx-text-fill: black;");
+			}else{
+				 //如果为配置的不可编辑列，也不可编辑
+//				if(!insertFlag){
+//					Integer index = this.getIndex();
+//					if(index >= 0 ){
+//						Map map = (Map)obList.get(index);
+//						Map<String,String> mapx = new HashMap<String,String>();
+//						mapx.put(tableName, (String)map.get("colName"));
+//						if(unEditMap.get(mapx) != null){
+//							this.setStyle(" -fx-text-fill: #ADADAD;");
+//						}
+//					}
+//				}
+
+			}
+
+
+	        if (item == null) {
+	            super.setText(null);
+	            super.setGraphic(null);
+	        }
+	        else if (item instanceof Node) {
+	            super.setText(null);
+	            super.setGraphic((Node)item);
+	        }
+	        else {
+	            super.setText(item.toString());
+	            super.setGraphic(null);
+	        }
+
+		}
+
+	}
 }

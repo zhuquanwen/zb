@@ -1,5 +1,6 @@
 package com.iscas.zb.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +43,12 @@ public class TreeService {
 				String higherHq = (String) map.get("HIGHER_HQ");
 				String nameCh = EnToChTools.enToCh_content(shortName);
 				String type = (String) map.get("TY");
+				Integer order = map.get("SORT_ORDER") == null ? 9999 : ((BigDecimal)map.get("SORT_ORDER")).intValue();
 				unit.setHigherHq(higherHq);
 				unit.setNameCh(nameCh);
 				unit.setShortName(shortName);
 				unit.setType(type);
+				unit.setOrder(order);
 				TreeItem<Unit> treeUnit = new TreeItem<Unit> (unit);
 				rootItem.getChildren().add(treeUnit);
 				root.getUnits().add(unit);
@@ -67,10 +70,12 @@ public class TreeService {
 				String subHigherHq = (String) map.get("HIGHER_HQ");
 				String subNameCh = EnToChTools.enToCh_content(subShortName);
 				String subType = (String) map.get("TY");
+				Integer order = map.get("SORT_ORDER") == null ? 9999 : ((BigDecimal)map.get("SORT_ORDER")).intValue();
 				subUnit.setHigherHq(subHigherHq);
 				subUnit.setNameCh(subNameCh);
 				subUnit.setShortName(subShortName);
 				subUnit.setType(subType);
+				subUnit.setOrder(order);
 				us.add(subUnit);
 
 			});

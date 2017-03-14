@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="654.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iscas.zb.controller.UnitSortController">
+   <children>
+      <TableView fx:id="tableView" prefHeight="627.0" prefWidth="478.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <HBox alignment="CENTER" layoutY="628.0" prefHeight="25.0" prefWidth="478.0" spacing="40.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="successLabel" text="修改成功!" textFill="#1729eb" visible="false" />
+            <Button fx:id="commitButton" mnemonicParsing="false" onAction="#processCommit" text="确定" />
+            <ProgressIndicator fx:id="progressIndicator" prefHeight="21.0" prefWidth="20.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

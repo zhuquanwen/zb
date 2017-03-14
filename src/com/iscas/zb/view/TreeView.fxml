@@ -14,7 +14,7 @@
                   <TreeView fx:id="treeView" prefHeight="493.0" prefWidth="167.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <HBox alignment="CENTER" layoutY="491.0" prefHeight="31.0" prefWidth="167.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Button fx:id="allExpandButton" mnemonicParsing="false" onAction="#processAllExpand" text="全部展开" />
+                        <Button fx:id="allExpandButton" mnemonicParsing="false" onAction="#processAllExpand" text="全部加载" />
                         <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#processRefresh" text="刷新" />
                      </children>
                   </HBox>
